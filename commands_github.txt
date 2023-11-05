@@ -1,0 +1,14 @@
+create Repo from Github webite 
+copy link 
+
+open folder 
+cd to project folder 
+
+then 
+
+
+git init 
+git add .
+git commit -m "Added my project"
+git remote add origin https://github.com/MedhatKhalifa/QuranSchool.git
+git push -u -f origin main
