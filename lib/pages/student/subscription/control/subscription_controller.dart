@@ -118,7 +118,7 @@ class SubscribitionController extends GetxController {
         data: {
           'student': currentUserController.currentUser.value.id,
           'subscription': selectedPayement.value.id,
-          "teacher": selectedTeacher.value.id,
+          "teacher": selectedTeacher.value.user!.id,
           "actualPrice": selectedPayement.value.price,
           "subscriptionDate": DateFormat('yyyy-MM-dd').format(DateTime.now()),
           "studentSubscriptionStatus": "Pending",
@@ -197,6 +197,8 @@ class SubscribitionController extends GetxController {
 
 // Get Availity First then Get Sessions then generate Meeting to be showed
   Future getAvaiTime() async {
+    availabilities.clear();
+    isLoading.value = true;
     isLoadingAvail.value = true;
     isLoadingmeetings.value = true;
     var dio = Dio();
@@ -245,7 +247,7 @@ class SubscribitionController extends GetxController {
   generateMetings() {
 // Generate sessions for 90 days with inteval 30 min start from now
 // store it in reservedSessionsall
-
+    meetings.clear();
     countofSelectSession.value = 0;
     var _sessionsall = generateDatetimeSessions(selectedTeacher.value.user!.id,
         currentUserController.currentUser.value.id, 90);
@@ -305,7 +307,12 @@ class SubscribitionController extends GetxController {
           false,
           false,
           s.teacher!,
-          s.student!));
+          s.student!,
+          s.studentRate!,
+          s.teacherOpinion!,
+          s.teacherRank!,
+          s.review!,
+          s.id!));
     }
     // print(meetings);
     isLoadingmeetings.value = false;
@@ -315,6 +322,7 @@ class SubscribitionController extends GetxController {
   }
 
   Future getSessionsbyteaherID(int id, String search) async {
+    sessions.clear();
     String? _url;
     if (search == "teacher") {
       _url = sessionTeacherUrl + id.toString();

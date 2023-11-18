@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:quranschool/pages/Auth/login/change_password.dart';
 import 'package:quranschool/pages/Auth/login/forget_password.dart';
 import 'package:quranschool/pages/Auth/login/otp_forgetpassword.dart';
@@ -28,6 +29,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getInitialMessage();
   runApp(MyApp());
 }
 

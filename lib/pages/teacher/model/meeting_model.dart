@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay,
-      this.selected, this.teacher, this.student);
+  Meeting(
+      this.eventName,
+      this.from,
+      this.to,
+      this.background,
+      this.isAllDay,
+      this.selected,
+      this.teacher,
+      this.student,
+      this.studentRate,
+      this.teacherOpinion,
+      this.teacherRank,
+      this.review,
+      this.id);
 
   String eventName;
   DateTime from;
@@ -12,4 +24,9 @@ class Meeting {
   bool selected;
   int teacher;
   int student;
+  int studentRate;
+  String teacherOpinion;
+  double teacherRank;
+  String review;
+  int id;
 }

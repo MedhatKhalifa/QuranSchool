@@ -53,6 +53,7 @@ class LoginController extends GetxController {
         //User _regiuser = User.fromJson(response.data);
 
         // getuserProfile(response.data['id']);
+        var _token = userctrl.currentUser.value.accountToken;
 
         User _regiuser =
             User.fromJson(response.data['userProfile'][0]['fields']);
@@ -60,13 +61,14 @@ class LoginController extends GetxController {
         _regiuser.token = response.data['userProfile'][0]['token'] ?? "";
         _regiuser.id = response.data['userProfile'][0]['pk'] ?? -1;
         userctrl.currentUser.value = _regiuser;
+        userctrl.currentUser.value.accountToken = _token;
 
         storeUserData(userctrl.currentUser.value,
             'user'); // save UserID, User name , Phone Num
 
-        myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.offAll(HomePage());
-
+        // myBottomBarCtrl.selectedIndBottomBar.value = 0;
+        // Get.offAll(HomePage());
+        updateToken(_regiuser.id);
         // get user profile and store data
         // userctrl.currentUser.value = _regiuser;
 
@@ -78,6 +80,37 @@ class LoginController extends GetxController {
 
         // // to read all cart data ( can be removed in other apps)
         // cartController.getcartList();
+      } else {
+        mySnackbar('Failed'.tr, 'phone_password_not'.tr, false);
+      }
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future updateToken(userID) async {
+    try {
+      isLoading(true);
+      var dio = Dio();
+
+      var response = await dio.put(
+        profileUrl + userID.toString() + "/",
+        data: {
+          'username': userctrl.currentUser.value.username,
+          'accountToken': userctrl.currentUser.value.accountToken
+        },
+        options: Options(
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 600;
+          },
+          //headers: {},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        myBottomBarCtrl.selectedIndBottomBar.value = 0;
+        Get.offAll(HomePage());
       } else {
         mySnackbar('Failed'.tr, 'phone_password_not'.tr, false);
       }
@@ -168,6 +201,9 @@ class LoginController extends GetxController {
           storeUserData(currentUserController.currentUser.value,
               'user'); // save UserID, User name , Phone Num
           myBottomBarCtrl.selectedIndBottomBar.value = 0;
+          registerController.registeruserdata =
+              currentUserController.currentUser;
+          registerController.registeruserdata.value.enabledit = true;
           Get.offAll(ProfileRegisterPage());
           // Navigate to the next screen or perform necessary actions.
         } else {

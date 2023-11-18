@@ -26,6 +26,7 @@ class StudSubModel {
     required this.friendUsername,
     required this.friendtName,
     required this.friendImage,
+    required this.unreadMsg,
   });
   late final String teacherID;
   late final String teacherUsername;
@@ -40,6 +41,7 @@ class StudSubModel {
   late final String friendUsername;
   late final String friendtName;
   late final String friendImage;
+  bool unreadMsg = false;
 
   StudSubModel.fromJson(Map<String, dynamic> json) {
     teacherID = json['teacherID'] ?? "";

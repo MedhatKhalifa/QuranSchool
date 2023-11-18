@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:agora_uikit/agora_uikit.dart';
+//import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +11,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:quranschool/pages/search/show_result.dart';
-import 'package:quranschool/pages/sessions/sharescreen.dart';
+import 'package:quranschool/pages/sessions/videoScreen.dart';
 import 'package:quranschool/pages/student/subscription/models/subscriptionPrice_model.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:quranschool/pages/teacher/model/meeting_model.dart';
@@ -28,11 +28,14 @@ class MySesionController extends GetxController {
 
   var isLoading = false.obs;
   var isScreenSharing = false.obs;
-
-  late Rx<AgoraClient> agoraclient = AgoraClient(
-          agoraConnectionData:
-              AgoraConnectionData(appId: "appId", channelName: "channelName"))
+  var selectedMeeting = Meeting("", DateTime.now(), DateTime.now(),
+          Colors.black, true, true, -1, -1, -1, "", -1, "", -1)
       .obs;
+
+  // late Rx<AgoraClient> agoraclient = AgoraClient(
+  //         agoraConnectionData:
+  //             AgoraConnectionData(appId: "appId", channelName: "channelName"))
+  //     .obs;
   var agoraEngine = createAgoraRtcEngine().obs;
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -45,6 +48,8 @@ class MySesionController extends GetxController {
   late RtcEngine _engine;
 
   Future getMySesions() async {
+    sessions.clear();
+    meetings.clear();
     String? _url;
     if (currentUserController.currentUser.value.userType == "teacher") {
       _url = sessionTeacherUrl +

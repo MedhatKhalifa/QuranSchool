@@ -19,7 +19,6 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/phone_controller.dart';
 import 'package:quranschool/pages/Auth/controller/register_controller.dart';
 import 'package:quranschool/pages/Auth/login/login_page.dart';
-import 'package:quranschool/pages/Auth/register/otp_dialogue.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/translation/translate_ctrl.dart';
 import 'package:search_choices/search_choices.dart';
@@ -60,6 +59,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
     mytoken = await FirebaseMessaging.instance.getToken();
     setState(() {
       currentUserController.currentUser.value.accountToken = mytoken!;
+      registerController.registeruserdata.value.accountToken = mytoken!;
       mytoken = mytoken;
     });
   }
@@ -525,15 +525,15 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                 ///=======================================================================
                 ///==================== Go to Signup ========================================
                 ///=======================================================================
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  TextButton(
-                      onPressed: () {
-                        Get.to(() => LoginPage());
-                      },
-                      child: Text('Already_have_an_account_sign_in'.tr,
-                          style: TextStyle(
-                              color: Color(0xFFFD8C00), fontSize: sp(10)))),
-                ]),
+                // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                //   TextButton(
+                //       onPressed: () {
+                //         Get.to(() => LoginPage());
+                //       },
+                //       child: Text('Already_have_an_account_sign_in'.tr,
+                //           style: TextStyle(
+                //               color: Color(0xFFFD8C00), fontSize: sp(10)))),
+                // ]),
               ],
             ),
           ),

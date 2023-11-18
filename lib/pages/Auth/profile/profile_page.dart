@@ -1,16 +1,18 @@
+import 'package:quranschool/pages/Auth/controller/register_controller.dart';
 import 'package:quranschool/pages/Auth/login/change_password.dart';
 import 'package:quranschool/pages/Auth/login/forget_password.dart';
 import 'package:quranschool/pages/Auth/login/login_page.dart';
 import 'package:quranschool/pages/Auth/profile/aboutUs.dart';
 import 'package:quranschool/pages/Auth/profile/contactUs.dart';
-import 'package:quranschool/pages/chat/chat_controller.dart';
+import 'package:quranschool/pages/Auth/profile/profile_register.dart';
+import 'package:quranschool/pages/chat/controller/chat_controller.dart';
 import 'package:quranschool/pages/chat/chat_details.dart';
 import 'package:quranschool/pages/chat/people_list.dart';
 
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
-import 'package:quranschool/pages/sessions/session_control.dart';
+import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/videoConference.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
@@ -44,6 +46,7 @@ final SubscribitionController subscribitionController =
 final MySesionController mySesionController = Get.put(MySesionController());
 final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 final ChatController chatController = Get.put(ChatController());
+final RegisterController registerController = Get.put(RegisterController());
 String _size = "";
 final _formKey = GlobalKey<FormState>();
 
@@ -79,6 +82,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                   title: Text(currentUserController.currentUser.value.username),
                   onTap: () async {
+                    // Get.to(ProfileRegisterPage());
+
+                    var _user = currentUserController.currentUser.value;
+                    registerController.registeruserdata.value = _user;
+
+                    //registerController.registeruserdata.value.enabledit = true;
+                    print(registerController.registeruserdata);
+                    // Get.to(ProfileRegisterPage());
+
                     // mySnackbar('Failed'.tr, 'please_Loging_First'.tr, 'Error');
                   })
               : ListTile(
@@ -88,7 +100,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                   title: Text('Login/Register'),
                   onTap: () async {
-                    Get.to(() => LoginPage());
+                    Get.to(LoginPage());
                   })),
           // ListTile(
           //     leading: Icon(
@@ -227,18 +239,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     }),
               )),
 
-          Obx(() => Visibility(
-                visible: currentUserController.currentUser.value.id != -1,
-                child: ListTile(
-                    leading: Icon(Icons.message),
-                    title: Text('Chat'.tr),
-                    onTap: () async {
-                      chatController.getchatList();
-                      Get.to(PeopleList());
-                      // Get.to(
-                      //     ChatDetail(friendName: 'Medhat', friendUid: 'user1'));
-                    }),
-              )),
+          // Obx(() => Visibility(
+          //       visible: currentUserController.currentUser.value.id != -1,
+          //       child: ListTile(
+          //           leading: Icon(Icons.message),
+          //           title: Text('Chat'.tr),
+          //           onTap: () async {
+          //             chatController.getchatList();
+          //             Get.to(PeopleList());
+          //             // Get.to(
+          //             //     ChatDetail(friendName: 'Medhat', friendUid: 'user1'));
+          //           }),
+          //     )),
 
           ///
           ///

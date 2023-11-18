@@ -72,6 +72,9 @@ class RegisterController extends GetxController {
         storeUserData(currentUserController.currentUser.value,
             'user'); // save UserID, User name , Phone Num
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
+
+        registeruserdata = currentUserController.currentUser;
+
         Get.offAll(ProfileRegisterPage());
       } else {
         mySnackbar("Failed".tr,
@@ -182,6 +185,16 @@ class RegisterController extends GetxController {
       var dio = Dio(); // DIO is library to deal with APIs
 
       //registeruserdata.value.accountType = registeruserdata.value.showType;
+      String _url = profileUrl;
+
+      if (currentUserController.currentUser.value.id != -1 &&
+          currentUserController.currentUser.value.id != null) {
+        _url =
+            _url + "/" + currentUserController.currentUser.value.id.toString();
+      }
+      // var response = await (currentUserController.currentUser.value.id != null
+      //     ? dio.put
+      //     : dio.post)
 
       var response = await dio.post(
         profileUrl,

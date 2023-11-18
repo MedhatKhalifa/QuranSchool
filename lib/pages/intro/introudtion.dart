@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:quranschool/core/size_config.dart';
+import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
+import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/search/search_page2.dart';
 
 class IntroPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class _IntroPageState extends State<IntroPage> {
   // 1. Define a `GlobalKey` as part of the parent widget's state
   final _introKey = GlobalKey<IntroductionScreenState>();
   String _status = 'Waiting...';
+  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,8 @@ class _IntroPageState extends State<IntroPage> {
           Center(
             child: GestureDetector(
               onTap: () {
-                Get.to(SearchPage2());
+                myBottomBarCtrl.selectedIndBottomBar.value = 0;
+                Get.to(HomePage());
               },
               child: SizedBox(
                 // width: 100,

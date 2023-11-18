@@ -37,9 +37,9 @@ class ChatController extends GetxController {
     // } else if ((currentUserController.currentUser.value.userType == "student")) {
     //   _url = studsubUrl + id.toString();
     // }
-    print(currentUserController.currentUser.value.userType +
+    print(studsubUrl +
+        currentUserController.currentUser.value.userType +
         "=" +
-        studsubUrl +
         currentUserController.currentUser.value.id.toString());
     var dio = Dio();
     var response = await dio.get(
@@ -88,6 +88,12 @@ class ChatController extends GetxController {
         studSubdata.clear();
         studSubdata.assignAll(_temp);
         //  availabilities = _sessions.cast<Rx<Availability>>();
+
+        List<String> unreadFriends = await checkUnreadMessages();
+
+        setUnreadMessages(unreadFriends);
+        sortStudSubModels();
+        print(studSubdata);
       }
       // Now  call Session
       isLoading.value = false;
@@ -100,6 +106,69 @@ class ChatController extends GetxController {
     isLoading.value = false;
 
     return studSubdata;
+  }
+
+  Future<List<String>> checkUnreadMessages() async {
+    var unreadFriends = <String>[];
+
+    // Query all documents in the 'chats' collection
+    var querySnapshot =
+        await FirebaseFirestore.instance.collection('chats').get();
+    for (var chat in studSubdata) {
+      var currentuserid = currentUserController.currentUser.value.id.toString();
+      var friendUid = chat.friendtID.toString();
+
+      for (var doc in querySnapshot.docs) {
+        var txMsg = doc['txMsg'];
+        var rxMsg = doc['rxMsg'];
+
+        // if (txMsg[currentuserid] != null && rxMsg[friendUid] != null) {
+        //   var txTimestamp = (txMsg[currentuserid] as Timestamp).toDate();
+        //   var rxTimestamp = (rxMsg[friendUid] as Timestamp).toDate();
+
+        //   if (txTimestamp.isAfter(rxTimestamp)) {
+        //     // Add friendUid to the list of unread messages
+        //     unreadFriends.add(friendUid);
+        //   }
+        // }
+
+        if (txMsg[friendUid] != null && rxMsg[currentuserid] != null) {
+          var txTimestamp = (txMsg[friendUid] as Timestamp).toDate();
+          var rxTimestamp = (rxMsg[currentuserid] as Timestamp).toDate();
+
+          if (txTimestamp.isAfter(rxTimestamp)) {
+            // Add currentuserid to the list of unread messages
+            unreadFriends.add(friendUid);
+          }
+        }
+      }
+    }
+
+    // Now unreadFriends contains the list of friends with unread messages
+    print('Friends with unread messages: $unreadFriends');
+    return unreadFriends;
+  }
+
+  void setUnreadMessages(unreadFriends) {
+    for (var studSubModel in studSubdata) {
+      if (unreadFriends.contains(studSubModel.friendtID.toString())) {
+        studSubModel.unreadMsg = true;
+      }
+    }
+  }
+
+  void sortStudSubModels() {
+    studSubdata.sort((a, b) {
+      // Place entries with unread messages first
+      if (a.unreadMsg && !b.unreadMsg) {
+        return -1;
+      } else if (!a.unreadMsg && b.unreadMsg) {
+        return 1;
+      }
+
+      // If both have unread messages or both don't, maintain their current order
+      return 0;
+    });
   }
 
   // void createDocID() async {

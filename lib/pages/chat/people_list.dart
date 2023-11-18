@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
-import 'package:quranschool/pages/chat/chat_controller.dart';
+import 'package:quranschool/pages/chat/controller/chat_controller.dart';
 import 'package:quranschool/pages/chat/models/userChat_model.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 
@@ -61,9 +61,23 @@ class _PeopleListState extends State<PeopleList> {
                           );
                         },
                         title: Text(
-                            chatController.studSubdata[index].friendUsername),
+                            chatController.studSubdata[index].friendtName,
+                            style: TextStyle(
+                                color:
+                                    chatController.studSubdata[index].unreadMsg
+                                        ? Colors.black
+                                        : Colors.grey,
+                                fontWeight:
+                                    chatController.studSubdata[index].unreadMsg
+                                        ? FontWeight.bold
+                                        : FontWeight.normal)),
                         subtitle: Text(
-                            chatController.studSubdata[index].friendUsername)));
+                            chatController.studSubdata[index].friendUsername,
+                            style: TextStyle(
+                              color: chatController.studSubdata[index].unreadMsg
+                                  ? Colors.black
+                                  : Colors.grey,
+                            ))));
               })),
     );
   }

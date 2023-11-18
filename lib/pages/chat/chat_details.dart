@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
@@ -51,6 +48,13 @@ class _ChatDetailState extends State<ChatDetail> {
     checkUser();
   }
 
+  // Add a new field to store last read timestamp in the user's document
+  void updateLastReadTimestamp(String userId) {
+    chats.doc(chatDocId).update({
+      'users.$userId.lastReadTimestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
   void checkUser() async {
     await chats
         .where('users', isEqualTo: {friendUid: null, currentuserid: null})
@@ -67,7 +71,18 @@ class _ChatDetailState extends State<ChatDetail> {
             } else {
               await chats.add({
                 'users': {currentuserid: null, friendUid: null},
-                'names': {currentuserid: currentuserName, friendUid: friendName}
+                'names': {
+                  currentuserid: currentuserName,
+                  friendUid: friendName
+                },
+                'txMsg': {
+                  currentuserid: FieldValue.serverTimestamp(),
+                  friendUid: FieldValue.serverTimestamp()
+                },
+                'rxMsg': {
+                  currentuserid: FieldValue.serverTimestamp(),
+                  friendUid: FieldValue.serverTimestamp()
+                },
               }).then((value) {
                 return {
                   setState(() {
@@ -83,6 +98,7 @@ class _ChatDetailState extends State<ChatDetail> {
 
   void sendMessage(String msg) {
     if (msg == '') return;
+
     chats.doc(chatDocId).collection('messages').add({
       'createdOn': FieldValue.serverTimestamp(),
       'uid': currentuserid,
@@ -90,7 +106,47 @@ class _ChatDetailState extends State<ChatDetail> {
       'msg': msg
     }).then((value) {
       _textController.text = '';
+      FirebaseFirestore.instance.collection('chats').doc(chatDocId).update({
+        'txMsg.$currentuserid': FieldValue.serverTimestamp(),
+      });
+      // updateLastReadTimestamp(currentuserid);
     });
+  }
+
+  void checkUnreadMessages() async {
+    var unreadFriends = <String>[];
+
+    // Query all documents in the 'chats' collection
+    var querySnapshot =
+        await FirebaseFirestore.instance.collection('chats').get();
+
+    for (var doc in querySnapshot.docs) {
+      var txMsg = doc['txMsg'];
+      var rxMsg = doc['rxMsg'];
+
+      if (txMsg[currentuserid] != null && rxMsg[friendUid] != null) {
+        var txTimestamp = (txMsg[currentuserid] as Timestamp).toDate();
+        var rxTimestamp = (rxMsg[friendUid] as Timestamp).toDate();
+
+        if (txTimestamp.isAfter(rxTimestamp)) {
+          // Add friendUid to the list of unread messages
+          unreadFriends.add(friendUid);
+        }
+      }
+
+      if (txMsg[friendUid] != null && rxMsg[currentuserid] != null) {
+        var txTimestamp = (txMsg[friendUid] as Timestamp).toDate();
+        var rxTimestamp = (rxMsg[currentuserid] as Timestamp).toDate();
+
+        if (txTimestamp.isAfter(rxTimestamp)) {
+          // Add currentuserid to the list of unread messages
+          unreadFriends.add(currentuserid);
+        }
+      }
+    }
+
+    // Now unreadFriends contains the list of friends with unread messages
+    print('Friends with unread messages: $unreadFriends');
   }
 
   bool isSender(String friend) {
@@ -129,6 +185,10 @@ class _ChatDetailState extends State<ChatDetail> {
 
         if (snapshot.hasData) {
           var data;
+          // Update rxMsg.currentuserid in the document
+          FirebaseFirestore.instance.collection('chats').doc(chatDocId).update({
+            'rxMsg.$currentuserid': FieldValue.serverTimestamp(),
+          });
           return Scaffold(
             appBar: simplAppbar(true, friendName),
             body: SafeArea(

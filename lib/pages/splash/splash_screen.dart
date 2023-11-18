@@ -35,8 +35,26 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     getToken();
     _checkSkipStatus();
+    // Request permission
+    requestPermission();
 
     super.initState();
+  }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
   }
 
   void _checkSkipStatus() async {
@@ -105,11 +123,16 @@ class _SplashScreenState extends State<SplashScreen> {
             print(e);
             // removeUserData('user');
           }
-          return _lang == "ar" || _lang == "en"
-              ? !_isSkipped
-                  ? HomePage()
-                  : IntroPage()
-              : TrnaslationPage();
+          if (_lang == "ar" || _lang == "en") {
+            if (!_isSkipped) {
+              myBottomBarCtrl.selectedIndBottomBar.value = 0;
+              return HomePage();
+            } else {
+              return IntroPage();
+            }
+          } else {
+            return TrnaslationPage();
+          }
           // } else {
           //   return NoConnectionPage();
           // }

@@ -22,14 +22,16 @@ class Session {
   String? teacherOpinion;
   String? review;
   int? teacher;
-  double? studentRate;
+  int? studentRate;
   int? student;
+  double? teacherRank;
 
   Session({
     this.teacherAttendance,
     this.studentAttendance,
     this.sessionStatus,
     this.teacherOpinion,
+    this.teacherRank,
     this.date,
     this.time,
     this.review,
@@ -50,7 +52,9 @@ class Session {
 
     teacher = json['teacher'] ?? -1;
     studentRate = json['studentRate'] ?? -1;
+    teacherRank = json['teacherRank'] ?? -1;
     student = json['student'] ?? -1;
+    review = json['review'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +68,7 @@ class Session {
     data['teacher'] = this.teacher;
     data['studentRate'] = this.studentRate;
     data['student'] = this.student;
+    data['teacherRank'] = this.teacherRank;
     return data;
   }
 }

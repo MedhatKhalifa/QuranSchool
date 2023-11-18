@@ -8,7 +8,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_auth
   firebase_core
   iris_method_channel
-  permission_handler_windows
   syncfusion_pdfviewer_windows
   url_launcher_windows
 )

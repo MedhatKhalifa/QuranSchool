@@ -45,6 +45,7 @@ class _ShowResultState extends State<ShowResult> {
                       onTap: () {
                         subscribitionController.selectedTeacher.value =
                             searchController.teachers[index];
+                        print(subscribitionController.selectedTeacher.value);
 
                         Get.to(DetailSearchTeacher());
                       },

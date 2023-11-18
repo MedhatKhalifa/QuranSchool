@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/quran/pdfview2.dart';
 import 'package:quranschool/pages/quran/quranPage%20copy.dart';
 import 'package:quranschool/pages/quran/quranPage.dart';
-import 'package:quranschool/pages/quran/quranPdf.dart';
 
 import 'dart:async';
 
