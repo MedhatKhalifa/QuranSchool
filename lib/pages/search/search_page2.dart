@@ -168,7 +168,7 @@ class _SearchPage2State extends State<SearchPage2> {
 
         //drawer: Thedrawer(),
         //backgroundColor: Colors.transparent,
-        appBar: simplAppbar(true, "Search your Teacher"),
+        appBar: simplAppbar(false, "Search your Teacher"),
 
         ///=======================================================================
         ///==================== Body ========================================

@@ -69,7 +69,7 @@ generateIntervals(var originalList) {
     var count = 1;
 
     if (isTimeFormatValid(fromTime) && isTimeFormatValid(toTime)) {
-      while (fromTime != toTime && count < 40) {
+      while (fromTime != toTime || count < 40) {
         count++;
         DateTime fromDateTime = DateFormat('HH:mm').parse(fromTime);
         DateTime nextTime = fromDateTime.add(Duration(minutes: 30));

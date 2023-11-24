@@ -11,7 +11,9 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:quranschool/pages/search/show_result.dart';
+import 'package:quranschool/pages/sessions/sessionsShow.dart';
 import 'package:quranschool/pages/sessions/videoScreen.dart';
+import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/student/subscription/models/subscriptionPrice_model.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:quranschool/pages/teacher/model/meeting_model.dart';
@@ -27,11 +29,14 @@ class MySesionController extends GetxController {
   var channelname = "".obs;
 
   var isLoading = false.obs;
+  var isNextSessionloading = false.obs;
   var isScreenSharing = false.obs;
   var selectedMeeting = Meeting("", DateTime.now(), DateTime.now(),
           Colors.black, true, true, -1, -1, -1, "", -1, "", -1)
       .obs;
+  var nextSession = Session().obs;
 
+  var diffMinutes = 0.obs;
   // late Rx<AgoraClient> agoraclient = AgoraClient(
   //         agoraConnectionData:
   //             AgoraConnectionData(appId: "appId", channelName: "channelName"))
@@ -39,6 +44,9 @@ class MySesionController extends GetxController {
   var agoraEngine = createAgoraRtcEngine().obs;
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
+
+  final SubscribitionController subscribitionController =
+      Get.put(SubscribitionController());
 
   @override
   void onInit() {
@@ -98,6 +106,80 @@ class MySesionController extends GetxController {
     }
     isLoading.value = false;
     return sessions;
+  }
+
+  Future updateMySession(Meeting _meeting) async {
+    String? _url;
+
+    _url = updateSessionUrl + _meeting.id.toString() + "/";
+
+    isLoading.value = true;
+    var dio = Dio();
+    var response = await dio.put(
+      _url!,
+      data: {
+        'student': _meeting.student.toString(),
+        'teacher': _meeting.teacher.toString(),
+        'sessionStatus': "Pending",
+        'studentSubscription': "1",
+        'date': DateFormat('yyyy-MM-dd').format(_meeting.from),
+        'time': DateFormat('HH:m').format(_meeting.from),
+        //'accountToken': userctrl.currentUser.value.accountToken,
+      },
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200) {
+      //playerId
+      subscribitionController.getSessionsbyteaherID(
+          currentUserController.currentUser.value.id,
+          currentUserController.currentUser.value.userType);
+      Get.to(SessionsShow());
+    } else {
+      isLoading.value = false;
+      _failmessage(response);
+    }
+    isLoading.value = false;
+    return sessions;
+  }
+
+  getFirstSessionAfterNow() async {
+    isNextSessionloading.value = true;
+    await getMySesions();
+    if (sessions.isNotEmpty) {
+      DateTime now = DateTime.now();
+      DateTime comparetime = now.subtract(Duration(minutes: 30));
+
+      // Filter sessions that are after the current time
+      final List<Session> futureSessions = sessions.where((session) {
+        final DateTime sessionDateTime =
+            DateTime.parse('${session.date} ${session.time}');
+        return sessionDateTime.isAfter(comparetime);
+      }).toList();
+
+      // Sort the filtered sessions by date and time
+      futureSessions.sort((a, b) {
+        final DateTime aDateTime = DateTime.parse('${a.date} ${a.time}');
+        final DateTime bDateTime = DateTime.parse('${b.date} ${b.time}');
+        return aDateTime.compareTo(bDateTime);
+      });
+
+      // Return the first session after the current time, if any
+      if (futureSessions.isNotEmpty) {
+        nextSession.value = futureSessions.first;
+        final DateTime sessionDateTime = DateTime.parse(
+            '${nextSession.value.date} ${nextSession.value.time}');
+        final Duration difference = sessionDateTime.difference(now);
+        diffMinutes.value = difference.inMinutes;
+      }
+    }
+    isNextSessionloading.value = false;
   }
 
   Future getToken(teacherID, studentID) async {

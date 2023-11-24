@@ -16,6 +16,7 @@ const String searchCheckUrl = "${db_url1}userprofile/check/?search=";
 const String searchTeacherUrl = "${db_url1}userprofile/check-teacher?";
 
 const String availTeacherUrl = "${db_url1}availabilityTime/check?teacher=";
+const String availrUrl = "${db_url1}availabilityTime/availabilitytimes/";
 const String sessionTeacherUrl = "${db_url1}session/check?teacher=";
 const String sessionStudentUrl = "${db_url1}session/check?student=";
 const String subscriptionsUrl = "${db_url1}subscription/subscriptions/";
@@ -23,6 +24,7 @@ const String tokenUrl = "${db_url1}agora/livestream/";
 const String studsubUrl = "${db_url1}student_subscription/check?";
 const String createstudentsubscriptionsUrl =
     "${db_url1}student_subscription/studentsubscriptions/";
+const String updateSessionUrl = "${db_url1}/session/sessions/";
 
 const String creatSessionUrl = "${db_url1}session/sessions/";
 

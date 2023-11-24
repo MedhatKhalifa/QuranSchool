@@ -58,7 +58,7 @@ class _QuranSelectionState extends State<QuranSelection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simplAppbar(true, "Quran"),
+      appBar: simplAppbar(false, "Quran"),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

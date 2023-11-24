@@ -71,6 +71,8 @@ dependencies:
   flutter_chat_bubble: ^2.0.2
   agora_rtc_engine: ^6.2.4
   flutter_local_notifications: ^16.1.0
+  slide_countdown: ^1.2.1
+  connectivity_plus: ^5.0.1
 
 flutter_launcher_icons:
   android: "launcher_icon"

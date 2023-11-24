@@ -10,6 +10,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:quranschool/pages/search/show_result.dart';
 import 'package:quranschool/pages/student/subscription/models/subscriptionPrice_model.dart';
+import 'package:quranschool/pages/teacher/availability_input.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:quranschool/pages/teacher/model/meeting_model.dart';
 import 'package:quranschool/pages/teacher/model/sessions_model.dart';
@@ -40,6 +41,11 @@ class SubscribitionController extends GetxController {
   var isLoadingsession = false.obs;
   var isLoadingmeetings = false.obs;
   var isLoadinpricelist = false.obs;
+
+  var selectedDay = 'Sunday'.obs;
+  var selectedFromTime = TimeOfDay(hour: 12, minute: 0).obs;
+  var selectedToTime = TimeOfDay(hour: 14, minute: 0).obs;
+
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
 
@@ -196,6 +202,125 @@ class SubscribitionController extends GetxController {
   }
 
 // Get Availity First then Get Sessions then generate Meeting to be showed
+  Future getAvaiTimeOnly(id) async {
+    availabilities.clear();
+    isLoading.value = true;
+    isLoadingAvail.value = true;
+    isLoadingmeetings.value = true;
+    var dio = Dio();
+    var response = await dio.get(
+      availTeacherUrl + id.toString(),
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200) {
+      // sessions = parseAvailabilitysfromListofMap(
+      //     response.data.cast<Map<String, dynamic>>());
+
+      if (response.data.length > 0) {
+        final List<Map<String, dynamic>> responseMapList =
+            List<Map<String, dynamic>>.from(response.data);
+
+        // Parse the list of JSON objects into a list of Session objects
+        List<Availability> _avas =
+            parseAvailabilitysfromListofMap(responseMapList);
+        // Divide into intervals
+        availabilities.clear();
+        availabilities.assignAll(_avas);
+        Get.to(AvailabilityInputPage());
+
+        //  availabilities = _sessions.cast<Rx<Availability>>();
+      }
+      // Now  call Session
+      isLoadingAvail.value = false;
+      // Get.to(const ShowResult());
+    } else {
+      _failmessage(response);
+      isLoadingAvail.value = false;
+    }
+    isLoadingAvail.value = false;
+  }
+
+// Add Availity First then Get Sessions then generate Meeting to be showed
+  Future addAvaiTime(id, day, fromTime, toTime) async {
+    availabilities.clear();
+    isLoading.value = true;
+    isLoadingAvail.value = true;
+    isLoadingmeetings.value = true;
+    var dio = Dio();
+    var response = await dio.post(
+      availrUrl,
+      data: {"teacher": id, "day": day, "fromTime": fromTime, "toTime": toTime},
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      // sessions = parseAvailabilitysfromListofMap(
+      //     response.data.cast<Map<String, dynamic>>());
+      Get.snackbar('success', 'successfully added'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Color.fromARGB(255, 169, 204, 173));
+      getAvaiTimeOnly(id);
+
+      // Now  call Session
+
+      // Get.to(const ShowResult());
+    } else {
+      _failmessage(response);
+      getAvaiTimeOnly(id);
+    }
+  }
+
+// Add Availity First then Get Sessions then generate Meeting to be showed
+  Future delAvaiTime(teacherId, availId) async {
+    availabilities.clear();
+    isLoading.value = true;
+    isLoadingAvail.value = true;
+    isLoadingmeetings.value = true;
+    var dio = Dio();
+    var response = await dio.delete(
+      availrUrl + availId.toString() + "/",
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200 ||
+        response.statusCode == 201 ||
+        response.statusCode == 204) {
+      // sessions = parseAvailabilitysfromListofMap(
+      //     response.data.cast<Map<String, dynamic>>());
+      Get.snackbar('success', 'successfully deleting'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Color.fromARGB(255, 169, 204, 173));
+      getAvaiTimeOnly(teacherId);
+
+      // Now  call Session
+
+      // Get.to(const ShowResult());
+    } else {
+      _failmessage(response);
+      getAvaiTimeOnly(teacherId);
+    }
+  }
+
+// Get Availity First then Get Sessions then generate Meeting to be showed
   Future getAvaiTime() async {
     availabilities.clear();
     isLoading.value = true;
@@ -203,7 +328,7 @@ class SubscribitionController extends GetxController {
     isLoadingmeetings.value = true;
     var dio = Dio();
     var response = await dio.get(
-      availTeacherUrl + selectedTeacher.value.id.toString(),
+      availTeacherUrl + selectedTeacher.value.user!.id.toString(),
       options: Options(
         // followRedirects: false,
         validateStatus: (status) {
@@ -308,11 +433,11 @@ class SubscribitionController extends GetxController {
           false,
           s.teacher!,
           s.student!,
-          s.studentRate!,
-          s.teacherOpinion!,
-          s.teacherRank!,
-          s.review!,
-          s.id!));
+          s.studentRate ?? -1,
+          s.teacherOpinion ?? "",
+          s.teacherRank ?? -1,
+          s.review ?? "",
+          s.id ?? -1));
     }
     // print(meetings);
     isLoadingmeetings.value = false;

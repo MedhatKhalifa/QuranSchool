@@ -12,6 +12,7 @@ import 'package:quranschool/pages/search/search_page2.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/teacher/studentSearch/searchStudent.dart';
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
 
@@ -53,9 +54,9 @@ mybottomBarWidget() {
           ),
 
           TabItem(
-            activeIcon: Icon(Icons.calendar_month),
-            icon: Icon(Icons.calendar_month, color: Colors.grey),
-            title: 'calendar'.tr,
+            activeIcon: Icon(Icons.play_arrow),
+            icon: Icon(Icons.play_arrow, color: Colors.grey),
+            title: 'Next_sesion'.tr,
           ),
           TabItem(
             //isIconBlend: true,
@@ -80,10 +81,14 @@ mybottomBarWidget() {
                 ? Get.to(SearchStudent())
                 : Get.to(SearchPage2());
           } else if (index == 2) {
-            subscribitionController.getSessionsbyteaherID(
-                currentUserController.currentUser.value.id,
-                currentUserController.currentUser.value.userType);
-            Get.to(SessionsShow());
+            mySesionController.getFirstSessionAfterNow();
+
+            Get.to(NextSession());
+
+            // subscribitionController.getSessionsbyteaherID(
+            //     currentUserController.currentUser.value.id,
+            //     currentUserController.currentUser.value.userType);
+            // Get.to(SessionsShow());
 
             // Get.to(UserProfilePage(showbottombar: true));
           } else if (index == 3) {

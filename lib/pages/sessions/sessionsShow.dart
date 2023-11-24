@@ -5,6 +5,7 @@ import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/sessions/changeSessionTime.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/rate.dart';
 import 'package:quranschool/pages/sessions/videoScreen.dart';
@@ -42,6 +43,110 @@ class _SessionsShowState extends State<SessionsShow> {
 
   int counterSelection = 0;
   final List<Meeting> meetings = <Meeting>[];
+  bool showBottom = false;
+
+  int calculateDifferenceInMinutes(Meeting _meeting) {
+    // sessionDateTime = DateTime.parse(
+    //   '${mySesionController.nextSession.value.date} ${mySesionController.nextSession.value.time}');
+    //   _meeting.from
+    final DateTime now = DateTime.now();
+    final Duration difference = _meeting.from.difference(now);
+    return difference.inMinutes;
+  }
+
+  DateTime? _datePicked = DateTime.now();
+
+  DateTime? selectedDate;
+  Future<void> _selectDate(BuildContext context, appointment) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 90)),
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+      });
+
+      _selectTime(context, appointment);
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context, Meeting appointment) async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        selectedDate = DateTime(
+          selectedDate!.year,
+          selectedDate!.month,
+          selectedDate!.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+      });
+      appointment.from = selectedDate!;
+      // Do something with the selected date and time
+      print("Selected Date and Time: $selectedDate");
+      mySesionController.updateMySession(appointment);
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _showChangeSessionTimeDialog(
+      BuildContext context, appointment) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.hourglass_empty, color: Colors.orange),
+              SizedBox(width: 10),
+              Text(
+                'Change Session Time',
+                style: TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to change the session time?',
+            style: TextStyle(color: Colors.black87),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Handle changing the session time
+                // ...
+                //_selectDate(context, appointment);
+                _selectDate(context, appointment);
+                // Navigator.of(context).pop(); // Close the dialog
+                //  Get.to(ChangeSesionTime());
+              },
+              child: Text(
+                'Yes',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,28 +184,84 @@ class _SessionsShowState extends State<SessionsShow> {
                             CalendarView.timelineMonth,
                             CalendarView.schedule
                           ],
+
                           showNavigationArrow: true,
+                          allowDragAndDrop: true,
                           view: CalendarView.schedule,
-                          minDate: DateTime.now(),
-                          maxDate: DateTime.now().add(const Duration(days: 90)),
+                          // timeSlotViewSettings: TimeSlotViewSettings(
+                          //   timeInterval: Duration(minutes: 30),
+                          // ),
+
+                          // minDate: DateTime.now(),
+                          // maxDate: DateTime.now().add(const Duration(days: 90)),
                           dataSource: MeetingDataSource(_getNextSessions()),
+
+                          // dragAndDropSettings:
+                          //     DragAndDropSettings(allowNavigation: true),
+
                           scheduleViewSettings: ScheduleViewSettings(
                             hideEmptyScheduleWeek: true,
                           ),
-                          monthViewSettings: const MonthViewSettings(
-                              showTrailingAndLeadingDates: false,
-                              appointmentDisplayMode:
-                                  MonthAppointmentDisplayMode.appointment,
-                              showAgenda: true),
-                          onTap: (day) {
+                          // monthViewSettings: const MonthViewSettings(
+                          //     showTrailingAndLeadingDates: false,
+                          //     appointmentDisplayMode:
+                          //         MonthAppointmentDisplayMode.appointment,
+                          //     showAgenda: true),
+                          onLongPress: (day) {
                             setState(() {
                               if (day.targetElement ==
                                   CalendarElement.appointment) {
                                 Meeting appointment = day.appointments![0];
-                                if (appointment.selected) {
-                                  mySesionController.getToken(
-                                      appointment.teacher, appointment.student);
+
+                                if (calculateDifferenceInMinutes(appointment) >
+                                    60) {
+                                  _showChangeSessionTimeDialog(
+                                      context, appointment);
+                                  // Get.dialog(
+                                  //   AlertDialog(
+                                  //     title: Row(
+                                  //       children: [
+                                  //         Icon(Icons.hourglass_empty),
+                                  //         SizedBox(width: 10),
+                                  //         Text('Change Session Time'),
+                                  //       ],
+                                  //     ),
+                                  //     content: Text(
+                                  //         'Are you sure you want to change the session time?'),
+                                  //     actions: [
+                                  //       TextButton(
+                                  //         onPressed: () {
+                                  //           Get.back(); // Dismiss the dialog
+                                  //         },
+                                  //         child: Text('No'),
+                                  //       ),
+                                  //       TextButton(
+                                  //         onPressed: () {
+                                  //           // Handle changing the session time
+                                  //           // ...
+                                  //           _selectDate(context, appointment);
+                                  //           // Navigator.of(context).pop();
+                                  //           //  Get.to(ChangeSesionTime());
+                                  //         },
+                                  //         child: Text('Yes'),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // );
+                                } else {
+                                  Get.snackbar(
+                                    "Warning",
+                                    "You can't change session timer within one hour",
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    duration: Duration(seconds: 5),
+                                  );
                                 }
+                                // if (appointment.selected) {
+                                //   mySesionController.getToken(
+                                //       appointment.teacher, appointment.student);
+                                // }
                               }
                             });
                           },
@@ -112,47 +273,50 @@ class _SessionsShowState extends State<SessionsShow> {
                             backgroundColor: Colors.white,
                           ),
                         )
-                      : SfCalendar(
-                          allowedViews: [
-                            CalendarView.day,
-                            CalendarView.week,
-                            CalendarView.month,
-                            CalendarView.timelineDay,
-                            CalendarView.timelineWeek,
-                            CalendarView.timelineWorkWeek,
-                            CalendarView.timelineMonth,
-                            CalendarView.schedule
-                          ],
-                          showNavigationArrow: true,
-                          view: CalendarView.schedule,
-                          // minDate: DateTime.now(),
-                          maxDate:
-                              DateTime.now(), //.add(const Duration(days: 90)),
-                          dataSource: MeetingDataSource(_getOldSessions()),
-                          scheduleViewSettings: ScheduleViewSettings(
-                            hideEmptyScheduleWeek: true,
+                      : SizedBox(
+                          height: h(80),
+                          child: SfCalendar(
+                            allowedViews: [
+                              CalendarView.day,
+                              CalendarView.week,
+                              CalendarView.month,
+                              CalendarView.timelineDay,
+                              CalendarView.timelineWeek,
+                              CalendarView.timelineWorkWeek,
+                              CalendarView.timelineMonth,
+                              CalendarView.schedule
+                            ],
+                            showNavigationArrow: true,
+                            view: CalendarView.schedule,
+                            // minDate: DateTime.now(),
+                            maxDate: DateTime
+                                .now(), //.add(const Duration(days: 90)),
+                            dataSource: MeetingDataSource(_getOldSessions()),
+                            scheduleViewSettings: ScheduleViewSettings(
+                              hideEmptyScheduleWeek: true,
+                            ),
+                            monthViewSettings: const MonthViewSettings(
+                                showTrailingAndLeadingDates: false,
+                                appointmentDisplayMode:
+                                    MonthAppointmentDisplayMode.appointment,
+                                showAgenda: true),
+                            onTap: (day) {
+                              print(day.targetElement);
+                              mySesionController.selectedMeeting.value =
+                                  day.appointments![0];
+                              print(mySesionController.selectedMeeting);
+                              // setState(() {
+                              //   if (day.targetElement ==
+                              //       CalendarElement.appointment) {
+                              //     Meeting appointment = day.appointments![0];
+                              //     if (appointment.selected) {
+                              //       mySesionController.getToken(
+                              //           appointment.teacher, appointment.student);
+                              //     }
+                              //   }
+                              // });
+                            },
                           ),
-                          monthViewSettings: const MonthViewSettings(
-                              showTrailingAndLeadingDates: false,
-                              appointmentDisplayMode:
-                                  MonthAppointmentDisplayMode.appointment,
-                              showAgenda: true),
-                          onTap: (day) {
-                            print(day.targetElement);
-                            mySesionController.selectedMeeting.value =
-                                day.appointments![0];
-                            print(mySesionController.selectedMeeting);
-                            // setState(() {
-                            //   if (day.targetElement ==
-                            //       CalendarElement.appointment) {
-                            //     Meeting appointment = day.appointments![0];
-                            //     if (appointment.selected) {
-                            //       mySesionController.getToken(
-                            //           appointment.teacher, appointment.student);
-                            //     }
-                            //   }
-                            // });
-                          },
                         )),
                 ],
               ),
@@ -160,43 +324,19 @@ class _SessionsShowState extends State<SessionsShow> {
           ],
         ),
       ),
-      bottomNavigationBar: Obx(
-        () => subscribitionController.isLoadingsession.isTrue
-            ? Text('')
-            : Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      child: Text("Start", style: TextStyle(fontSize: sp(14))),
-                      onPressed: () async {},
-                    ),
-                    ElevatedButton(
-                      child: Text("change time",
-                          style: TextStyle(fontSize: sp(14))),
-                      onPressed: () async {},
-                    ),
-                    ElevatedButton(
-                      child: Text("rate", style: TextStyle(fontSize: sp(14))),
-                      onPressed: () async {
-                        //  Get.to(RateSession());
-
-                        Get.to(() => RateSession());
-                      },
-                    ),
-                  ],
-                )),
-      ),
     );
   }
 
   List<Meeting> _getNextSessions() {
+    showBottom = true;
+
     meetings.clear();
     for (var s in subscribitionController.sessions) {
       if (s.date != null && s.time != null) {
         DateTime sessionDateTime = DateTime.parse(s.date! + " " + s.time!);
-        if (sessionDateTime.isAfter(DateTime.now())) {
+        DateTime now = DateTime.now();
+        now = now.subtract(Duration(minutes: 29));
+        if (sessionDateTime.isAfter(now)) {
           int minutesUntilEvent = DateTime.parse(s.date! + " " + s.time!)
               .difference(DateTime.now())
               .inMinutes;
@@ -229,6 +369,7 @@ class _SessionsShowState extends State<SessionsShow> {
   }
 
   List<Meeting> _getOldSessions() {
+    showBottom = false;
     List<Meeting> meetings = [];
     DateTime now = DateTime.now();
 

@@ -13,9 +13,13 @@ import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart'
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
+import 'package:quranschool/pages/sessions/nextSession.dart';
+import 'package:quranschool/pages/sessions/st.dart';
 import 'package:quranschool/pages/sessions/videoConference.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
+import 'package:quranschool/pages/teacher/availability_input.dart';
+import 'package:quranschool/pages/teacher/model/availability_model.dart';
 
 import 'package:quranschool/translation/translation_page.dart';
 import 'package:flutter/material.dart';
@@ -239,6 +243,43 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     }),
               )),
 
+          ///
+          ///
+          // My Avaiability
+          ///
+          ///
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(Icons.add_box_rounded),
+                    title: Text('My Avaialiability'.tr),
+                    onTap: () async {
+                      // subscribitionController.getSessionsbyteaherID(
+                      //     currentUserController.currentUser.value.id,
+                      //     currentUserController.currentUser.value.userType);
+
+                      subscribitionController.getAvaiTimeOnly(
+                          currentUserController.currentUser.value.id);
+                       Get.to(AvailabilityInputPage());
+                    }),
+              )),
+
+          ///
+          ///
+          // My Meetings
+          ///
+          ///
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(Icons.play_arrow),
+                    title: Text('My Next Session'.tr),
+                    onTap: () async {
+                      mySesionController.getFirstSessionAfterNow();
+
+                      Get.to(NextSession());
+                    }),
+              )),
           // Obx(() => Visibility(
           //       visible: currentUserController.currentUser.value.id != -1,
           //       child: ListTile(
