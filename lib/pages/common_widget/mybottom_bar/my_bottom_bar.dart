@@ -34,8 +34,8 @@ mybottomBarWidget() {
         style: TabStyle.textIn,
         items: [
           TabItem(
-            activeIcon: Icon(Icons.home),
-            icon: Icon(Icons.home, color: Colors.grey),
+            activeIcon: Icon(Icons.account_box),
+            icon: Icon(Icons.account_box, color: Colors.grey),
             title: 'home'.tr,
           ),
           TabItem(

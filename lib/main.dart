@@ -28,9 +28,12 @@ import 'pages/splash/splash_screen.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 Future<void> main() async {
+  // for firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // firebase chat message
   await FirebaseMessaging.instance.getInitialMessage();
+  // online checking // located in core folder
   DependencyInjection.init();
   runApp(MyApp());
 }
@@ -40,10 +43,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Madraset Al Quran',
-      theme: LocalThemes.lightTheme,
+      theme: LocalThemes.lightTheme, // located in core folder
       debugShowCheckedModeBanner: false,
       // our home page is the splash
       home: SplashScreen(),
+      // this localization for calendar language
       localizationsDelegates: [
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -53,8 +53,6 @@ class _SplashScreenState extends State<SplashScreen> {
       provisional: false,
       sound: true,
     );
-
-    print('User granted permission: ${settings.authorizationStatus}');
   }
 
   void _checkSkipStatus() async {
@@ -69,6 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+// get FCM firebase token it should be fixed for login within the same device
   getToken() async {
     mytoken = await FirebaseMessaging.instance.getToken();
     //mytoken = 'await FirebaseMessaging.instance.getToken();';
@@ -76,8 +75,6 @@ class _SplashScreenState extends State<SplashScreen> {
       currentUserController.currentUser.value.accountToken = mytoken!;
       mytoken = mytoken;
     });
-    print('==================================');
-    print(currentUserController.currentUser.value.accountToken);
   }
 
   @override
@@ -88,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AnimatedSplashScreen.withScreenFunction(
-        animationDuration: const Duration(milliseconds: 800),
+        animationDuration: const Duration(milliseconds: 500),
         splashIconSize: sp(150),
         //duration: 2,
 

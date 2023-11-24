@@ -249,7 +249,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ///
           ///
           Obx(() => Visibility(
-                visible: currentUserController.currentUser.value.id != -1,
+                visible: currentUserController.currentUser.value.id != -1 &&
+                    currentUserController.currentUser.value.userType ==
+                        "teacher",
                 child: ListTile(
                     leading: Icon(Icons.add_box_rounded),
                     title: Text('My Avaialiability'.tr),
@@ -260,7 +262,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
                       subscribitionController.getAvaiTimeOnly(
                           currentUserController.currentUser.value.id);
-                       Get.to(AvailabilityInputPage());
+                      Get.to(AvailabilityInputPage());
                     }),
               )),
 
@@ -276,22 +278,22 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     title: Text('My Next Session'.tr),
                     onTap: () async {
                       mySesionController.getFirstSessionAfterNow();
-
+                      myBottomBarCtrl.selectedIndBottomBar.value = 2;
                       Get.to(NextSession());
                     }),
               )),
-          // Obx(() => Visibility(
-          //       visible: currentUserController.currentUser.value.id != -1,
-          //       child: ListTile(
-          //           leading: Icon(Icons.message),
-          //           title: Text('Chat'.tr),
-          //           onTap: () async {
-          //             chatController.getchatList();
-          //             Get.to(PeopleList());
-          //             // Get.to(
-          //             //     ChatDetail(friendName: 'Medhat', friendUid: 'user1'));
-          //           }),
-          //     )),
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(Icons.message),
+                    title: Text('Chat'.tr),
+                    onTap: () async {
+                      chatController.getchatList();
+                      Get.to(PeopleList());
+                      // Get.to(
+                      //     ChatDetail(friendName: 'Medhat', friendUid: 'user1'));
+                    }),
+              )),
 
           ///
           ///

@@ -15,8 +15,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(child: UserProfilePage(showbottombar: false)),
-      appBar: simplAppbar(true),
-      body: const Center(child: Text('Home')),
+      //appBar: simplAppbar(true),
+      body: UserProfilePage(showbottombar: false),
       bottomNavigationBar: mybottomBarWidget(),
     );
   }

@@ -210,7 +210,10 @@ class LoginController extends GetxController {
           // old USer read data
           User _regiuser = User.fromJson(response.data[0]);
           // get user profile and store data
+          var _token = userctrl.currentUser.value.accountToken;
           userctrl.currentUser.value = _regiuser;
+          userctrl.currentUser.value.accountToken = _token;
+          updateToken(_regiuser.id);
 
           storeUserData(userctrl.currentUser.value,
               'user'); // save UserID, User name , Phone Num

@@ -50,7 +50,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: h(5)),
+                SizedBox(height: h(3)),
 
                 FittedBox(
                   child: Text('CHANGE_PASSWORD'.tr,
@@ -264,10 +264,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ]),
 
                 Image.asset(
-                  "assets/images/hasr_logo.png",
+                  "assets/images/logo.png",
                   width: w(50),
                   height: h(30),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
 
                 SizedBox(height: h(1)),
