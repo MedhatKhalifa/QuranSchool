@@ -91,9 +91,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     var _user = currentUserController.currentUser.value;
                     registerController.registeruserdata.value = _user;
 
-                    //registerController.registeruserdata.value.enabledit = true;
+                    registerController.registeruserdata.value.enabledit = true;
+                    registerController.registeruserdata.value.updateOld = true;
                     print(registerController.registeruserdata);
-                    // Get.to(ProfileRegisterPage());
+                    Get.to(ProfileRegisterPage());
 
                     // mySnackbar('Failed'.tr, 'please_Loging_First'.tr, 'Error');
                   })

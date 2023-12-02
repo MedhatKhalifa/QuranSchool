@@ -11,6 +11,7 @@ class CurrentUserController extends GetxController {
   // Just this currentuser fetch User Model
   var currentUser = User().obs;
   var isLoading = false.obs;
+  var isEditable = true;
   @override
   void onInit() async {
     super.onInit();

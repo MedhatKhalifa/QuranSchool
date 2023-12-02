@@ -38,13 +38,11 @@ class _NextSessionState extends State<NextSession> {
   }
 
   void startTimer() {
-    const oneMinute = const Duration(minutes: 1);
+    const oneMinute = Duration(minutes: 1);
     _timer = Timer.periodic(oneMinute, (timer) {
       setState(() {
         // Calculate the remaining time
         int remainingMinutes = calculateDifferenceInMinutes(sessionDateTime);
-
-        // If the remaining time is zero or negative, stop the timer
         if (remainingMinutes <= 0) {
           timer.cancel();
         }
@@ -79,8 +77,8 @@ class _NextSessionState extends State<NextSession> {
             : ListView(
                 children: [
                   SizedBox(height: h(20)),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Center(
                         child: Text('Your next Session will start after')),
                   ),
@@ -98,7 +96,7 @@ class _NextSessionState extends State<NextSession> {
                                 mySesionController.nextSession.value.teacher,
                                 mySesionController.nextSession.value.student);
                           },
-                          child: Text(' Join Session ')),
+                          child: const Text(' Join Session ')),
                     )
                 ],
               ),

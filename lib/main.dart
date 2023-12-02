@@ -17,6 +17,7 @@ import 'package:quranschool/pages/search/detail_search.dart';
 import 'package:quranschool/pages/search/search_page2.dart';
 import 'package:quranschool/pages/student/subscription/price_list.dart';
 import 'package:quranschool/pages/student/subscription/teacher_calendar.dart';
+import 'package:quranschool/test_page.dart';
 import 'package:quranschool/translation/translate_ctrl.dart';
 import 'package:quranschool/translation/translation.dart';
 import 'package:quranschool/translation/translation_page.dart';

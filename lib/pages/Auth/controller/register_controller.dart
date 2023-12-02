@@ -22,6 +22,7 @@ class RegisterController extends GetxController {
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
   final PhoneController phoneController = Get.put(PhoneController());
+  //final RegisterController registerController = Get.put(RegisterController());
 
   final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
   var registeruserdata = User().obs;
@@ -225,6 +226,73 @@ class RegisterController extends GetxController {
         //final responseData = json.decode(response.data);
         User _regiuser = User.fromJson(response.data);
 
+        currentUserController.currentUser.value = _regiuser;
+
+        storeUserData(currentUserController.currentUser.value,
+            'user'); // save UserID, User name , Phone Num
+        myBottomBarCtrl.selectedIndBottomBar.value = 0;
+        Get.offAll(HomePage());
+      } else {
+        mySnackbar("Failed".tr, "validate_data".tr, "Error");
+      }
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future UpdateoldProfile(User userProfile) async {
+    // var f = _loadUserData('user');
+    // print(f);
+
+    //return Get.offAll(ProfileRegisterPage());
+
+    try {
+      isLoading(true);
+      var dio = Dio(); // DIO is library to deal with APIs
+
+      //registeruserdata.value.accountType = registeruserdata.value.showType;
+      String _url = profileUrl;
+
+      if (currentUserController.currentUser.value.id != -1 &&
+          currentUserController.currentUser.value.id != null) {
+        _url =
+            _url + "/" + currentUserController.currentUser.value.id.toString();
+      }
+      // var response = await (currentUserController.currentUser.value.id != null
+      //     ? dio.put
+      //     : dio.post)
+
+      var response = await dio.put(
+        profileUrl +
+            "/" +
+            currentUserController.currentUser.value.id.toString() +
+            '/',
+        data: {
+          'username': currentUserController
+              .currentUser.value.username, //registeruserdata.value.username,
+          // 'email': userProfile.email,
+          // 'phoneNumber': userProfile.phoneNumber,
+          'fullName': userProfile.fullName,
+          'accountToken': userProfile.accountToken,
+          'country': userProfile.country,
+          'birthYear': userProfile.birthYear,
+          'gender': userProfile.gender,
+          'city': userProfile.city,
+          // 'token': currentUserController.currentUser.value.token,
+        },
+        options: Options(
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 505;
+          },
+          //headers: {},
+        ),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        //final responseData = json.decode(response.data);
+        User _regiuser = User.fromJson(response.data);
+        //  registerController.registeruserdata.value.updateOld = false;
         currentUserController.currentUser.value = _regiuser;
 
         storeUserData(currentUserController.currentUser.value,
