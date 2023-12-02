@@ -132,6 +132,7 @@ class SubscribitionController extends GetxController {
               selectedTeacher.value.user!.fullName +
               "Teacher user Name is" +
               selectedTeacher.value.user!.username,
+          'remainingSessions': selectedPayement.value.sessionCount,
 
           //'gender': 'male',
         },

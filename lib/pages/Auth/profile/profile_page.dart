@@ -90,9 +90,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
                     var _user = currentUserController.currentUser.value;
                     registerController.registeruserdata.value = _user;
-
-                    registerController.registeruserdata.value.enabledit = true;
                     registerController.registeruserdata.value.updateOld = true;
+                    registerController.registeruserdata.value.enabledit = true;
+                    currentUserController.currentUser.value.updateOld = true;
+                    registerController.registeruserdata.value =
+                        currentUserController.currentUser.value;
+                    registerController.registeruserdata =
+                        currentUserController.currentUser;
                     print(registerController.registeruserdata);
                     Get.to(ProfileRegisterPage());
 

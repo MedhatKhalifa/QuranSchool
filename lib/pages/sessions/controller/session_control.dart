@@ -27,14 +27,18 @@ class MySesionController extends GetxController {
   var meetings = <Meeting>[].obs;
   var token = "".obs;
   var channelname = "".obs;
+  var feedbackEdit = false.obs;
 
   var isLoading = false.obs;
   var isNextSessionloading = false.obs;
+  var remainingSessions = -1.obs;
   var isScreenSharing = false.obs;
   var selectedMeeting = Meeting("", DateTime.now(), DateTime.now(),
           Colors.black, true, true, -1, -1, -1, "", -1, "", -1)
       .obs;
+
   var nextSession = Session().obs;
+  var selectedSession = Session().obs;
 
   var diffMinutes = 0.obs;
   // late Rx<AgoraClient> agoraclient = AgoraClient(
@@ -108,6 +112,52 @@ class MySesionController extends GetxController {
     return sessions;
   }
 
+  Future updateSessiondata(id,
+      [String? sessionStatus,
+      bool? teacherAttendance,
+      int? studentRate,
+      String? teacherOpinion,
+      bool? studentAttendance,
+      int? teacherRank,
+      String? review]) async {
+    String? _url;
+
+    _url = updateSessionUrl + id.toString() + "/";
+
+    isLoading.value = true;
+    var dio = Dio();
+    var response = await dio.put(
+      _url!,
+      data: {
+        if (sessionStatus != null) 'sessionStatus': sessionStatus,
+        if (teacherAttendance != null) 'teacherAttendance': teacherAttendance,
+        if (studentRate != null) 'studentRate': studentRate,
+        if (teacherOpinion != null) 'teacherOpinion': teacherOpinion,
+        if (studentAttendance != null) 'studentAttendance': studentAttendance,
+        if (teacherRank != null) 'teacherRank': teacherRank,
+        if (review != null) 'review': review,
+
+        //'accountToken': userctrl.currentUser.value.accountToken,
+      },
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+    } else {
+      isLoading.value = false;
+      _failmessage(response);
+    }
+    isLoading.value = false;
+    return sessions;
+  }
+
   Future updateMySession(Meeting _meeting) async {
     String? _url;
 
@@ -173,15 +223,96 @@ class MySesionController extends GetxController {
       // Return the first session after the current time, if any
       if (futureSessions.isNotEmpty) {
         nextSession.value = futureSessions.first;
+        selectedSession.value = futureSessions.first;
         final DateTime sessionDateTime = DateTime.parse(
             '${nextSession.value.date} ${nextSession.value.time}');
         final Duration difference = sessionDateTime.difference(now);
         diffMinutes.value = difference.inMinutes;
+        // get remaining sessions
+        getRemainingsessions(nextSession.value.studentSubscription);
+      } else {
+        diffMinutes.value = -1000002; // no Feature Sessions
+        isNextSessionloading.value = false;
       }
+    } else {
+      diffMinutes.value = -1000001; // No old nor future sesssion
+      isNextSessionloading.value = false;
     }
+  }
+
+// get Remaining sessions
+
+  Future getRemainingsessions(studentSubscriptionID) async {
+    String? _url;
+
+    isNextSessionloading.value = true;
+    var dio = Dio();
+
+    var response = await dio.get(
+      studentsubscriptionsUrl + studentSubscriptionID.toString() + '/',
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 600;
+        },
+        //headers: {},
+      ),
+    );
+    print(studentsubscriptionsUrl + studentSubscriptionID.toString() + '/');
+    if (response.statusCode == 200) {
+      //playerId
+      print(response.data['remainingSessions']);
+      remainingSessions = response.data['remainingSessions'];
+
+      isNextSessionloading.value = false;
+    } else {
+      //isLoading.value = false;
+      _failmessage(response);
+    }
+    // isLoading.value = false;
     isNextSessionloading.value = false;
   }
 
+  // update remaining of student subcribtion
+
+  Future updateRemainingsessions(studentSubscriptionID) async {
+    String? _url;
+
+    isNextSessionloading.value = true;
+    var dio = Dio();
+
+    var response = await dio.put(
+      studentsubscriptionsUrl + studentSubscriptionID.toString() + '/',
+      data: {'remainingSessions': remainingSessions - 1},
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 600;
+        },
+        //headers: {},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      //playerId
+
+      remainingSessions = response.data['data']['remainingSessions'];
+
+      isNextSessionloading.value = false;
+    } else {
+      //isLoading.value = false;
+      _failmessage(response);
+    }
+    // isLoading.value = false;
+    isNextSessionloading.value = false;
+  }
+
+////////
+  ///
+  ///
+  ///
+  ///
+  ///
   Future getToken(teacherID, studentID) async {
     String? _url;
 
@@ -211,6 +342,15 @@ class MySesionController extends GetxController {
         channelname.value = response.data['data']['channelname'];
         Get.to(VideoScreenCall(
             channelName: channelname.value, token: token.value));
+
+        if (nextSession.value.teacherAttendance == false &&
+            currentUserController.currentUser.value.userType == "teacher") {
+          updateRemainingsessions(nextSession.value.id);
+        }
+        currentUserController.currentUser.value.userType == "teacher"
+            ? updateSessiondata(nextSession.value.id, null, true)
+            : updateSessiondata(
+                nextSession.value.id, null, null, null, null, true);
         // Enable video and screen sharing
 
         // //create an instance of the Agora engine

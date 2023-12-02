@@ -28,6 +28,11 @@ class _NextSessionState extends State<NextSession> {
       sessionDateTime = DateTime.parse(
           '${mySesionController.nextSession.value.date} ${mySesionController.nextSession.value.time}');
       startTimer();
+    } else {
+      _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+        // Your timer logic here
+        print("Timer is running...");
+      });
     }
   }
 
@@ -62,45 +67,51 @@ class _NextSessionState extends State<NextSession> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: simplAppbar(false, "Your next session"),
-      body: Obx(
-        () => mySesionController.isNextSessionloading.isTrue
-            ? Center(
-                child: LoadingBouncingGrid.circle(
-                  borderColor: mybrowonColor,
-                  backgroundColor: Colors.white,
-                  // borderSize: 3.0,
-                  // size: sp(20),
-                  // backgroundColor: Color(0xff112A04),
-                  //  duration: Duration(milliseconds: 500),
-                ),
-              )
-            : ListView(
-                children: [
-                  SizedBox(height: h(20)),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Center(
-                        child: Text('Your next Session will start after')),
-                  ),
-                  Center(
-                      child: SlideCountdown(
-                    duration:
-                        Duration(minutes: mySesionController.diffMinutes.value),
-                  )),
-                  if (remainingMinutes < 100000)
-                    Padding(
-                      padding: const EdgeInsets.all(25),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            mySesionController.getToken(
-                                mySesionController.nextSession.value.teacher,
-                                mySesionController.nextSession.value.student);
-                          },
-                          child: const Text(' Join Session ')),
-                    )
-                ],
+      body: Obx(() => mySesionController.isNextSessionloading.isTrue
+          ? Center(
+              child: LoadingBouncingGrid.circle(
+                borderColor: mybrowonColor,
+                backgroundColor: Colors.white,
+                // borderSize: 3.0,
+                // size: sp(20),
+                // backgroundColor: Color(0xff112A04),
+                //  duration: Duration(milliseconds: 500),
               ),
-      ),
+            )
+          : mySesionController.diffMinutes.value == -1000001
+              ? Center(child: Text(' Please Subscribe first '))
+              : mySesionController.diffMinutes.value == -1000002
+                  ? Center(
+                      child: Text(' Please renew your subscribtion  first '))
+                  : ListView(
+                      children: [
+                        SizedBox(height: h(20)),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(
+                              child:
+                                  Text('Your next Session will start after')),
+                        ),
+                        Center(
+                            child: SlideCountdown(
+                          duration: Duration(
+                              minutes: mySesionController.diffMinutes.value),
+                        )),
+                        if (remainingMinutes < 100000)
+                          Padding(
+                            padding: const EdgeInsets.all(25),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  mySesionController.getToken(
+                                      mySesionController
+                                          .nextSession.value.teacher,
+                                      mySesionController
+                                          .nextSession.value.student);
+                                },
+                                child: const Text(' Join Session ')),
+                          ),
+                      ],
+                    )),
       bottomNavigationBar: mybottomBarWidget(),
     );
   }

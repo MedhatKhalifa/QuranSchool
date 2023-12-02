@@ -309,6 +309,31 @@ class _SessionsShowState extends State<SessionsShow> {
                               print(day.targetElement);
                               mySesionController.selectedMeeting.value =
                                   day.appointments![0];
+                              if (mySesionController
+                                      .selectedMeeting.value.eventName !=
+                                  "No Evaluation") {
+                                mySesionController
+                                        .selectedSession.value.studentRate =
+                                    mySesionController
+                                        .selectedMeeting.value.studentRate;
+                                mySesionController.selectedSession.value.id =
+                                    mySesionController.selectedMeeting.value.id;
+                                mySesionController
+                                        .selectedSession.value.teacherRank =
+                                    mySesionController
+                                        .selectedMeeting.value.teacherRank;
+                                mySesionController
+                                        .selectedSession.value.review =
+                                    mySesionController
+                                        .selectedMeeting.value.review;
+                                mySesionController
+                                        .selectedSession.value.teacherOpinion =
+                                    mySesionController
+                                        .selectedMeeting.value.teacherOpinion;
+                                mySesionController.feedbackEdit.value = false;
+                                Get.to(RateSession());
+                              }
+
                               print(mySesionController.selectedMeeting);
                               // setState(() {
                               //   if (day.targetElement ==
@@ -383,12 +408,21 @@ class _SessionsShowState extends State<SessionsShow> {
         DateTime sessionDateTime = DateTime.parse(s.date! + " " + s.time!);
         if (sessionDateTime.isBefore(now) &&
             !sessionDateTime.isAfter(now.subtract(Duration(minutes: 30)))) {
+          String _label = s.studentRate == -1
+              ? "No Evaluation"
+              : "evaluation : " + s.studentRate.toString();
+          if (currentUserController.currentUser.value.userType == "teacher") {
+            _label = s.teacherRank == -1
+                ? "No Evaluation"
+                : "evaluation : " + s.teacherRank.toString();
+          }
+
           meetings.add(Meeting(
-              s.sessionStatus!,
+              _label,
               DateTime.parse(s.date! + " " + s.time!),
               DateTime.parse(s.date! + " " + s.time!)
                   .add(Duration(minutes: 30)),
-              Colors.grey,
+              _label == "No Evaluation" ? Colors.grey : Colors.green,
               false,
               false,
               s.teacher!,

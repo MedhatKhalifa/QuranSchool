@@ -26,7 +26,7 @@ class Meeting {
   int student;
   int studentRate;
   String teacherOpinion;
-  double teacherRank;
+  int teacherRank;
   String review;
   int id;
 }

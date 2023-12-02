@@ -2,10 +2,15 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/size_config.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/home_page/view/home_page.dart';
+import 'package:quranschool/pages/sessions/controller/session_control.dart';
+import 'package:quranschool/pages/sessions/nextSession.dart';
+import 'package:quranschool/pages/sessions/rate.dart';
 
 // const appId = "65a5460ed6af49978a85479fdd87fa13";
 // const token =
@@ -297,6 +302,9 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     agoraEngine.release();
   }
 
+  ///////
+  ///
+  final MySesionController mySesionController = Get.put(MySesionController());
 ///////////////////////////////////////////////////////////////////////////////////////
 // - start Widgets
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -417,6 +425,26 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                       ],
                     ),
                   ),
+
+                // X Icon at the top-right corner
+                Positioned(
+                  top: 20.0,
+                  right: 20.0,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ), // Change to the desired icon
+                    onPressed: () {
+                      // Implement the action you want when the X icon is pressed
+                      _cleanupAgoraResources();
+                      mySesionController.getFirstSessionAfterNow();
+
+                      mySesionController.feedbackEdit.value = true;
+                      Get.to(RateSession());
+                    },
+                  ),
+                ),
               ],
             ),
           );

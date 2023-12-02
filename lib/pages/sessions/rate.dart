@@ -16,7 +16,7 @@ class RateSession extends StatefulWidget {
 class _RateSessionState extends State<RateSession> {
   int rating = 0;
   String comment = '';
-  bool isReadOnly = false;
+
   final MySesionController mySesionController = Get.put(MySesionController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -25,31 +25,28 @@ class _RateSessionState extends State<RateSession> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (mySesionController.selectedMeeting.value.id != -1) {
+    if (!mySesionController.feedbackEdit.value) {
       if (currentUserController.currentUser.value.userType == "student") {
-        rating = mySesionController.selectedMeeting.value.studentRate.toInt();
-        comment = mySesionController.selectedMeeting.value.teacherOpinion;
+        rating = mySesionController.selectedSession.value.studentRate!.toInt();
+        comment = mySesionController.selectedSession.value.teacherOpinion!;
       } else if (currentUserController.currentUser.value.userType ==
           "teacher") {
-        rating = mySesionController.selectedMeeting.value.teacherRank.toInt();
-        comment = mySesionController.selectedMeeting.value.review;
+        rating = mySesionController.selectedSession.value.teacherRank!.toInt();
+        comment = mySesionController.selectedSession.value.review!;
       }
-      isReadOnly = true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Rate Us'),
-      ),
+      appBar: simplAppbar(true),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            isReadOnly
+            !mySesionController.feedbackEdit.value
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -85,7 +82,7 @@ class _RateSessionState extends State<RateSession> {
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
-            isReadOnly
+            !mySesionController.feedbackEdit.value
                 ? Text(
                     comment,
                     style: TextStyle(fontSize: 16),
@@ -105,11 +102,14 @@ class _RateSessionState extends State<RateSession> {
                     ),
                   ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                submitFeedback();
-              },
-              child: Text('Submit'),
+            Visibility(
+              visible: mySesionController.feedbackEdit.value,
+              child: ElevatedButton(
+                onPressed: () {
+                  submitFeedback();
+                },
+                child: Text('Submit'),
+              ),
             ),
           ],
         ),
@@ -123,6 +123,23 @@ class _RateSessionState extends State<RateSession> {
     // For demonstration purposes, we'll print the data.
     print('Rating: $rating');
     print('Comment: $comment');
+
+    currentUserController.currentUser.value.userType == "teacher"
+        ? mySesionController.updateSessiondata(
+            mySesionController.selectedSession.value.id,
+            'Done',
+            true,
+            rating,
+            comment)
+        : mySesionController.updateSessiondata(
+            mySesionController.selectedSession.value.id,
+            'Done',
+            null,
+            null,
+            null,
+            true,
+            rating,
+            comment);
     Get.to(HomePage());
 
     // You can add further logic here, like displaying a thank you message or navigating to another screen.

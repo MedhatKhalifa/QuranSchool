@@ -22,6 +22,9 @@ const String sessionStudentUrl = "${db_url1}session/check?student=";
 const String subscriptionsUrl = "${db_url1}subscription/subscriptions/";
 const String tokenUrl = "${db_url1}agora/livestream/";
 const String studsubUrl = "${db_url1}student_subscription/check?";
+
+const String studentsubscriptionsUrl =
+    "${db_url1}student_subscription/studentsubscriptions/";
 const String createstudentsubscriptionsUrl =
     "${db_url1}student_subscription/studentsubscriptions/";
 const String updateSessionUrl = "${db_url1}/session/sessions/";

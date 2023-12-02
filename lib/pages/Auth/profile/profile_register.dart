@@ -40,9 +40,9 @@ class ProfileRegisterPage extends StatefulWidget {
 }
 
 class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
-  final Translatectrl translatectrl = Get.put(Translatectrl());
+  //final Translatectrl translatectrl = Get.put(Translatectrl());
   final RegisterController registerController = Get.put(RegisterController());
-  final PhoneController phoneController = Get.put(PhoneController());
+  //final PhoneController phoneController = Get.put(PhoneController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
   final _formKey = GlobalKey<FormState>();
@@ -683,8 +683,8 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                       }
                                       form.save();
 
-                                      registerController
-                                              .registeruserdata.value.updateOld
+                                      currentUserController
+                                              .currentUser.value.updateOld
                                           ? await registerController
                                               .UpdateoldProfile(
                                                   registerController
