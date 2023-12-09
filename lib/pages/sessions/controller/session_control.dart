@@ -296,7 +296,7 @@ class MySesionController extends GetxController {
     if (response.statusCode == 200) {
       //playerId
 
-      remainingSessions = response.data['data']['remainingSessions'];
+      remainingSessions = response.data['remainingSessions'];
 
       isNextSessionloading.value = false;
     } else {
@@ -345,7 +345,7 @@ class MySesionController extends GetxController {
 
         if (nextSession.value.teacherAttendance == false &&
             currentUserController.currentUser.value.userType == "teacher") {
-          updateRemainingsessions(nextSession.value.id);
+          updateRemainingsessions(nextSession.value.studentSubscription);
         }
         currentUserController.currentUser.value.userType == "teacher"
             ? updateSessiondata(nextSession.value.id, null, true)

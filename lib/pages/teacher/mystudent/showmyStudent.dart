@@ -5,25 +5,26 @@ import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/login_controller.dart';
+import 'package:quranschool/pages/chat/chat_details.dart';
 import 'package:quranschool/pages/chat/controller/chat_controller.dart';
 import 'package:quranschool/pages/chat/models/studentsubscription_model.dart';
 import 'package:quranschool/pages/chat/models/userChat_model.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 
-import 'chat_details.dart';
-import 'firebase_api.dart';
-
-class PeopleList extends StatefulWidget {
-  const PeopleList({Key? key}) : super(key: key);
+class ShowMyStudent extends StatefulWidget {
+  const ShowMyStudent({Key? key}) : super(key: key);
 
   @override
-  State<PeopleList> createState() => _PeopleListState();
+  State<ShowMyStudent> createState() => _ShowMyStudentState();
 }
 
-class _PeopleListState extends State<PeopleList> {
+class _ShowMyStudentState extends State<ShowMyStudent> {
   final ChatController chatController = Get.put(ChatController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
+
+  final LoginController loginController = Get.put(LoginController());
 
   // Add a TextEditingController for the search query
   final TextEditingController searchController = TextEditingController();
@@ -40,7 +41,7 @@ class _PeopleListState extends State<PeopleList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simplAppbar(true, " People List "),
+      appBar: simplAppbar(true, " My Students "),
       body: Column(
         children: [
           // Add a TextField for search
@@ -73,22 +74,8 @@ class _PeopleListState extends State<PeopleList> {
                         return Card(
                           child: ListTile(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatDetail(
-                                    friendName: chatController
-                                        .filteredFriends[index].friendUsername,
-                                    friendUid: chatController
-                                        .filteredFriends[index].friendtID,
-                                    currentuserName: currentUserController
-                                        .currentUser.value.username,
-                                    currentuserid: currentUserController
-                                        .currentUser.value.id
-                                        .toString(),
-                                  ),
-                                ),
-                              );
+                              loginController.getStudentProfile(chatController
+                                  .filteredFriends[index].friendtID);
                             },
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(

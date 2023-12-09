@@ -20,6 +20,7 @@ import 'package:quranschool/pages/student/subscription/control/subscription_cont
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
 import 'package:quranschool/pages/teacher/availability_input.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
+import 'package:quranschool/pages/teacher/mystudent/showmyStudent.dart';
 
 import 'package:quranschool/translation/translation_page.dart';
 import 'package:flutter/material.dart';
@@ -245,6 +246,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           currentUserController.currentUser.value.id,
                           currentUserController.currentUser.value.userType);
                       Get.to(SessionsShow());
+                    }),
+              )),
+
+          ///
+          ///
+          // My Avaiability
+          ///
+          ///
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1 &&
+                    currentUserController.currentUser.value.userType ==
+                        "teacher",
+                child: ListTile(
+                    leading: Icon(Icons.people),
+                    title: Text('My Students'.tr),
+                    onTap: () async {
+                      Get.to(ShowMyStudent());
                     }),
               )),
 

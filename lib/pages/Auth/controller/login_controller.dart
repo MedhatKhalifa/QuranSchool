@@ -153,6 +153,40 @@ class LoginController extends GetxController {
     }
   }
 
+  Future getStudentProfile(userID) async {
+    try {
+      isLoading(true);
+      var dio = Dio();
+
+      var response = await dio.get(
+        profileUrl + userID.toString() + "/",
+        options: Options(
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 600;
+          },
+          //headers: {},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        User _regiuser = User.fromJson(response.data);
+        // get user profile and store data
+        userctrl.currentUser.value = _regiuser;
+
+        registerController.registeruserdata.value = _regiuser;
+        registerController.registeruserdata.value.updateOld = false;
+        registerController.registeruserdata.value.enabledit = false;
+        currentUserController.currentUser.value.updateOld = false;
+        Get.to(ProfileRegisterPage());
+      } else {
+        mySnackbar('Failed'.tr, 'Error'.tr, false);
+      }
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future chdeckGmailUsername(userCredential) async {
     // var f = _loadUserData('user');
     // print(f);

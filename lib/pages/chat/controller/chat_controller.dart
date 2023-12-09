@@ -16,6 +16,14 @@ class ChatController extends GetxController {
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
 
+// Add an observable for filtered friends
+  var filteredFriends = <StudSubModel>[].obs;
+
+  // Add a method to update filtered friends
+  void updateFilteredFriends(List<StudSubModel> filteredList) {
+    filteredFriends.assignAll(filteredList);
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -93,6 +101,7 @@ class ChatController extends GetxController {
 
         setUnreadMessages(unreadFriends);
         sortStudSubModels();
+        updateFilteredFriends(studSubdata);
         print(studSubdata);
       }
       // Now  call Session
