@@ -54,7 +54,7 @@ class _TeacherCalendarShowState extends State<TeacherCalendarShow> {
       appBar: simplAppbar(
           true, subscribitionController.selectedTeacher.value.user!.fullName),
       body: Obx(
-        () => subscribitionController.isLoadingAvail.isTrue
+        () => subscribitionController.isLoadingmeetings.isTrue
             ? Center(
                 child: LoadingBouncingGrid.circle(
                   borderColor: mybrowonColor,

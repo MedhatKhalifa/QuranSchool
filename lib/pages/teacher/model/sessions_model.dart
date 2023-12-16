@@ -44,8 +44,8 @@ class Session {
   });
 
   Session.fromJson(Map<String, dynamic> json) {
-    teacherAttendance = json['teacherAttendance'] ?? "No";
-    studentAttendance = json['studentAttendance'] ?? "No";
+    teacherAttendance = json['teacherAttendance'] ?? false;
+    studentAttendance = json['studentAttendance'] ?? false;
     sessionStatus = json['sessionStatus'] ?? "";
     teacherOpinion = json['teacherOpinion'] ?? "";
     date = json['date'] ?? "";

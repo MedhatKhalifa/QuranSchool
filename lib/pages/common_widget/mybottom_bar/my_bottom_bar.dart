@@ -13,6 +13,7 @@ import 'package:quranschool/pages/search/search_page2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
+import 'package:quranschool/pages/teacher/mystudent/showmyStudent.dart';
 import 'package:quranschool/pages/teacher/studentSearch/searchStudent.dart';
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
 
@@ -77,9 +78,12 @@ mybottomBarWidget() {
           if (index == 0) {
             Get.to(const HomePage());
           } else if (index == 1) {
-            currentUserController.currentUser.value.userType == "teacher"
-                ? Get.to(SearchStudent())
-                : Get.to(SearchPage2());
+            if (currentUserController.currentUser.value.userType == "teacher") {
+              chatController.getchatList();
+              Get.to(ShowMyStudent());
+            } else {
+              Get.to(SearchPage2());
+            }
           } else if (index == 2) {
             mySesionController.getFirstSessionAfterNow();
 

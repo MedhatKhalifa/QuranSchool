@@ -41,7 +41,6 @@ class ProfileRegisterPage extends StatefulWidget {
 
 class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
   //final Translatectrl translatectrl = Get.put(Translatectrl());
-  final RegisterController registerController = Get.put(RegisterController());
   //final PhoneController phoneController = Get.put(PhoneController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -76,7 +75,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
     mytoken = await FirebaseMessaging.instance.getToken();
     setState(() {
       currentUserController.currentUser.value.accountToken = mytoken!;
-      registerController.registeruserdata.value.accountToken = mytoken!;
+      currentUserController.tempUser.value.accountToken = mytoken!;
       mytoken = mytoken;
     });
   }
@@ -100,7 +99,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
         _selected = selected;
         String formattedDate = DateFormat('yyyy').format(selected);
         dateinput.text = formattedDate;
-        registerController.registeruserdata.value.birthYear =
+        currentUserController.tempUser.value.birthYear =
             int.parse(formattedDate);
       });
     } else {
@@ -123,9 +122,9 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
     // TODO: implement initState
     super.initState();
 
-    if (registerController.registeruserdata.value.birthYear != -1)
+    if (currentUserController.tempUser.value.birthYear != -1)
       dateinput.text =
-          registerController.registeruserdata.value.birthYear.toString();
+          currentUserController.tempUser.value.birthYear.toString();
     else {
       dateinput.text = "";
     }
@@ -194,18 +193,16 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                     ///-----------------> Change or Add Photo
                     ///
                     ///
-                    badgeContent: registerController
-                            .registeruserdata.value.enabledit
+                    badgeContent: currentUserController.tempUser.value.enabledit
                         ? IconButton(
-                            icon: registerController
-                                        .registeruserdata.value.image ==
-                                    ""
-                                ? Icon(Icons.add)
-                                : Icon(Icons.edit),
+                            icon:
+                                currentUserController.tempUser.value.image == ""
+                                    ? Icon(Icons.add)
+                                    : Icon(Icons.edit),
                             onPressed: () async {
                               try {
-                                registerController.registeruserdata.value
-                                    .imagechanged = false;
+                                currentUserController
+                                    .tempUser.value.imagechanged = false;
                                 _imageload = false;
 
                                 _imagexpick = await _picker.pickImage(
@@ -220,10 +217,10 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
 
                                   final bytes =
                                       File(_imagexpick!.path).readAsBytesSync();
-                                  registerController.registeruserdata.value
-                                      .image = base64Encode(bytes);
-                                  registerController.registeruserdata.value
-                                      .imagechanged = true;
+                                  currentUserController.tempUser.value.image =
+                                      base64Encode(bytes);
+                                  currentUserController
+                                      .tempUser.value.imagechanged = true;
                                 });
                               } catch (e) {
                                 setState(() {
@@ -246,8 +243,8 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
 
                       //backgroundColor: Color(0xffFDCF09),
                       child: _imageload &&
-                              registerController
-                                      .registeruserdata.value.image.length >
+                              currentUserController
+                                      .tempUser.value.image.length >
                                   1000
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -258,16 +255,15 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                 // fit: BoxFit.contain,
                               ),
                             )
-                          : registerController.registeruserdata.value.image !=
-                                  ''
+                          : currentUserController.tempUser.value.image != ''
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: CachedNetworkImage(
                                     width: sp(120),
                                     height: sp(120),
                                     fit: BoxFit.contain,
-                                    imageUrl: db_url +
-                                        '${registerController.registeruserdata.value.image}',
+                                    imageUrl:
+                                        '${currentUserController.tempUser.value.image}',
                                     progressIndicatorBuilder: (context, url,
                                             downloadProgress) =>
                                         CircularProgressIndicator(
@@ -300,9 +296,10 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                   ///=======================================================================
                   // Name
                   TextFormField(
+                    enabled: currentUserController.tempUser.value.enabledit,
                     initialValue:
-                        registerController.registeruserdata.value.fullName != ""
-                            ? registerController.registeruserdata.value.fullName
+                        currentUserController.tempUser.value.fullName != ""
+                            ? currentUserController.tempUser.value.fullName
                             : null,
                     validator: (value) {
                       if (value == null || value.isEmpty || value.length < 1) {
@@ -310,8 +307,8 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                       }
                       return null;
                     },
-                    onSaved: (val) => registerController
-                        .registeruserdata.value.fullName = val!,
+                    onSaved: (val) =>
+                        currentUserController.tempUser.value.fullName = val!,
 
                     //autofocus: false,
                     // Text Style
@@ -366,14 +363,17 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                           leading: Radio(
                             activeColor: textbuttonColor,
                             value: 'male',
-                            groupValue: registerController
-                                .registeruserdata.value.gender,
-                            onChanged: (value) {
-                              setState(() {
-                                registerController.registeruserdata.value
-                                    .gender = value.toString();
-                              });
-                            },
+                            groupValue:
+                                currentUserController.tempUser.value.gender,
+                            onChanged:
+                                currentUserController.tempUser.value.enabledit
+                                    ? (value) {
+                                        setState(() {
+                                          currentUserController.tempUser.value
+                                              .gender = value.toString();
+                                        });
+                                      }
+                                    : null,
                           ),
                         ),
                       ),
@@ -385,14 +385,17 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                           leading: Radio(
                             value: 'female',
                             activeColor: textbuttonColor,
-                            groupValue: registerController
-                                .registeruserdata.value.gender,
-                            onChanged: (value) {
-                              setState(() {
-                                registerController.registeruserdata.value
-                                    .gender = value.toString();
-                              });
-                            },
+                            groupValue:
+                                currentUserController.tempUser.value.gender,
+                            onChanged:
+                                currentUserController.tempUser.value.enabledit
+                                    ? (value) {
+                                        setState(() {
+                                          currentUserController.tempUser.value
+                                              .gender = value.toString();
+                                        });
+                                      }
+                                    : null,
                           ),
                         ),
                       ),
@@ -462,10 +465,11 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             color: mybrowonColor), //icon of text field
                         labelText: "Birth date" //label text of field
                         ),
-                    readOnly:
-                        true, //set it true, so that user will not able to edit text
+                    readOnly: !currentUserController.tempUser.value
+                        .enabledit, //set it true, so that user will not able to edit text
                     onTap: () async {
-                      _onPressedBirthDate(context: context);
+                      if (currentUserController.tempUser.value.enabledit)
+                        _onPressedBirthDate(context: context);
                     },
                   ),
                   SizedBox(height: sp(10)),
@@ -496,21 +500,18 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             ),
                           );
                         }).toList(),
-                        value: registerController
-                                    .registeruserdata.value.country !=
-                                ""
-                            ? registerController.registeruserdata.value.country
-                            : null,
-                        hint: registerController
-                                    .registeruserdata.value.country !=
-                                ""
-                            ? registerController.registeruserdata.value.country
+                        value:
+                            currentUserController.tempUser.value.country != ""
+                                ? currentUserController.tempUser.value.country
+                                : null,
+                        hint: currentUserController.tempUser.value.country != ""
+                            ? currentUserController.tempUser.value.country
                             : "country_hint".tr,
                         searchHint: "Search with English Keywords".tr,
                         displayClearIcon: false,
                         onChanged: (value) {
                           setState(() {
-                            registerController.registeruserdata.value.country =
+                            currentUserController.tempUser.value.country =
                                 value;
                             _listofcity = listof_city(value);
                           });
@@ -531,13 +532,12 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                         ),
                     Expanded(
                       child: SearchChoices.single(
-                        readOnly: !registerController
-                            .registeruserdata.value.enabledit,
+                        readOnly:
+                            !currentUserController.tempUser.value.enabledit,
 
-                        icon:
-                            registerController.registeruserdata.value.enabledit
-                                ? Icon(Icons.arrow_drop_down)
-                                : Text(''),
+                        icon: currentUserController.tempUser.value.enabledit
+                            ? Icon(Icons.arrow_drop_down)
+                            : Text(''),
                         //label: Icon(Icons.location_history),
 
                         items: _listofcity
@@ -550,17 +550,15 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             ),
                           );
                         }).toList(),
-                        value:
-                            registerController.registeruserdata.value.city != ""
-                                ? registerController.registeruserdata.value.city
-                                : null,
+                        value: currentUserController.tempUser.value.city != ""
+                            ? currentUserController.tempUser.value.city
+                            : null,
                         hint: "city_hint".tr,
                         searchHint: "Search with English Keywords",
                         displayClearIcon: false,
                         onChanged: (value) {
                           setState(() {
-                            registerController.registeruserdata.value.city =
-                                value;
+                            currentUserController.tempUser.value.city = value;
                           });
                         },
                         isExpanded: true,
@@ -578,13 +576,12 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             mybrowonColor), //Icon(Icons.flag,color:Colors.white70),
                     Expanded(
                       child: SearchChoices.single(
-                        readOnly: !registerController
-                            .registeruserdata.value.enabledit,
+                        readOnly:
+                            !currentUserController.tempUser.value.enabledit,
 
-                        icon:
-                            registerController.registeruserdata.value.enabledit
-                                ? Icon(Icons.arrow_drop_down)
-                                : Text(''),
+                        icon: currentUserController.tempUser.value.enabledit
+                            ? Icon(Icons.arrow_drop_down)
+                            : Text(''),
                         //label: Icon(Icons.location_history),
 
                         items: nationalitylist
@@ -597,19 +594,18 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             ),
                           );
                         }).toList(),
-                        value: registerController
-                                    .registeruserdata.value.nationality !=
+                        value: currentUserController
+                                    .tempUser.value.nationality !=
                                 ""
-                            ? registerController
-                                .registeruserdata.value.nationality
+                            ? currentUserController.tempUser.value.nationality
                             : null,
                         hint: "nationality_hint".tr,
                         searchHint: "Search with English Keywords".tr,
                         displayClearIcon: false,
                         onChanged: (value) {
                           setState(() {
-                            registerController
-                                .registeruserdata.value.nationality = value;
+                            currentUserController.tempUser.value.nationality =
+                                value;
                           });
                         },
                         isExpanded: true,
@@ -621,35 +617,38 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                   //=============Terms And Condition ===========================================
                   //=======================================================================
 
-                  Row(
-                    children: [
-                      Material(
-                        child: Checkbox(
-                          activeColor: mybrowonColor,
-                          value: acceptedTerms,
-                          onChanged: _toggleAcceptance,
+                  Visibility(
+                    visible: currentUserController.tempUser.value.enabledit,
+                    child: Row(
+                      children: [
+                        Material(
+                          child: Checkbox(
+                            activeColor: mybrowonColor,
+                            value: acceptedTerms,
+                            onChanged: _toggleAcceptance,
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        child: Text(
-                            'I have read and accept terms and conditions',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: termsWarningEnable
-                                    ? Colors.red
-                                    : mybrowonColor)),
-                        onPressed: () {
-                          Get.to(TermsCondition());
-                        },
-                      )
-                    ],
+                        TextButton(
+                          child: Text(
+                              'I have read and accept terms and conditions',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: termsWarningEnable
+                                      ? Colors.red
+                                      : mybrowonColor)),
+                          onPressed: () {
+                            Get.to(TermsCondition());
+                          },
+                        )
+                      ],
+                    ),
                   ),
 
                   ///=======================================================================
                   ///==================== Register button========================================
                   ///=======================================================================
                   SizedBox(height: sp(12)),
-                  Obx(() => registerController.isLoading.isTrue
+                  Obx(() => currentUserController.isLoading.isTrue
                       ? LoadingFlipping.circle(
                           borderColor: clickIconColor,
                           borderSize: 3.0,
@@ -657,77 +656,53 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                           //backgroundColor: const Color(0xff112A04),
                           duration: const Duration(milliseconds: 500),
                         )
-                      : SizedBox(
-                          width: w(60),
-                          child:
-                              // our local Elvated Button (text , color , onpress:(){})
-                              ElevatedButton(
-                                  child: Text('Sign_up'.tr,
-                                      style: TextStyle(fontSize: sp(20))),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Color(0xFFFD8C00))),
-                                  onPressed: () async {
-                                    ///=====================
-                                    /// OTP Check ===================
-                                    // =======================
+                      : Visibility(
+                          visible:
+                              currentUserController.tempUser.value.enabledit,
+                          child: SizedBox(
+                            width: w(60),
+                            child:
+                                // our local Elvated Button (text , color , onpress:(){})
+                                ElevatedButton(
+                                    child: Text('Sign_up'.tr,
+                                        style: TextStyle(fontSize: sp(20))),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Color(0xFFFD8C00))),
+                                    onPressed: () async {
+                                      ///=====================
+                                      /// OTP Check ===================
+                                      // =======================
 
-                                    final form = _formKey.currentState;
-                                    if (form!.validate()) {
-                                      if (acceptedTerms == false) {
-                                        setState(() {
-                                          termsWarningEnable = true;
-                                        });
-                                        return;
+                                      final form = _formKey.currentState;
+                                      if (form!.validate()) {
+                                        if (acceptedTerms == false) {
+                                          setState(() {
+                                            termsWarningEnable = true;
+                                          });
+                                          return;
+                                        }
+                                        form.save();
+
+                                        currentUserController
+                                                .currentUser.value.updateOld
+                                            ? await currentUserController
+                                                .UpdateoldProfile(
+                                                    currentUserController
+                                                        .tempUser.value)
+                                            : await currentUserController
+                                                .profileUpdate(
+                                                    currentUserController
+                                                        .tempUser.value);
+                                      } else {
+                                        mySnackbar(
+                                            'Invalid'.tr,
+                                            'invalid_num_or_already_exist'.tr,
+                                            false);
                                       }
-                                      form.save();
-
-                                      currentUserController
-                                              .currentUser.value.updateOld
-                                          ? await registerController
-                                              .UpdateoldProfile(
-                                                  registerController
-                                                      .registeruserdata.value)
-                                          : await registerController
-                                              .profileUpdate(registerController
-                                                  .registeruserdata.value);
-
-                                      // Get.to(() => PhoneSMSHandler());
-
-                                      // =======================
-                                      /// check Phonenumber and send OTP===================
-                                      // =======================
-
-                                      // phoneController.usernum.value =
-                                      //     registerController
-                                      //         .registeruserdata.value.phoneNumber;
-
-                                      // var resp = await phoneController
-                                      //     .verifyPhone(registerController
-                                      //         .registeruserdata
-                                      //         .value
-                                      //         .phoneNumber);
-                                      // await SmsAutoFill().listenForCode;
-                                      // Get.to(const OtpDialogue());
-
-                                      //  active the below \\\\\\\ <------------------------------------
-                                      // registerController.chdeck_number(
-                                      //     registerController.registeruserdata
-                                      //         .value.phoneNumber);
-
-                                      // var resp = await phoneController.verifyPhone(
-                                      //     registerController
-                                      //         .registeruserdata.value.phoneNumber);
-                                      // await SmsAutoFill().listenForCode;
-                                      // Get.to(const OtpDialogue());
-                                    } else {
-                                      mySnackbar(
-                                          'Invalid'.tr,
-                                          'invalid_num_or_already_exist'.tr,
-                                          false);
-                                    }
-                                  }),
+                                    }),
+                          ),
                         )),
                   SizedBox(height: sp(5)),
 

@@ -2,6 +2,7 @@ import 'package:argon_buttons_flutter_fix/argon_buttons_flutter.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:quranschool/core/theme.dart';
+import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/translation/translate_ctrl.dart';
 
 import 'package:quranschool/pages/common_widget/error_snackbar.dart';
@@ -26,7 +27,9 @@ class OtpDialogue extends StatefulWidget {
 class _OtpDialogueState extends State<OtpDialogue> {
   final _formKey = GlobalKey<FormState>();
   final PhoneController phoneController = Get.put(PhoneController());
-  final RegisterController registerController = Get.put(RegisterController());
+  final CurrentUserController currentUserController =
+      Get.put(CurrentUserController());
+
   final _formKeyotp = GlobalKey<FormState>();
   CountDownController _controller = CountDownController();
   int _duration = 60;
@@ -135,11 +138,11 @@ class _OtpDialogueState extends State<OtpDialogue> {
                                 fillColor: Colors.white,
                               ),
                               initialCountryCode: 'EG',
-                              initialValue: registerController
-                                  .registeruserdata.value.phoneNumber,
+                              initialValue: currentUserController
+                                  .tempUser.value.phoneNumber,
                               onChanged: (phone) {
-                                registerController
-                                        .registeruserdata.value.phoneNumber =
+                                currentUserController
+                                        .tempUser.value.phoneNumber =
                                     phone.completeNumber.toString();
                               },
                             ),
@@ -218,7 +221,6 @@ class _OtpDialogueState extends State<OtpDialogue> {
 
                                 if (otpcorrect) {
                                   phoneController.otpcorrect(false);
-                                  //await registerController.registeruser();
                                 } else {
                                   mySnackbar(
                                       'Failed'.tr, 'error_data'.tr, false);
@@ -232,7 +234,7 @@ class _OtpDialogueState extends State<OtpDialogue> {
 
                                   if (otpcorrect) {
                                     phoneController.otpcorrect(false);
-                                    await registerController.registeruser();
+                                    await currentUserController.registeruser();
                                   } else {
                                     mySnackbar(
                                         'Failed'.tr, 'error_data'.tr, false);
@@ -243,33 +245,6 @@ class _OtpDialogueState extends State<OtpDialogue> {
                             ),
                           ),
                         )),
-
-                    // Obx(() => Visibility(
-                    //       visible:
-                    //           phoneController.authStatus.value == 'OTP_Sent',
-                    //       child: ElevatedButton(
-                    //         child: Text(
-                    //           'submit'.tr,
-                    //         ),
-                    //         onPressed: () async {
-                    //           // final form2 = _formKeyotp.currentState;
-                    //           // if (form2!.validate()) {
-                    //           //   form2.save();
-                    //           // phoneController.verifyPhone("+201022645564");
-
-                    //           var otpcorrect = await phoneController
-                    //               .otpVerify(phoneController.userotp.value);
-
-                    //           if (otpcorrect) {
-                    //             phoneController.otpcorrect(false);
-                    //             await registerController.registeruser();
-                    //           } else {
-                    //             Get.snackbar("Invalid", 'user error');
-                    //           }
-                    //           // }
-                    //         },
-                    //       ),
-                    //     )),
 
                     ///=======================================================================
                     ///==================== Timer  ========================================
@@ -381,10 +356,8 @@ class _OtpDialogueState extends State<OtpDialogue> {
                                           if (btnState == ButtonState.Idle) {
                                             startTimer(120);
                                             await phoneController.verifyPhone(
-                                                registerController
-                                                    .registeruserdata
-                                                    .value
-                                                    .phoneNumber);
+                                                currentUserController.tempUser
+                                                    .value.phoneNumber);
                                           }
                                         },
                                         // initialTimer: 10,

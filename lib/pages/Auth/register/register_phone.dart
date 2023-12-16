@@ -27,7 +27,6 @@ class RegisterPhonePage extends StatefulWidget {
 
 class _RegisterPhonePageState extends State<RegisterPhonePage> {
   final Translatectrl translatectrl = Get.put(Translatectrl());
-  final RegisterController registerController = Get.put(RegisterController());
   final PhoneController phoneController = Get.put(PhoneController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -140,8 +139,8 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                         }
                         return null;
                       },
-                      onSaved: (val) => registerController
-                          .registeruserdata.value.fullName = val!,
+                      onSaved: (val) =>
+                          currentUserController.tempUser.value.fullName = val!,
 
                       //autofocus: false,
                       // Text Style
@@ -192,8 +191,8 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                         }
                         return null;
                       },
-                      onSaved: (val) => registerController
-                          .registeruserdata.value.fullName = val!,
+                      onSaved: (val) =>
+                          currentUserController.tempUser.value.fullName = val!,
 
                       //autofocus: false,
                       // Text Style
@@ -244,7 +243,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                       ),
                       initialCountryCode: 'EG',
                       onChanged: (phone) {
-                        registerController.registeruserdata.value.phoneNumber =
+                        currentUserController.tempUser.value.phoneNumber =
                             phone.completeNumber.toString();
                       },
                     ),
@@ -313,8 +312,8 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                     /// Password
                     TextFormField(
                       style: TextStyle(fontSize: sp(10), color: Colors.black),
-                      onSaved: (val) => registerController
-                          .registeruserdata.value.password = val!,
+                      onSaved: (val) =>
+                          currentUserController.tempUser.value.password = val!,
 
                       validator: (val) => val!.length < 2 || val != _password
                           ? 'password_are_not_matching'.tr
@@ -361,7 +360,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                     ///==================== Register button========================================
                     ///=======================================================================
                     SizedBox(height: sp(12)),
-                    Obx(() => registerController.isLoading.isTrue
+                    Obx(() => currentUserController.isLoading.isTrue
                         ? LoadingFlipping.circle(
                             borderColor: clickIconColor,
                             borderSize: 3.0,
@@ -388,33 +387,20 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                                       final form = _formKey.currentState;
                                       if (form!.validate()) {
                                         form.save();
-                                        // await registerController.registeruser();
-                                        // Get.to(() => PhoneSMSHandler());
-
-                                        // =======================
-                                        /// check Phonenumber and send OTP===================
-                                        // =======================
-
-                                        // phoneController.usernum.value =
-                                        //     registerController
-                                        //         .registeruserdata.value.phoneNumber;
 
                                         var resp = await phoneController
-                                            .verifyPhone(registerController
-                                                .registeruserdata
-                                                .value
-                                                .phoneNumber);
+                                            .verifyPhone(currentUserController
+                                                .tempUser.value.phoneNumber);
                                         await SmsAutoFill().listenForCode;
                                         Get.to(const OtpDialogue());
 
                                         //  active the below \\\\\\\ <------------------------------------
-                                        // registerController.chdeck_number(
-                                        //     registerController.registeruserdata
+                                        // currentUserController.chdeck_number(
+                                        //     currentUserController.tempUser
                                         //         .value.phoneNumber);
 
                                         // var resp = await phoneController.verifyPhone(
-                                        //     registerController
-                                        //         .registeruserdata.value.phoneNumber);
+                                        //    currentUserController.tempUser.value.phoneNumber);
                                         // await SmsAutoFill().listenForCode;
                                         // Get.to(const OtpDialogue());
                                       } else {

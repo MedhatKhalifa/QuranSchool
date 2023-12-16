@@ -39,6 +39,9 @@ class ChatController extends GetxController {
 // Get Availity First then Get Sessions then generate Meeting to be showed
   Future getchatList() async {
     isLoading.value = true;
+    studSubdata.clear();
+    filteredFriends.clear();
+
     // String? _url;
     // if (currentUserController.currentUser.value.userType == "teacher") {
     //   _url = studsubUrl +currentUserController.currentUser.value.userType+"="+studsubUrl +currentUserController.currentUser.value.id.toString();

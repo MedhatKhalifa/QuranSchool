@@ -27,7 +27,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final Translatectrl translatectrl = Get.put(Translatectrl());
-  final RegisterController registerController = Get.put(RegisterController());
   final PhoneController phoneController = Get.put(PhoneController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -104,9 +103,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                   onSaved: (val) =>
-                      registerController.registeruserdata.value.username = val!,
+                      currentUserController.tempUser.value.username = val!,
                   onChanged: (val) =>
-                      registerController.registeruserdata.value.username = val,
+                      currentUserController.tempUser.value.username = val,
 
                   //autofocus: false,
                   // Text Style
@@ -160,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   initialCountryCode: 'EG',
                   onChanged: (phone) {
-                    registerController.registeruserdata.value.phoneNumber =
+                    currentUserController.tempUser.value.phoneNumber =
                         phone.completeNumber.toString();
                   },
                 ),
@@ -229,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextFormField(
                   style: TextStyle(fontSize: sp(10), color: Colors.black),
                   onSaved: (val) =>
-                      registerController.registeruserdata.value.password = val!,
+                      currentUserController.tempUser.value.password = val!,
 
                   validator: (val) => val!.length < 2 || val != _password
                       ? 'password_are_not_matching'.tr
@@ -275,7 +274,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ///==================== Register button========================================
                 ///=======================================================================
                 SizedBox(height: sp(12)),
-                Obx(() => registerController.isLoading.isTrue
+                Obx(() => currentUserController.isLoading.isTrue
                     ? LoadingFlipping.circle(
                         borderColor: clickIconColor,
                         borderSize: 3.0,
@@ -299,35 +298,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                   final form = _formKey.currentState;
                                   if (form!.validate()) {
                                     form.save();
-                                    // await registerController.registeruser();
-                                    // Get.to(() => PhoneSMSHandler());
-
-                                    // =======================
-                                    /// check Phonenumber and send OTP===================
-                                    // =======================
-
-                                    // phoneController.usernum.value =
-                                    //     registerController
-                                    //         .registeruserdata.value.phoneNumber;
-
-                                    // var resp = await phoneController
-                                    //     .verifyPhone(registerController
-                                    //         .registeruserdata
-                                    //         .value
-                                    //         .phoneNumber);
-                                    // await SmsAutoFill().listenForCode;
-                                    // Get.to(const OtpDialogue());
 
 //  active the below \\\\\\\ <------------------------------------
-                                    registerController.chdeckUsername(
-                                        registerController
-                                            .registeruserdata.value.phoneNumber,
-                                        registerController
-                                            .registeruserdata.value.username);
+                                    currentUserController.chdeckUsername(
+                                        currentUserController
+                                            .tempUser.value.phoneNumber,
+                                        currentUserController
+                                            .tempUser.value.username);
 
                                     // var resp = await phoneController.verifyPhone(
-                                    //     registerController
-                                    //         .registeruserdata.value.phoneNumber);
+                                    //    currentUserController.tempUser.value.phoneNumber);
                                     // await SmsAutoFill().listenForCode;
                                     // Get.to(const OtpDialogue());
                                   } else {

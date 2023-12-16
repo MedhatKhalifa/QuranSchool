@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/common_widget/local_colors.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/Auth/Model/users.dart';
@@ -25,7 +26,6 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final Translatectrl translatectrl = Get.put(Translatectrl());
-  final RegisterController registerController = Get.put(RegisterController());
   final PhoneController phoneController = Get.put(PhoneController());
 
   final ForgerPassController forgerPassController =
@@ -279,7 +279,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ///==================== Register button========================================
                         ///=======================================================================
                         SizedBox(height: sp(12)),
-                        Obx(() => registerController.isLoading.isTrue
+                        Obx(() => currentUserController.isLoading.isTrue
                             ? LoadingFlipping.circle(
                                 borderColor: clickIconColor,
                                 borderSize: 3.0,
@@ -315,18 +315,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       // forgerPassController.resetPassword.value =
                                       //     _password;
                                       forgerPassController.chdeck_number();
-
-                                      // var resp = await phoneController
-                                      //     .verifyPhone(registerController
-                                      //         .registeruserdata
-                                      //         .value
-                                      //         .phoneNumber);
-                                      // await SmsAutoFill().listenForCode;
-                                      //    Get.to(const OtpForgetPassPage());
-                                      // var resp = await phoneController
-                                      //     .verifyPhone(_user.phoneNumber);
-
-                                      // Get.to(OtpForgetPassPage());
                                     }
                                   },
                                 ),

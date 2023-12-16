@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/login_controller.dart';
@@ -10,6 +11,7 @@ import 'package:quranschool/pages/chat/chat_details.dart';
 import 'package:quranschool/pages/chat/controller/chat_controller.dart';
 import 'package:quranschool/pages/chat/models/studentsubscription_model.dart';
 import 'package:quranschool/pages/chat/models/userChat_model.dart';
+import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 
 class ShowMyStudent extends StatefulWidget {
@@ -41,7 +43,7 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simplAppbar(true, " My Students "),
+      appBar: simplAppbar(false, " My Students "),
       body: Column(
         children: [
           // Add a TextField for search
@@ -71,6 +73,10 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
                   : ListView.builder(
                       itemCount: chatController.filteredFriends.length,
                       itemBuilder: (context, index) {
+                        print(
+                          db_url +
+                              chatController.filteredFriends[index].friendImage,
+                        );
                         return Card(
                           child: ListTile(
                             onTap: () {
@@ -79,8 +85,9 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
                             },
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(
-                                chatController
-                                    .filteredFriends[index].friendImage,
+                                db_url +
+                                    chatController
+                                        .filteredFriends[index].friendImage,
                               ),
                             ),
                             title: Text(
@@ -114,6 +121,7 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
           ),
         ],
       ),
+      bottomNavigationBar: mybottomBarWidget(),
     );
   }
 }

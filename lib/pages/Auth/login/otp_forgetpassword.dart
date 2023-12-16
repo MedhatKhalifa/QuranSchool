@@ -26,7 +26,6 @@ class OtpForgetPassPage extends StatefulWidget {
 class _OtpForgetPassPageState extends State<OtpForgetPassPage> {
   final _formKey = GlobalKey<FormState>();
   final PhoneController phoneController = Get.put(PhoneController());
-  final RegisterController registerController = Get.put(RegisterController());
   final ForgerPassController forgerPassController =
       Get.put(ForgerPassController());
   final _formKeyotp = GlobalKey<FormState>();

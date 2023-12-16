@@ -63,7 +63,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
-  final RegisterController registerController = Get.put(RegisterController());
 
   String? mytoken;
 

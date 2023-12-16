@@ -21,7 +21,6 @@ class LoginController extends GetxController {
   final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
-  final RegisterController registerController = Get.put(RegisterController());
 
   @override
   void onInit() {
@@ -174,9 +173,9 @@ class LoginController extends GetxController {
         // get user profile and store data
         userctrl.currentUser.value = _regiuser;
 
-        registerController.registeruserdata.value = _regiuser;
-        registerController.registeruserdata.value.updateOld = false;
-        registerController.registeruserdata.value.enabledit = false;
+        currentUserController.tempUser.value = _regiuser;
+        currentUserController.tempUser.value.updateOld = false;
+        currentUserController.tempUser.value.enabledit = false;
         currentUserController.currentUser.value.updateOld = false;
         Get.to(ProfileRegisterPage());
       } else {
@@ -219,25 +218,24 @@ class LoginController extends GetxController {
         if (response.data.isEmpty) {
           //userExist.value = false;
           // New User Should go to UserProfile
-          registerController.registeruserdata.value.fullName =
+          currentUserController.tempUser.value.fullName =
               userCredential.user!.displayName ?? "";
-          registerController.registeruserdata.value.username =
+          currentUserController.tempUser.value.username =
               userCredential.user!.email ?? "-1";
-          registerController.registeruserdata.value.email =
+          currentUserController.tempUser.value.email =
               userCredential.user!.email.toString() ?? "";
-          registerController.registeruserdata.value.phoneNumber =
+          currentUserController.tempUser.value.phoneNumber =
               userCredential.user!.phoneNumber ?? "";
 
           print("Signed in: ${userCredential.user?.displayName}");
           currentUserController.currentUser.value =
-              registerController.registeruserdata.value;
+              currentUserController.tempUser.value;
 
           storeUserData(currentUserController.currentUser.value,
               'user'); // save UserID, User name , Phone Num
           myBottomBarCtrl.selectedIndBottomBar.value = 0;
-          registerController.registeruserdata =
-              currentUserController.currentUser;
-          registerController.registeruserdata.value.enabledit = true;
+          currentUserController.tempUser = currentUserController.currentUser;
+          currentUserController.tempUser.value.enabledit = true;
           Get.offAll(ProfileRegisterPage());
           // Navigate to the next screen or perform necessary actions.
         } else {

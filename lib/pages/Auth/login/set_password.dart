@@ -5,6 +5,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/pages/Auth/controller/forgetPassword_controller.dart';
+import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/common_widget/local_colors.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/Auth/Model/users.dart';
@@ -24,7 +25,6 @@ class SetNewPassword extends StatefulWidget {
 
 class _SetNewPasswordState extends State<SetNewPassword> {
   final Translatectrl translatectrl = Get.put(Translatectrl());
-  final RegisterController registerController = Get.put(RegisterController());
   final PhoneController phoneController = Get.put(PhoneController());
 
   final ForgerPassController forgerPassController =
@@ -178,7 +178,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   ///==================== set password button========================================
                   ///=======================================================================
                   SizedBox(height: sp(12)),
-                  Obx(() => registerController.isLoading.isTrue
+                  Obx(() => currentUserController.isLoading.isTrue
                       ? LoadingFlipping.circle(
                           borderColor: clickIconColor,
                           borderSize: 3.0,

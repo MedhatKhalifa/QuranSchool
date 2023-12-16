@@ -51,7 +51,6 @@ final SubscribitionController subscribitionController =
 final MySesionController mySesionController = Get.put(MySesionController());
 final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 final ChatController chatController = Get.put(ChatController());
-final RegisterController registerController = Get.put(RegisterController());
 String _size = "";
 final _formKey = GlobalKey<FormState>();
 
@@ -90,15 +89,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     // Get.to(ProfileRegisterPage());
 
                     var _user = currentUserController.currentUser.value;
-                    registerController.registeruserdata.value = _user;
-                    registerController.registeruserdata.value.updateOld = true;
-                    registerController.registeruserdata.value.enabledit = true;
+                    currentUserController.tempUser.value = _user;
+                    currentUserController.tempUser.value.updateOld = true;
+                    currentUserController.tempUser.value.enabledit = true;
                     currentUserController.currentUser.value.updateOld = true;
-                    registerController.registeruserdata.value =
+                    currentUserController.tempUser.value =
                         currentUserController.currentUser.value;
-                    registerController.registeruserdata =
+                    currentUserController.tempUser =
                         currentUserController.currentUser;
-                    print(registerController.registeruserdata);
+                    print(currentUserController.tempUser);
                     Get.to(ProfileRegisterPage());
 
                     // mySnackbar('Failed'.tr, 'please_Loging_First'.tr, 'Error');
@@ -112,124 +111,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   onTap: () async {
                     Get.to(LoginPage());
                   })),
-          // ListTile(
-          //     leading: Icon(
-          //       Icons.video_call,
-          //       color: clickIconColor,
-          //     ),
-          //     title: Text('test Video Call'),
-          //     onTap: () async {
-          //       mySesionController.getToken();
 
-          //       Get.to(MyVideoCall());
-          //     }),
-
-          ///
-          ///
-          // Villa Size
-          ///
-          ///
-          // Obx(() => Visibility(
-          //       visible: currentUserController.currentUser.value.id != -1,
-          //       child: ListTile(
-          //           trailing: Text(
-          //             'edit'.tr,
-          //             style: TextStyle(color: textbuttonColor),
-          //           ),
-          //           leading: FaIcon(FontAwesomeIcons.houseUser),
-          //           title: Text('myarea_size'.tr +
-          //               ' ${currentUserController.currentUser.value.id.toString()} m2'),
-          //           onTap: () async {
-          //             Get.defaultDialog(
-          //                 backgroundColor: Colors.white.withOpacity(0.9),
-          //                 title: '',
-          //                 content: Form(
-          //                   key: _formKey,
-          //                   child: Column(
-          //                     mainAxisSize: MainAxisSize.min,
-          //                     children: [
-          //                       TextFormField(
-          //                         validator: (value) {
-          //                           if (value == null ||
-          //                               value.isEmpty ||
-          //                               int.parse(value) < 20) {
-          //                             return 'less_size_100'.tr;
-          //                           }
-          //                           return null;
-          //                         },
-          //                         initialValue: currentUserController
-          //                             .currentUser.value.id
-          //                             .toString(),
-          //                         onChanged: ((value) {
-          //                           setState(() {
-          //                             _size = value;
-          //                           });
-          //                         }),
-          //                         keyboardType: TextInputType.number,
-          //                         maxLines: 1,
-          //                         decoration: InputDecoration(
-          //                             labelText: 'enter_size'.tr + ' (m2)',
-          //                             hintMaxLines: 1,
-          //                             border: OutlineInputBorder(
-          //                                 borderSide: BorderSide(
-          //                                     color: Colors.green,
-          //                                     width: 4.0))),
-          //                       ),
-          //                       SizedBox(
-          //                         height: h(2),
-          //                       ),
-          //                       ElevatedButton(
-          //                         onPressed: () {
-          //                           final form = _formKey.currentState;
-          //                           if (form!.validate()) {
-          //                             form.save();
-
-          //                             if (_size != "") {
-          //                               currentUserController.currentUser.value
-          //                                   .id = int.parse(_size);
-
-          //                               currentUserController.updateUserData(
-          //                                   currentUserController
-          //                                       .currentUser.value);
-          //                               Navigator.of(context).pop();
-          //                               // Get.to(() => const UserProfilePage());
-
-          //                               setState(() {
-          //                                 currentUserController.currentUser
-          //                                     .value.id = int.parse(_size);
-          //                               });
-
-          //                               //Get.back();
-          //                             }
-          //                           }
-          //                         },
-          //                         child: Text('update_size'.tr),
-          //                       )
-          //                     ],
-          //                   ),
-          //                 ),
-          //                 radius: 10.0);
-          //           }),
-          //     )),
           Divider(),
-
-          ///
-          ///
-          // Change Password
-          ///
-          ///
-          Obx(() => Visibility(
-                visible: currentUserController.currentUser.value.id != -1,
-                child: ListTile(
-                    leading: Icon(
-                      Icons.lock_open,
-                      color: clickIconColor,
-                    ),
-                    title: Text('change_password'.tr),
-                    onTap: () async {
-                      Get.to(ChangePassword());
-                    }),
-              )),
 
           ///
           ///
@@ -259,23 +142,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     currentUserController.currentUser.value.userType ==
                         "teacher",
                 child: ListTile(
-                    leading: Icon(Icons.people),
-                    title: Text('My Students'.tr),
-                    onTap: () async {
-                      Get.to(ShowMyStudent());
-                    }),
-              )),
-
-          ///
-          ///
-          // My Avaiability
-          ///
-          ///
-          Obx(() => Visibility(
-                visible: currentUserController.currentUser.value.id != -1 &&
-                    currentUserController.currentUser.value.userType ==
-                        "teacher",
-                child: ListTile(
                     leading: Icon(Icons.add_box_rounded),
                     title: Text('My Avaialiability'.tr),
                     onTap: () async {
@@ -286,6 +152,25 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       subscribitionController.getAvaiTimeOnly(
                           currentUserController.currentUser.value.id);
                       Get.to(AvailabilityInputPage());
+                    }),
+              )),
+
+          ///
+          ///
+          // Chat
+          ///
+          ///
+
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(Icons.message),
+                    title: Text('Chat'.tr),
+                    onTap: () async {
+                      chatController.getchatList();
+                      Get.to(PeopleList());
+                      // Get.to(
+                      //     ChatDetail(friendName: 'Medhat', friendUid: 'user1'));
                     }),
               )),
 
@@ -305,16 +190,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       Get.to(NextSession());
                     }),
               )),
+
+          ///
+          ///
+          // My students
+          ///
+          ///
           Obx(() => Visibility(
-                visible: currentUserController.currentUser.value.id != -1,
+                visible: currentUserController.currentUser.value.id != -1 &&
+                    currentUserController.currentUser.value.userType ==
+                        "teacher",
                 child: ListTile(
-                    leading: Icon(Icons.message),
-                    title: Text('Chat'.tr),
+                    leading: Icon(Icons.people),
+                    title: Text('My Students'.tr),
                     onTap: () async {
                       chatController.getchatList();
-                      Get.to(PeopleList());
-                      // Get.to(
-                      //     ChatDetail(friendName: 'Medhat', friendUid: 'user1'));
+                      myBottomBarCtrl.selectedIndBottomBar.value = 1;
+                      Get.to(ShowMyStudent());
                     }),
               )),
 
@@ -349,6 +241,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
               onTap: () async {
                 Get.to(() => ContactUsPage());
               }),
+
+          ///
+          ///
+          // Change Password
+          ///
+          ///
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(
+                      Icons.lock_open,
+                      color: clickIconColor,
+                    ),
+                    title: Text('change_password'.tr),
+                    onTap: () async {
+                      Get.to(ChangePassword());
+                    }),
+              )),
 
           ///
           ///
