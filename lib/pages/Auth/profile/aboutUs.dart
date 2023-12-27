@@ -19,7 +19,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
       body: Center(
         child: Text('Quran School'.tr),
       ),
-      bottomNavigationBar: mybottomBarWidget(),
+      bottomNavigationBar: MybottomBar(),
     );
   }
 }

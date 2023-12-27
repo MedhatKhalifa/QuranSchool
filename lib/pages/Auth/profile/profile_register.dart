@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
@@ -28,9 +29,11 @@ import 'package:quranschool/pages/Auth/controller/phone_controller.dart';
 import 'package:quranschool/pages/Auth/controller/register_controller.dart';
 import 'package:quranschool/pages/Auth/login/login_page.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/translation/arabic.dart';
 import 'package:quranschool/translation/translate_ctrl.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -80,11 +83,41 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
     });
   }
 
+  ///
+  ///
+  Future<void> _showDatePicker(BuildContext context) async {
+    final DateTime initialDate =
+        DateTime(1990); // Set an initial date for the picker
+
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: _selected ?? DateTime(DateTime.now().year - 3),
+      firstDate: DateTime(DateTime.now().year - 80),
+      lastDate: DateTime(DateTime.now().year - 3),
+    );
+
+    if (selected != null) {
+      setState(() {
+        _selected = selected;
+        String formattedDate = DateFormat('yyyy').format(selected);
+        dateinput.text = formattedDate;
+        currentUserController.tempUser.value.birthYear =
+            int.parse(formattedDate);
+      });
+    } else {
+      print("Date is not selected");
+    }
+  }
+
 // press birthdate
   Future<void> _onPressedBirthDate({
     required BuildContext context,
     String? locale,
   }) async {
+    SfDateRangePicker(
+      view: DateRangePickerView.year,
+    );
+
     final localeObj = locale != null ? Locale(locale) : null;
     final selected = await showMonthYearPicker(
       context: context,
@@ -92,6 +125,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
       firstDate: DateTime(DateTime.now().year - 80),
       lastDate: DateTime(DateTime.now().year - 3),
       locale: localeObj,
+      // Use TextDirection.rtl for right-to-left
     );
 
     if (selected != null) {
@@ -132,7 +166,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
     if (currentUserController.currentUser.value.country != "") {
       try {
         var _checklist =
-            listof_city(currentUserController.currentUser.value.country);
+            listof_city(currentUserController.currentUser.value.country.tr);
         if (_checklist != null) {
           _listofcity = _checklist;
         }
@@ -148,7 +182,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
     final ImagePicker _picker = ImagePicker();
     SizeConfig().init(context);
     return Scaffold(
-      appBar: simplAppbar(true, "Profile"),
+      appBar: simplAppbar(true, "Profile".tr),
       // backgroundColor: Colors.transparent,
 
       ///=======================================================================
@@ -348,58 +382,66 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                   //=======================================================================
                   //=============Gender Male Female ===========================================
                   //=======================================================================
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text('Gender'.tr,
-                            style: TextStyle(color: graytextColor)),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: ListTile(
-                          title: Text('Male'.tr,
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text('Gender'.tr,
                               style: TextStyle(color: graytextColor)),
-                          leading: Radio(
-                            activeColor: textbuttonColor,
-                            value: 'male',
-                            groupValue:
-                                currentUserController.tempUser.value.gender,
-                            onChanged:
-                                currentUserController.tempUser.value.enabledit
-                                    ? (value) {
-                                        setState(() {
-                                          currentUserController.tempUser.value
-                                              .gender = value.toString();
-                                        });
-                                      }
-                                    : null,
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: ListTile(
+                            title: Text('Male'.tr,
+                                style: TextStyle(color: graytextColor)),
+                            leading: Radio(
+                              activeColor: textbuttonColor,
+                              value: 'male',
+                              groupValue:
+                                  currentUserController.tempUser.value.gender,
+                              onChanged:
+                                  currentUserController.tempUser.value.enabledit
+                                      ? (value) {
+                                          setState(() {
+                                            currentUserController.tempUser.value
+                                                .gender = value.toString();
+                                          });
+                                        }
+                                      : null,
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: ListTile(
-                          title: Text('Female'.tr,
-                              style: TextStyle(color: graytextColor)),
-                          leading: Radio(
-                            value: 'female',
-                            activeColor: textbuttonColor,
-                            groupValue:
-                                currentUserController.tempUser.value.gender,
-                            onChanged:
-                                currentUserController.tempUser.value.enabledit
-                                    ? (value) {
-                                        setState(() {
-                                          currentUserController.tempUser.value
-                                              .gender = value.toString();
-                                        });
-                                      }
-                                    : null,
+                        Expanded(
+                          flex: 3,
+                          child: ListTile(
+                            title: Text('Female'.tr,
+                                style: TextStyle(color: graytextColor)),
+                            leading: Radio(
+                              value: 'female',
+                              activeColor: textbuttonColor,
+                              groupValue:
+                                  currentUserController.tempUser.value.gender,
+                              onChanged:
+                                  currentUserController.tempUser.value.enabledit
+                                      ? (value) {
+                                          setState(() {
+                                            currentUserController.tempUser.value
+                                                .gender = value.toString();
+                                          });
+                                        }
+                                      : null,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          flex: 1,
+                          child: Text(''.tr,
+                              style: TextStyle(color: graytextColor)),
+                        ),
+                      ],
+                    ),
                   ),
 
                   // Row(
@@ -450,6 +492,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                   //=======================================================================
                   //=============Birth Date ===========================================
                   //=======================================================================
+
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty || value.length < 1) {
@@ -463,13 +506,14 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                     decoration: InputDecoration(
                         icon: Icon(Icons.calendar_today,
                             color: mybrowonColor), //icon of text field
-                        labelText: "Birth date" //label text of field
+                        labelText: "Birth_date".tr //label text of field
                         ),
                     readOnly: !currentUserController.tempUser.value
                         .enabledit, //set it true, so that user will not able to edit text
                     onTap: () async {
                       if (currentUserController.tempUser.value.enabledit)
-                        _onPressedBirthDate(context: context);
+                        _showDatePicker(context);
+                      //_onPressedBirthDate(context: context);
                     },
                   ),
                   SizedBox(height: sp(10)),
@@ -500,19 +544,26 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             ),
                           );
                         }).toList(),
+
                         value:
                             currentUserController.tempUser.value.country != ""
                                 ? currentUserController.tempUser.value.country
                                 : null,
                         hint: currentUserController.tempUser.value.country != ""
-                            ? currentUserController.tempUser.value.country
+                            ? currentUserController.tempUser.value.country.tr
                             : "country_hint".tr,
-                        searchHint: "Search with English Keywords".tr,
+                        searchHint: "Search_hint".tr,
                         displayClearIcon: false,
                         onChanged: (value) {
                           setState(() {
-                            currentUserController.tempUser.value.country =
-                                value;
+                            if (Get.locale?.languageCode == 'ar') {
+                              print('Arabic');
+                              currentUserController.tempUser.value.country =
+                                  getKeyFromValue(value);
+                            } else {
+                              currentUserController.tempUser.value.country =
+                                  value;
+                            }
                             _listofcity = listof_city(value);
                           });
                         },
@@ -551,14 +602,20 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                           );
                         }).toList(),
                         value: currentUserController.tempUser.value.city != ""
-                            ? currentUserController.tempUser.value.city
+                            ? currentUserController.tempUser.value.city.tr
                             : null,
                         hint: "city_hint".tr,
-                        searchHint: "Search with English Keywords",
+                        searchHint: "city_hint".tr,
                         displayClearIcon: false,
                         onChanged: (value) {
                           setState(() {
-                            currentUserController.tempUser.value.city = value;
+                            if (Get.locale?.languageCode == 'ar') {
+                              print('Arabic');
+                              currentUserController.tempUser.value.city =
+                                  getKeyFromValue(value);
+                            } else {
+                              currentUserController.tempUser.value.city = value;
+                            }
                           });
                         },
                         isExpanded: true,
@@ -594,18 +651,25 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             ),
                           );
                         }).toList(),
-                        value: currentUserController
-                                    .tempUser.value.nationality !=
-                                ""
-                            ? currentUserController.tempUser.value.nationality
-                            : null,
+                        value:
+                            currentUserController.tempUser.value.nationality !=
+                                    ""
+                                ? currentUserController
+                                    .tempUser.value.nationality.tr
+                                : null,
                         hint: "nationality_hint".tr,
-                        searchHint: "Search with English Keywords".tr,
+                        searchHint: "Search_hint".tr,
                         displayClearIcon: false,
                         onChanged: (value) {
                           setState(() {
-                            currentUserController.tempUser.value.nationality =
-                                value;
+                            if (Get.locale?.languageCode == 'ar') {
+                              print('Arabic');
+                              currentUserController.tempUser.value.nationality =
+                                  getKeyFromValue(value);
+                            } else {
+                              currentUserController.tempUser.value.nationality =
+                                  value;
+                            }
                           });
                         },
                         isExpanded: true,
@@ -618,19 +682,22 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                   //=======================================================================
 
                   Visibility(
-                    visible: currentUserController.tempUser.value.enabledit,
+                    visible: currentUserController.tempUser.value.enabledit &&
+                        currentUserController.currentUser.value.id == -1,
                     child: Row(
                       children: [
                         Material(
                           child: Checkbox(
                             activeColor: mybrowonColor,
-                            value: acceptedTerms,
+                            value: currentUserController
+                                    .currentUser.value.enabledit
+                                ? acceptedTerms
+                                : true,
                             onChanged: _toggleAcceptance,
                           ),
                         ),
                         TextButton(
-                          child: Text(
-                              'I have read and accept terms and conditions',
+                          child: Text('I_confirm_data'.tr,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   color: termsWarningEnable
@@ -664,8 +731,13 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                             child:
                                 // our local Elvated Button (text , color , onpress:(){})
                                 ElevatedButton(
-                                    child: Text('Sign_up'.tr,
-                                        style: TextStyle(fontSize: sp(20))),
+                                    child: currentUserController
+                                                .currentUser.value.id ==
+                                            -1
+                                        ? Text('Sign_up'.tr,
+                                            style: TextStyle(fontSize: sp(20)))
+                                        : Text('update'.tr,
+                                            style: TextStyle(fontSize: sp(20))),
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
@@ -676,6 +748,21 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                       // =======================
 
                                       final form = _formKey.currentState;
+                                      if (currentUserController
+                                              .tempUser.value.id !=
+                                          -1) {
+                                        currentUserController
+                                                .currentUser.value.updateOld
+                                            ? await currentUserController
+                                                .UpdateoldProfile(
+                                                    currentUserController
+                                                        .tempUser.value)
+                                            : await currentUserController
+                                                .profileUpdate(
+                                                    currentUserController
+                                                        .tempUser.value);
+                                        return;
+                                      }
                                       if (form!.validate()) {
                                         if (acceptedTerms == false) {
                                           setState(() {
@@ -696,10 +783,8 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                                     currentUserController
                                                         .tempUser.value);
                                       } else {
-                                        mySnackbar(
-                                            'Invalid'.tr,
-                                            'invalid_num_or_already_exist'.tr,
-                                            false);
+                                        mySnackbar('Invalid'.tr,
+                                            'error_user'.tr, false);
                                       }
                                     }),
                           ),

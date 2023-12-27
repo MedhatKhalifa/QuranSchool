@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 import 'package:quranschool/pages/intro/introudtion.dart';
@@ -75,6 +76,24 @@ class _SplashScreenState extends State<SplashScreen> {
       currentUserController.currentUser.value.accountToken = mytoken!;
       mytoken = mytoken;
     });
+
+    // Assuming you have a variable named 'currentUserController' and it has a user
+    // whose ID you want to check in the Firestore collection
+    String userId = currentUserController.currentUser.value.id.toString();
+
+    // Get a reference to the document
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('users').doc(userId);
+
+    // Use get() to retrieve the document
+    DocumentSnapshot docSnapshot = await docRef.get();
+
+    // Check if the document exists
+    if (docSnapshot.exists) {
+      currentUserController.currentUser.value.incomeMessage = true;
+      print('Document exists!');
+      // The document exists, you can access its data using docSnapshot.data()
+    }
   }
 
   @override

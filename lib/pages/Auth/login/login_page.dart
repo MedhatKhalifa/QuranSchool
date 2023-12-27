@@ -301,7 +301,7 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('or login with',
+                      Text('or_login_with'.tr,
                           style:
                               TextStyle(fontSize: sp(10), color: Colors.white)),
                       IconButton(
@@ -330,14 +330,14 @@ class _LoginPageState extends State<LoginPage> {
                         child: Center(
                           child: RichText(
                             text: TextSpan(
-                              text: "Don't have an account?",
+                              text: "no_account".tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: sp(8),
                               ),
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: 'Register Now',
+                                  text: 'register_now'.tr,
                                   style: TextStyle(
                                     fontSize: sp(8),
                                     color: Color(0xFFFD8C00),
@@ -354,7 +354,7 @@ class _LoginPageState extends State<LoginPage> {
                   ]),
                   SizedBox(height: sp(30)),
 
-                  Text("By signing up, you are agree with our ",
+                  Text("sing_agree".tr,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: sp(7),
@@ -364,7 +364,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Get.to(() => TermsCondition());
                       },
-                      child: Text('Terms & Conditions '.tr,
+                      child: Text('terms'.tr,
                           style: TextStyle(
                               fontSize: sp(8), color: Color(0xFFFD8C00)))),
                 ],

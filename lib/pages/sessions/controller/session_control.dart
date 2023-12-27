@@ -30,11 +30,11 @@ class MySesionController extends GetxController {
   var feedbackEdit = false.obs;
 
   var isLoading = false.obs;
-  var isNextSessionloading = false.obs;
+  var isNextSessionloading = true.obs;
   var remainingSessions = -1.obs;
   var isScreenSharing = false.obs;
   var selectedMeeting = Meeting("", DateTime.now(), DateTime.now(),
-          Colors.black, true, true, -1, -1, -1, "", -1, "", -1)
+          Colors.black, true, true, -1, -1, -1, "", -1, "", -1, "", "")
       .obs;
 
   var nextSession = Session().obs;
@@ -186,7 +186,15 @@ class MySesionController extends GetxController {
     );
     // List<Teacher> teachers = [];
     if (response.statusCode == 200) {
-      //playerId
+      // Send Notification to student
+      sendNotification(
+          _meeting.student,
+          "Session time changed to " +
+              DateFormat('HH:m').format(_meeting.from) +
+              " " +
+              DateFormat('HH:m').format(_meeting.from) +
+              " ",
+          "Change Session Time");
       subscribitionController.getSessionsbyteaherID(
           currentUserController.currentUser.value.id,
           currentUserController.currentUser.value.userType);
@@ -197,6 +205,41 @@ class MySesionController extends GetxController {
     }
     isLoading.value = false;
     return sessions;
+  }
+
+  /// Send Notification
+  ///
+  Future sendNotification(userprofileId, body, title) async {
+    isLoading.value = true;
+    var dio = Dio();
+    var response = await dio.post(
+      notificationUrl,
+      data: {
+        'body': body,
+        'title': title,
+        'userprofileId': userprofileId,
+        'imgUrl':
+            "https://i.ytimg.com/vi/m5WUPHRgdOA/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDwz-yjKEdwxvKjwMANGk5BedCOXQ",
+        'iconUrl':
+            'https://yt3.ggpht.com/ytc/AKedOLSMvoy4DeAVkMSAuiuaBdIGKC7a5Ib75bKzKO3jHg=s900-c-k-c0x00ffffff-no-rj',
+
+        //'accountToken': userctrl.currentUser.value.accountToken,
+      },
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200) {
+      // Send Notification to student
+    } else {
+      _failmessage(response);
+    }
+    isLoading.value = false;
   }
 
   getFirstSessionAfterNow() async {

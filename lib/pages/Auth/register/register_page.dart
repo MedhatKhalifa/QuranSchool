@@ -312,9 +312,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     // Get.to(const OtpDialogue());
                                   } else {
                                     mySnackbar(
-                                        'Invalid'.tr,
-                                        'invalid_num_or_already_exist'.tr,
-                                        false);
+                                        'Invalid'.tr, 'error_user'.tr, false);
                                   }
                                 },
                                 child: Text('Next'.tr,

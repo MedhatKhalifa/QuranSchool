@@ -55,7 +55,7 @@ class _ShowResultState extends State<ShowResult> {
                 ]);
               })
           : Text('No data')),
-      bottomNavigationBar: mybottomBarWidget(),
+      bottomNavigationBar: MybottomBar(),
     );
   }
 }

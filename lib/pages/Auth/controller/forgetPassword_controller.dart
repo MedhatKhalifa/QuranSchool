@@ -55,12 +55,12 @@ class ForgerPassController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        mySnackbar('Thanks'.tr, 'Password_changed_Successfuly'.tr, true);
+        mySnackbar('Thanks'.tr, 'pass_change_succ'.tr, true);
         // _redirectUser();
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
         Get.to(() => HomePage());
       } else {
-        mySnackbar('Failed'.tr, 'can_not_updated_password'.tr, false);
+        mySnackbar('Failed'.tr, 'pass_change_fail'.tr, false);
       }
     } finally {
       isLoading.value = false;
@@ -88,12 +88,12 @@ class ForgerPassController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        mySnackbar('Thanks'.tr, 'Password_changed_Successfuly'.tr, true);
+        mySnackbar('Thanks'.tr, 'pass_change_succ'.tr, true);
         // _redirectUser();
 
         Get.to(() => LoginPage());
       } else {
-        mySnackbar('Failed'.tr, 'can_not_updated_password'.tr, false);
+        mySnackbar('Failed'.tr, 'pass_change_fail'.tr, false);
       }
     } finally {
       isLoading.value = false;
@@ -128,7 +128,7 @@ class ForgerPassController extends GetxController {
           await SmsAutoFill().listenForCode;
           Get.to(OtpForgetPassPage());
         } else {
-          mySnackbar("Failed".tr, "invalid_num_or_username".tr, false);
+          mySnackbar("Failed".tr, "error_num".tr, false);
         }
       }
     } finally {

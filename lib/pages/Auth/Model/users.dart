@@ -51,6 +51,7 @@ class User {
     this.enabledit = true,
     this.imagechanged = false,
     this.updateOld = false,
+    this.incomeMessage = false,
   });
 
   int id;
@@ -73,6 +74,7 @@ class User {
   String image;
   bool imagechanged;
   bool updateOld;
+  bool incomeMessage;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"] ?? -1,

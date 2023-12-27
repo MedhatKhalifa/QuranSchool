@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quranschool/pages/Auth/controller/register_controller.dart';
 import 'package:quranschool/pages/Auth/login/change_password.dart';
 import 'package:quranschool/pages/Auth/login/forget_password.dart';
@@ -68,7 +69,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 visible: currentUserController.currentUser.value.id != -1,
                 child: Center(
                     child: Text(
-                        'Hi  ${currentUserController.currentUser.value.fullName}',
+                        'Hi'.tr +
+                            ' ${currentUserController.currentUser.value.fullName}',
                         style: TextStyle(
                             color: Colors.black38, fontSize: sp(17)))),
               )),
@@ -107,7 +109,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     Icons.login,
                     color: clickIconColor,
                   ),
-                  title: Text('Login/Register'),
+                  title: Text('Login_Register'.tr),
                   onTap: () async {
                     Get.to(LoginPage());
                   })),
@@ -123,7 +125,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
                     leading: Icon(Icons.calendar_month),
-                    title: Text('My Appointments'.tr),
+                    title: Text('appointments'.tr),
                     onTap: () async {
                       subscribitionController.getSessionsbyteaherID(
                           currentUserController.currentUser.value.id,
@@ -143,7 +145,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         "teacher",
                 child: ListTile(
                     leading: Icon(Icons.add_box_rounded),
-                    title: Text('My Avaialiability'.tr),
+                    title: Text('available'.tr),
                     onTap: () async {
                       // subscribitionController.getSessionsbyteaherID(
                       //     currentUserController.currentUser.value.id,
@@ -164,9 +166,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
           Obx(() => Visibility(
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
-                    leading: Icon(Icons.message),
-                    title: Text('Chat'.tr),
+                    leading: Icon(Icons.people),
+                    title: currentUserController.currentUser.value.userType ==
+                            "teacher"
+                        ? Text('MyStudents'.tr)
+                        : Text('MyTeachers'.tr),
                     onTap: () async {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(currentUserController.currentUser.value.id
+                              .toString())
+                          .delete();
+
+                      currentUserController.currentUser.value.userType ==
+                              "teacher"
+                          ? myBottomBarCtrl.selectedIndBottomBar.value = 3
+                          : myBottomBarCtrl.selectedIndBottomBar.value = 4;
+                      chatController.isLoading.value = true;
                       chatController.getchatList();
                       Get.to(PeopleList());
                       // Get.to(
@@ -183,10 +199,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
                     leading: Icon(Icons.play_arrow),
-                    title: Text('My Next Session'.tr),
+                    title: Text('my_next_session'.tr),
                     onTap: () async {
                       mySesionController.getFirstSessionAfterNow();
-                      myBottomBarCtrl.selectedIndBottomBar.value = 2;
+                      currentUserController.currentUser.value.userType ==
+                              "teacher"
+                          ? myBottomBarCtrl.selectedIndBottomBar.value = 2
+                          : myBottomBarCtrl.selectedIndBottomBar.value = 3;
                       Get.to(NextSession());
                     }),
               )),
@@ -196,19 +215,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
           // My students
           ///
           ///
-          Obx(() => Visibility(
-                visible: currentUserController.currentUser.value.id != -1 &&
-                    currentUserController.currentUser.value.userType ==
-                        "teacher",
-                child: ListTile(
-                    leading: Icon(Icons.people),
-                    title: Text('My Students'.tr),
-                    onTap: () async {
-                      chatController.getchatList();
-                      myBottomBarCtrl.selectedIndBottomBar.value = 1;
-                      Get.to(ShowMyStudent());
-                    }),
-              )),
+          // Obx(() => Visibility(
+          //       visible: currentUserController.currentUser.value.id != -1 &&
+          //           currentUserController.currentUser.value.userType ==
+          //               "teacher",
+          //       child: ListTile(
+          //           leading: Icon(Icons.people),
+          //           title: Text('my_students'.tr),
+          //           onTap: () async {
+          //             chatController.getchatList();
+          //             myBottomBarCtrl.selectedIndBottomBar.value = 1;
+          //             Get.to(ShowMyStudent());
+          //           }),
+          //     )),
 
           ///
           ///
@@ -254,7 +273,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       Icons.lock_open,
                       color: clickIconColor,
                     ),
-                    title: Text('change_password'.tr),
+                    title: Text('CHANGE_PASSWORD'.tr),
                     onTap: () async {
                       Get.to(ChangePassword());
                     }),
@@ -295,8 +314,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               : Text('')),
         ],
       ),
-      bottomNavigationBar:
-          widget.showbottombar ? mybottomBarWidget() : Text(''),
+      bottomNavigationBar: widget.showbottombar ? MybottomBar() : Text(''),
     );
   }
 }

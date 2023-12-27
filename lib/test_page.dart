@@ -1,70 +1,74 @@
+// import 'dart:convert';
 // import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:country_picker/country_picker.dart';
+// import 'package:city_picker/city_picker.dart';
 
-// class CountryCitySelectionPage extends GetView<CountryCitySelectionController> {
+// class MyHomePage extends StatefulWidget {
+//   @override
+//   _MyHomePageState createState() => _MyHomePageState();
+// }
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   Country _selectedCountry;
+//   City _selectedCity;
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: Text('Country City Selection'),
+//         title: Text('Country and City Picker'),
 //       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
+//       body: Center(
 //         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
 //           children: [
-//             // Country selection dropdown
-//             Obx(() {
-//               if (controller.countries.value.isNotEmpty) {
-//                 return DropdownButton<CountryModel>(
-//                   value: controller.selectedCountry.value,
-//                   items: controller.countries.map((country) => DropdownMenuItem(
-//                     value: country,
-//                     child: Text(controller.getCurrentCountryName(country)),
-//                   )).toList(),
-//                   onChanged: (country) {
-//                     controller.selectedCountry.value = country;
-//                     controller.loadCities();
-//                   },
-//                 );
-//               } else {
-//                 return Center(child: CircularProgressIndicator());
-//               }
-//             }),
-
-//             // City selection dropdown
-//             Obx(() {
-//               if (controller.selectedCountry.value != null &&
-//                   controller.cities.value.isNotEmpty) {
-//                 return DropdownButton<CityModel>(
-//                   value: controller.selectedCity.value,
-//                   items: controller.cities.map((city) => DropdownMenuItem(
-//                     value: city,
-//                     child: Text(controller.getCurrentCityName(city)),
-//                   )).toList(),
-//                   onChanged: (city) => controller.selectedCity.value = city,
-//                 );
-//               } else {
-//                 return Center(child: CircularProgressIndicator());
-//               }
-//             }),
-
-//             // Language selection buttons
-//             Row(
-//               children: [
-//                 ElevatedButton(
-//                   onPressed: () => controller.switchLanguage('en'),
-//                   child: Text('English'),
-//                 ),
-//                 const SizedBox(width: 16.0),
-//                 ElevatedButton(
-//                   onPressed: () => controller.switchLanguage('ar'),
-//                   child: Text('Arabic'),
-//                 ),
-//               ],
+//             Text('Country: ${_selectedCountry?.name ?? 'Select a Country'}'),
+//             ElevatedButton(
+//               onPressed: _selectCountry,
+//               child: Text('Select Country'),
+//             ),
+//             SizedBox(height: 20),
+//             Text('City: ${_selectedCity?.name ?? 'Select a City'}'),
+//             ElevatedButton(
+//               onPressed: _selectCity,
+//               child: Text('Select City'),
 //             ),
 //           ],
 //         ),
 //       ),
+//     );
+//   }
+
+//   void _selectCountry() {
+//     showCountryPicker(
+//       context: context,
+//       showPhoneCode: false,
+//       onSelect: (Country country) {
+//         setState(() {
+//           _selectedCountry = country;
+//           _selectedCity = null; // Reset city when country changes
+//         });
+//       },
+//     );
+//   }
+
+//   void _selectCity() {
+//     if (_selectedCountry == null) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Please select a country first!')),
+//       );
+//       return;
+//     }
+
+//     showCityPicker(
+//       context: context,
+//       defaultCountryCode: _selectedCountry.countryCode,
+//       onSelect: (City city) {
+//         setState(() {
+//           _selectedCity = city;
+//         });
+//       },
 //     );
 //   }
 // }

@@ -42,7 +42,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: simplAppbar(true, "change password"),
+      appBar: simplAppbar(true, "CHANGE_PASSWORD".tr),
 
       ///=======================================================================
       ///==================== Body ========================================

@@ -104,11 +104,11 @@ class CurrentUserController extends GetxController {
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
 
         tempUser = currentUser;
+        currentUser.value.id = -1;
 
-        Get.offAll(ProfileRegisterPage());
+        Get.to(ProfileRegisterPage());
       } else {
-        mySnackbar("Failed".tr,
-            " Wrong data or the user name is already exist".tr, "Error");
+        mySnackbar("Failed".tr, "error_user".tr, "Error");
       }
     } finally {
       isLoading.value = false;
@@ -148,10 +148,10 @@ class CurrentUserController extends GetxController {
           await SmsAutoFill().listenForCode;
           Get.to(const OtpDialogue());
         } else {
-          mySnackbar("Failed".tr, "invalid_num_or_already_exist".tr, "Error");
+          mySnackbar("Failed".tr, "error_user".tr, "Error");
         }
       } else {
-        mySnackbar("Failed".tr, "invalid_num_or_already_exist".tr, "Error");
+        mySnackbar("Failed".tr, "error_user".tr, "Error");
       }
     } finally {
       isLoading.value = false;
@@ -193,11 +193,10 @@ class CurrentUserController extends GetxController {
           await SmsAutoFill().listenForCode;
           Get.to(const OtpDialogue());
         } else {
-          mySnackbar(
-              "Failed".tr, "error or already_exist user name".tr, "Error");
+          mySnackbar("Failed".tr, "error_user".tr, "Error");
         }
       } else {
-        mySnackbar("Failed".tr, "invalid_num_or_already_exist".tr, "Error");
+        mySnackbar("Failed".tr, "error_data".tr, "Error");
       }
     } finally {
       isLoading.value = false;
@@ -257,9 +256,9 @@ class CurrentUserController extends GetxController {
         storeUserData(
             currentUser.value, 'user'); // save UserID, User name , Phone Num
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.offAll(HomePage());
+        Get.to(HomePage());
       } else {
-        mySnackbar("Failed".tr, "validate_data".tr, "Error");
+        mySnackbar("Failed".tr, "error_data".tr, "Error");
       }
     } finally {
       isLoading.value = false;
@@ -298,7 +297,7 @@ class CurrentUserController extends GetxController {
           'birthYear': userProfile.birthYear,
           'gender': userProfile.gender,
           'city': userProfile.city,
-          // 'token': currentUserController.currentUser.value.token,
+          'nationality': userProfile.nationality,
         },
         options: Options(
           followRedirects: false,

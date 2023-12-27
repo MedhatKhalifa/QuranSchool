@@ -37,8 +37,22 @@ class _SessionsShowState extends State<SessionsShow> {
   @override
   void initState() {
     super.initState();
-    mySesionController.selectedMeeting.value = Meeting("", DateTime.now(),
-        DateTime.now(), Colors.black, true, true, -1, -1, -1, "", -1, "", -1);
+    mySesionController.selectedMeeting.value = Meeting(
+        "",
+        DateTime.now(),
+        DateTime.now(),
+        Colors.black,
+        true,
+        true,
+        -1,
+        -1,
+        -1,
+        "",
+        -1,
+        "",
+        -1,
+        "",
+        "");
   }
 
   int counterSelection = 0;
@@ -109,7 +123,7 @@ class _SessionsShowState extends State<SessionsShow> {
               Icon(Icons.hourglass_empty, color: Colors.orange),
               SizedBox(width: 10),
               Text(
-                'Change Session Time',
+                'change_session'.tr,
                 style: TextStyle(
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
@@ -118,7 +132,7 @@ class _SessionsShowState extends State<SessionsShow> {
             ],
           ),
           content: Text(
-            'Are you sure you want to change the session time?',
+            'sure_change_session'.tr,
             style: TextStyle(color: Colors.black87),
           ),
           actions: [
@@ -126,7 +140,7 @@ class _SessionsShowState extends State<SessionsShow> {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: Text('No'),
+              child: Text('No'.tr),
             ),
             TextButton(
               onPressed: () {
@@ -138,7 +152,7 @@ class _SessionsShowState extends State<SessionsShow> {
                 //  Get.to(ChangeSesionTime());
               },
               child: Text(
-                'Yes',
+                'Yes'.tr,
                 style: TextStyle(color: Colors.red),
               ),
             ),
@@ -159,118 +173,123 @@ class _SessionsShowState extends State<SessionsShow> {
           children: [
             TabBar(
               tabs: [
-                Tab(text: 'Next Sessions'),
-                Tab(text: 'Old Sessions'),
+                Tab(text: 'Next_sessions'.tr),
+                Tab(text: 'Old_session'.tr),
               ],
             ),
             Expanded(
               child: TabBarView(
                 children: [
-                  Obx(() => subscribitionController.isLoadingsession.isTrue
-                      ? Center(
-                          child: LoadingBouncingGrid.circle(
-                            borderColor: mybrowonColor,
-                            backgroundColor: Colors.white,
-                          ),
-                        )
-                      : SfCalendar(
-                          allowedViews: [
-                            CalendarView.day,
-                            CalendarView.week,
-                            CalendarView.month,
-                            CalendarView.timelineDay,
-                            CalendarView.timelineWeek,
-                            CalendarView.timelineWorkWeek,
-                            CalendarView.timelineMonth,
-                            CalendarView.schedule
-                          ],
+                  Container(
+                    child: Obx(
+                        () => subscribitionController.isLoadingsession.isTrue
+                            ? Center(
+                                child: LoadingBouncingGrid.circle(
+                                  borderColor: mybrowonColor,
+                                  backgroundColor: Colors.white,
+                                ),
+                              )
+                            : SfCalendar(
+                                allowedViews: [
+                                  CalendarView.day,
+                                  CalendarView.week,
+                                  CalendarView.month,
+                                  CalendarView.timelineDay,
+                                  CalendarView.timelineWeek,
+                                  CalendarView.timelineWorkWeek,
+                                  CalendarView.timelineMonth,
+                                  CalendarView.schedule
+                                ],
 
-                          showNavigationArrow: true,
-                          allowDragAndDrop: true,
-                          view: CalendarView.schedule,
-                          // timeSlotViewSettings: TimeSlotViewSettings(
-                          //   timeInterval: Duration(minutes: 30),
-                          // ),
+                                showNavigationArrow: true,
+                                allowDragAndDrop: true,
+                                view: CalendarView.schedule,
+                                // timeSlotViewSettings: TimeSlotViewSettings(
+                                //   timeInterval: Duration(minutes: 30),
+                                // ),
 
-                          // minDate: DateTime.now(),
-                          // maxDate: DateTime.now().add(const Duration(days: 90)),
-                          dataSource: MeetingDataSource(_getNextSessions()),
+                                // minDate: DateTime.now(),
+                                // maxDate: DateTime.now().add(const Duration(days: 90)),
+                                dataSource:
+                                    MeetingDataSource(_getNextSessions()),
 
-                          // dragAndDropSettings:
-                          //     DragAndDropSettings(allowNavigation: true),
+                                // dragAndDropSettings:
+                                //     DragAndDropSettings(allowNavigation: true),
 
-                          scheduleViewSettings: ScheduleViewSettings(
-                            hideEmptyScheduleWeek: true,
-                          ),
-                          // monthViewSettings: const MonthViewSettings(
-                          //     showTrailingAndLeadingDates: false,
-                          //     appointmentDisplayMode:
-                          //         MonthAppointmentDisplayMode.appointment,
-                          //     showAgenda: true),
-                          onLongPress: (day) {
-                            if (currentUserController
-                                    .currentUser.value.userType ==
-                                "teacher") {
-                              setState(() {
-                                if (day.targetElement ==
-                                    CalendarElement.appointment) {
-                                  Meeting appointment = day.appointments![0];
+                                scheduleViewSettings: ScheduleViewSettings(
+                                  hideEmptyScheduleWeek: true,
+                                ),
+                                // monthViewSettings: const MonthViewSettings(
+                                //     showTrailingAndLeadingDates: false,
+                                //     appointmentDisplayMode:
+                                //         MonthAppointmentDisplayMode.appointment,
+                                //     showAgenda: true),
+                                onLongPress: (day) {
+                                  if (currentUserController
+                                          .currentUser.value.userType ==
+                                      "teacher") {
+                                    setState(() {
+                                      if (day.targetElement ==
+                                          CalendarElement.appointment) {
+                                        Meeting appointment =
+                                            day.appointments![0];
 
-                                  if (calculateDifferenceInMinutes(
-                                          appointment) >
-                                      60) {
-                                    _showChangeSessionTimeDialog(
-                                        context, appointment);
-                                    // Get.dialog(
-                                    //   AlertDialog(
-                                    //     title: Row(
-                                    //       children: [
-                                    //         Icon(Icons.hourglass_empty),
-                                    //         SizedBox(width: 10),
-                                    //         Text('Change Session Time'),
-                                    //       ],
-                                    //     ),
-                                    //     content: Text(
-                                    //         'Are you sure you want to change the session time?'),
-                                    //     actions: [
-                                    //       TextButton(
-                                    //         onPressed: () {
-                                    //           Get.back(); // Dismiss the dialog
-                                    //         },
-                                    //         child: Text('No'),
-                                    //       ),
-                                    //       TextButton(
-                                    //         onPressed: () {
-                                    //           // Handle changing the session time
-                                    //           // ...
-                                    //           _selectDate(context, appointment);
-                                    //           // Navigator.of(context).pop();
-                                    //           //  Get.to(ChangeSesionTime());
-                                    //         },
-                                    //         child: Text('Yes'),
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // );
-                                  } else {
-                                    Get.snackbar(
-                                      "Warning",
-                                      "You can't change session timer within one hour",
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white,
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      duration: Duration(seconds: 5),
-                                    );
+                                        if (calculateDifferenceInMinutes(
+                                                appointment) >
+                                            60) {
+                                          _showChangeSessionTimeDialog(
+                                              context, appointment);
+                                          // Get.dialog(
+                                          //   AlertDialog(
+                                          //     title: Row(
+                                          //       children: [
+                                          //         Icon(Icons.hourglass_empty),
+                                          //         SizedBox(width: 10),
+                                          //         Text('Change Session Time'),
+                                          //       ],
+                                          //     ),
+                                          //     content: Text(
+                                          //         'Are you sure you want to change the session time?'),
+                                          //     actions: [
+                                          //       TextButton(
+                                          //         onPressed: () {
+                                          //           Get.back(); // Dismiss the dialog
+                                          //         },
+                                          //         child: Text('No'),
+                                          //       ),
+                                          //       TextButton(
+                                          //         onPressed: () {
+                                          //           // Handle changing the session time
+                                          //           // ...
+                                          //           _selectDate(context, appointment);
+                                          //           // Navigator.of(context).pop();
+                                          //           //  Get.to(ChangeSesionTime());
+                                          //         },
+                                          //         child: Text('Yes'),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // );
+                                        } else {
+                                          Get.snackbar(
+                                            "Warning".tr,
+                                            "cannot_change_withinhour".tr,
+                                            backgroundColor: Colors.red,
+                                            colorText: Colors.white,
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            duration: Duration(seconds: 5),
+                                          );
+                                        }
+                                        // if (appointment.selected) {
+                                        //   mySesionController.getToken(
+                                        //       appointment.teacher, appointment.student);
+                                        // }
+                                      }
+                                    });
                                   }
-                                  // if (appointment.selected) {
-                                  //   mySesionController.getToken(
-                                  //       appointment.teacher, appointment.student);
-                                  // }
-                                }
-                              });
-                            }
-                          },
-                        )),
+                                },
+                              )),
+                  ),
                   Obx(() => subscribitionController.isLoadingsession.isTrue
                       ? Center(
                           child: LoadingBouncingGrid.circle(
@@ -376,7 +395,10 @@ class _SessionsShowState extends State<SessionsShow> {
 
           meetings.add(Meeting(
               isNextSession
-                  ? minutesUntilEvent.toString() + " min to Start"
+                  ? currentUserController.currentUser.value.accountToken ==
+                          "teacher"
+                      ? s.teacherName!
+                      : s.studentName!
                   : s.sessionStatus!,
               DateTime.parse(s.date! + " " + s.time!),
               DateTime.parse(s.date! + " " + s.time!)
@@ -390,7 +412,9 @@ class _SessionsShowState extends State<SessionsShow> {
               s.teacherOpinion!,
               s.teacherRank!,
               s.review!,
-              s.id!));
+              s.id!,
+              s.teacherName!,
+              s.studentName!));
         }
       }
     }
@@ -431,7 +455,9 @@ class _SessionsShowState extends State<SessionsShow> {
               s.teacherOpinion!,
               s.teacherRank!,
               s.review!,
-              s.id!));
+              s.id!,
+              s.teacherName!,
+              s.studentName!));
         }
       }
     }

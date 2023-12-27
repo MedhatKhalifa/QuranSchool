@@ -9,6 +9,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:quranschool/pages/search/show_result.dart';
+import 'package:quranschool/pages/student/subscription/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/models/subscriptionPrice_model.dart';
 import 'package:quranschool/pages/teacher/availability_input.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
@@ -16,6 +17,7 @@ import 'package:quranschool/pages/teacher/model/meeting_model.dart';
 import 'package:quranschool/pages/teacher/model/sessions_model.dart';
 import 'package:quranschool/pages/teacher/model/teacher_model.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubscribitionController extends GetxController {
   Rx<Teacher> selectedTeacher = Teacher().obs;
@@ -37,10 +39,10 @@ class SubscribitionController extends GetxController {
   var studentSubscriptionId = 0.obs;
   var isLoading = false.obs;
 
-  var isLoadingAvail = false.obs;
-  var isLoadingsession = false.obs;
-  var isLoadingmeetings = false.obs;
-  var isLoadinpricelist = false.obs;
+  var isLoadingAvail = true.obs;
+  var isLoadingsession = true.obs;
+  var isLoadingmeetings = true.obs;
+  var isLoadinpricelist = true.obs;
 
   var selectedDay = 'Sunday'.obs;
   var selectedFromTime = TimeOfDay(hour: 12, minute: 0).obs;
@@ -189,7 +191,23 @@ class SubscribitionController extends GetxController {
         } else {
           _failmessage(response);
         }
-      } finally {}
+      } finally {
+        var _message = "Thank you for registering with us"
+                "An administrator will reach out to you shortly" +
+            "\n" +
+            "\n The selected teacher's " +
+            selectedTeacher.value.user!.fullName +
+            " userName " +
+            selectedTeacher.value.user!.username +
+            "\n The chosen package consists of " +
+            selectedPayement.value.sessionCount!.toString() +
+            "\n sessions at a cost of " +
+            selectedPayement.value.price! +
+            "EGP";
+
+        _launchWhatsApp(_message);
+        Get.to(ConfirmationPage());
+      }
     }
 
     isLoading.value = false;
@@ -200,6 +218,22 @@ class SubscribitionController extends GetxController {
 
     Get.snackbar('${response.statusCode}', 'fetch_failed'.tr,
         snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+  }
+
+  //// Send WhatsApp message
+  ///
+  _launchWhatsApp(String message) async {
+    // The WhatsApp URL scheme
+    String whatsappUrl =
+        "whatsapp://send?phone=$phoneNumber&text=${Uri.encodeComponent(message)}";
+    Uri uri = Uri.parse(whatsappUrl);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      // Handle the case where WhatsApp is not installed
+      print('WhatsApp is not installed.');
+    }
   }
 
 // Get Availity First then Get Sessions then generate Meeting to be showed
@@ -438,7 +472,9 @@ class SubscribitionController extends GetxController {
           s.teacherOpinion ?? "",
           s.teacherRank ?? -1,
           s.review ?? "",
-          s.id ?? -1));
+          s.id ?? -1,
+          s.teacherName ?? "",
+          s.studentName ?? ""));
     }
     // print(meetings);
     isLoadingmeetings.value = false;
@@ -448,6 +484,7 @@ class SubscribitionController extends GetxController {
   }
 
   Future getSessionsbyteaherID(int id, String search) async {
+    isLoadingsession.value = true;
     sessions.clear();
     String? _url;
     if (search == "teacher") {
@@ -455,7 +492,7 @@ class SubscribitionController extends GetxController {
     } else if ((search == "student")) {
       _url = sessionStudentUrl + id.toString();
     }
-    isLoadingsession.value = true;
+
     var dio = Dio();
     var response = await dio.get(
       _url!,

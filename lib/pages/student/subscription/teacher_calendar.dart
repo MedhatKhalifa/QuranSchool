@@ -53,10 +53,10 @@ class _CalendarShowState extends State<CalendarShow> {
     return Scaffold(
       appBar: simplAppbar(
           true,
-          "select " +
+          "Select".tr +
               subscribitionController.selectedPayement.value.sessionCount
                   .toString() +
-              " sesions"),
+              " sesions".tr),
       body: Obx(
         () => subscribitionController.isLoadingmeetings.isTrue
             ? Center(
@@ -138,10 +138,10 @@ class _CalendarShowState extends State<CalendarShow> {
                         subscribitionController
                             .selectedPayement.value.sessionCount!
                     ? 'Submit'.tr
-                    : 'Selected sessions ' +
+                    : 'Selected_sessions'.tr +
                         subscribitionController.countofSelectSession
                             .toString() +
-                        ' out of ' +
+                        'out_of'.tr +
                         subscribitionController
                             .selectedPayement.value.sessionCount!
                             .toString(),
@@ -159,10 +159,10 @@ class _CalendarShowState extends State<CalendarShow> {
                   subscribitionController
                       .selectedPayement.value.sessionCount!) {
                 subscribitionController.createStudentSubsc();
-                Get.off(ConfirmationPage());
+                Get.to(ConfirmationPage());
                 //Get.snackbar("Note", generateString(), colorText: Colors.black);
               } else {
-                Get.snackbar("Note", "Select Sessions First",
+                Get.snackbar("Warning".tr, "select_session_first".tr,
                     colorText: Colors.black);
               }
             },

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -37,7 +38,7 @@ class _QuranPage2State extends State<QuranPage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simplAppbar(true),
+      appBar: simplAppbar(true, 'Quran'.tr),
       body: WebViewWidget(controller: _controller),
     );
   }

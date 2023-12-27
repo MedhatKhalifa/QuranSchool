@@ -31,7 +31,7 @@ class PhoneController extends GetxController {
         verificationFailed: (authException) {
           // authStatus.value = "OTP_Can't_Sent";
           authStatus.value = "verificationFailed";
-          Get.snackbar("sms code info", "otp code hasn't been sent!!");
+          Get.snackbar("otp_sms".tr, "otp_sent".tr);
         },
         codeSent: (String id, [int? forceResent]) {
           isLoading.value = false;
@@ -59,12 +59,20 @@ class PhoneController extends GetxController {
       if (userCredential.user != null) {
         isLoading.value = false;
         otpcorrect(true);
-        Get.snackbar("Correct OTP", "Correct OTP");
+        Get.snackbar(
+          "Success".tr,
+          "Correct_OTP".tr,
+          snackPosition: SnackPosition.BOTTOM,
+        );
         return true;
         //Get.to(()=>SearchPage());
       }
     } on Exception catch (e) {
-      Get.snackbar("otp info", "otp code is not correct !!");
+      Get.snackbar(
+        "Failed".tr,
+        "Invalid_OTP".tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return false;
     }
     return false;

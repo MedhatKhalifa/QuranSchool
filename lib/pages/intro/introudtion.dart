@@ -92,14 +92,14 @@ class _IntroPageState extends State<IntroPage> {
           bodyWidget: Column(
             children: [
               Text(
-                'Before you Start',
+                'intro_11'.tr,
                 style: TextStyle(
                     fontSize: 29,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                'you must choose the your right way…',
+                'intro_11'.tr,
                 style: TextStyle(fontSize: 10, color: Colors.white),
               ),
             ],
@@ -125,14 +125,14 @@ class _IntroPageState extends State<IntroPage> {
           bodyWidget: Column(
             children: [
               Text(
-                'NOW WE HERE!',
+                'intro_21'.tr,
                 style: TextStyle(
                     fontSize: 29,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                'To help you start successfully and get on the right track',
+                'intro_22'.tr,
                 style: TextStyle(fontSize: 10, color: Colors.white),
               ),
             ],

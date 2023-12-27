@@ -51,7 +51,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                       SizedBox(height: h(3)),
                       Center(
                         child: Text(
-                          "Select Your Package",
+                          "Select_Package".tr,
                           //  style: TextStyle(color: Colors.grey)
                         ),
                       ),
@@ -83,7 +83,8 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                 ),
                                 child: ListTile(
                                   trailing: Text(
-                                      paymentOption.price.toString() + " EGP"),
+                                      paymentOption.price.toString() +
+                                          " EGP".tr),
                                   title: Text(paymentOption.subscriptionName!),
                                   subtitle: Text(paymentOption.description!),
                                   leading: Radio(
@@ -128,7 +129,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                       subscribitionController.selectedMeetings.clear();
                       Get.to(() => CalendarShow());
                     } else {
-                      Get.snackbar("Warning", "Please Select Package First",
+                      Get.snackbar("Warning".tr, "select_pack_first".tr,
                           colorText: Colors.black);
                     }
 

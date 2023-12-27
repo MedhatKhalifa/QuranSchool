@@ -15,7 +15,7 @@ class _SearchStudentState extends State<SearchStudent> {
     return Scaffold(
       appBar: simplAppbar(false),
       body: Center(child: Text('Search For Your Student')),
-      bottomNavigationBar: mybottomBarWidget(),
+      bottomNavigationBar: MybottomBar(),
     );
   }
 }

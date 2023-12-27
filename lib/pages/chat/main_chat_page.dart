@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quranschool/pages/chat/people_list.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 
@@ -13,7 +14,7 @@ class _MainChatPageState extends State<MainChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simplAppbar(true, " Chat List "),
+      appBar: simplAppbar(true, "list".tr),
       body: PeopleList(),
     );
   }

@@ -11,7 +11,7 @@ import 'package:quranschool/pages/chat/models/studentsubscription_model.dart';
 class ChatController extends GetxController {
   var studSubdata = <StudSubModel>[].obs;
 
-  var isLoading = false.obs;
+  var isLoading = true.obs;
 
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -109,15 +109,24 @@ class ChatController extends GetxController {
       }
       // Now  call Session
       isLoading.value = false;
+      updateloading(false);
 
       // Get.to(const ShowResult());
     } else {
       _failmessage(response);
       isLoading.value = false;
     }
+    // isLoading.value = false;
     isLoading.value = false;
+    updateloading(false);
+    //return studSubdata;
+  }
 
-    return studSubdata;
+  void updateloading(newvalue) {
+    isLoading.update((value) {
+      // Modify the value here
+      value = newvalue;
+    });
   }
 
   Future<List<String>> checkUnreadMessages() async {

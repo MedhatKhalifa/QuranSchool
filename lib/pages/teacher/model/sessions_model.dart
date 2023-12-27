@@ -26,6 +26,9 @@ class Session {
   int? student;
   int? teacherRank;
   int? studentSubscription;
+  String? teacherName;
+  String? teacherImage;
+  String? studentName;
 
   Session({
     this.teacherAttendance,
@@ -41,6 +44,9 @@ class Session {
     this.student,
     this.selected = false,
     this.studentSubscription,
+    this.teacherName,
+    this.teacherImage,
+    this.studentName,
   });
 
   Session.fromJson(Map<String, dynamic> json) {
@@ -51,6 +57,9 @@ class Session {
     date = json['date'] ?? "";
     time = json['time'] ?? "";
     id = json['id'] ?? -1;
+    teacherName = json['teacherName'] ?? "";
+    teacherImage = json['teacherImage'] ?? "";
+    studentName = json["studentName"] ?? "";
 
     teacher = json['teacher'] ?? -1;
     studentRate = json['studentRate'] ?? -1;

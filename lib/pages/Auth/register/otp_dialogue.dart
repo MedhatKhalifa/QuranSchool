@@ -99,7 +99,7 @@ class _OtpDialogueState extends State<OtpDialogue> {
                           visible:
                               phoneController.authStatus.value == 'OTP_Sent',
                           child: Text(
-                            'We have sent you an access code'.tr,
+                            'sent_code'.tr,
                             style: const TextStyle(color: Color(0xFF727272)),
                           ),
                         )),
@@ -107,7 +107,7 @@ class _OtpDialogueState extends State<OtpDialogue> {
                           visible:
                               phoneController.authStatus.value == 'OTP_Sent',
                           child: Text(
-                            'via SMS for Mobile number verifications'.tr,
+                            'via_sms'.tr,
                             style: const TextStyle(color: Color(0xFF727272)),
                           ),
                         )),
@@ -115,7 +115,7 @@ class _OtpDialogueState extends State<OtpDialogue> {
                           visible:
                               phoneController.authStatus.value == 'OTP_Sent',
                           child: Text(
-                            'Sent via SMS on this number'.tr,
+                            'sent_sms_to_num'.tr,
                             style: const TextStyle(color: Color(0xFF727272)),
                           ),
                         )),

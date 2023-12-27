@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -78,18 +79,38 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
                               chatController.filteredFriends[index].friendImage,
                         );
                         return Card(
+                          shadowColor: Colors.green,
+                          color: chatController.filteredFriends[index].unreadMsg
+                              ? const Color.fromARGB(255, 210, 238, 225)
+                              : Colors.white,
                           child: ListTile(
                             onTap: () {
                               loginController.getStudentProfile(chatController
                                   .filteredFriends[index].friendtID);
                             },
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                db_url +
-                                    chatController
-                                        .filteredFriends[index].friendImage,
-                              ),
-                            ),
+                            leading: chatController
+                                        .filteredFriends[index].friendImage !=
+                                    ""
+                                ? CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      'https://quraanshcool.pythonanywhere.com/media/${chatController.filteredFriends[index].friendImage}',
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    child: Opacity(
+                                      opacity: 0.5,
+                                      child: Image.asset(
+                                        "assets/images/logo/logo.png",
+                                        // width: sp(80),
+                                        // height: sp(80),
+                                        //color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
                             title: Text(
                               chatController.filteredFriends[index].friendtName,
                               style: TextStyle(
@@ -113,6 +134,33 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
                                     : Colors.grey,
                               ),
                             ),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.message,
+                                color: mybrowonColor,
+                              ),
+                              onPressed: () {
+                                // Handle the button press, e.g., open a chat screen
+                                // You can navigate to a new screen or perform any other action here.
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatDetail(
+                                      friendName: chatController
+                                          .filteredFriends[index]
+                                          .friendUsername,
+                                      friendUid: chatController
+                                          .filteredFriends[index].friendtID,
+                                      currentuserName: currentUserController
+                                          .currentUser.value.username,
+                                      currentuserid: currentUserController
+                                          .currentUser.value.id
+                                          .toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
@@ -121,7 +169,7 @@ class _ShowMyStudentState extends State<ShowMyStudent> {
           ),
         ],
       ),
-      bottomNavigationBar: mybottomBarWidget(),
+      bottomNavigationBar: MybottomBar(),
     );
   }
 }

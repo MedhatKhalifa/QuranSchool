@@ -19,7 +19,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
       body: Center(
         child: Text('Tel_010000000'.tr),
       ),
-      bottomNavigationBar: mybottomBarWidget(),
+      bottomNavigationBar: MybottomBar(),
     );
   }
 }

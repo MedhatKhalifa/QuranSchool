@@ -53,7 +53,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                     (String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(value.tr),
                       );
                     },
                   ).toList(),
@@ -67,7 +67,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
               SizedBox(height: 16),
               Row(
                 children: [
-                  Text('From Time: '),
+                  Text('from_time'.tr),
                   TextButton(
                     onPressed: () async {
                       TimeOfDay? result = await showTimePicker(
@@ -89,7 +89,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
               SizedBox(height: 16),
               Row(
                 children: [
-                  Text('To Time: '),
+                  Text('to_time'.tr),
                   TextButton(
                     onPressed: () async {
                       TimeOfDay? result = await showTimePicker(
@@ -114,7 +114,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: Text('Cancel'),
+              child: Text('Cancel'.tr),
             ),
             TextButton(
               onPressed: () {
@@ -142,8 +142,8 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                   // Show an error message or take appropriate action
 
                   Get.snackbar(
-                    "Warning",
-                    "Invalid time selection. To time must be after from time.",
+                    "Warning".tr,
+                    "invalid_time_after_before".tr,
                     backgroundColor: Colors.red,
                     colorText: Colors.white,
                     snackPosition: SnackPosition.BOTTOM,
@@ -153,7 +153,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
 
                 // Close the dialog
               },
-              child: Text('Save'),
+              child: Text('Save'.tr),
             ),
           ],
         );
@@ -175,7 +175,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
               ),
               SizedBox(width: 8),
               Text(
-                'Warning!',
+                'Warning'.tr,
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
@@ -183,14 +183,13 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
               ),
             ],
           ),
-          content:
-              Text('Are you sure you want to delete this availability period?'),
+          content: Text('sure_del_avail'.tr),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: Text('Cancel'),
+              child: Text('Cancel'.tr),
             ),
             TextButton(
               onPressed: () {
@@ -199,7 +198,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: Text(
-                'Delete',
+                'Delete'.tr,
                 style: TextStyle(
                   color: Colors.red,
                 ),
@@ -268,7 +267,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
             child: Container(
               width: w(80),
               child: ElevatedButton(
-                child: Text('add new'.tr, style: TextStyle(fontSize: sp(17))),
+                child: Text('add_new'.tr, style: TextStyle(fontSize: sp(17))),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Color(0xFFFD8C00))),

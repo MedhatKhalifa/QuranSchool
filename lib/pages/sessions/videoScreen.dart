@@ -478,8 +478,8 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
         ));
       }
     } else {
-      return const Text(
-        'Join a channel',
+      return Text(
+        'Join a channel'.tr,
         textAlign: TextAlign.center,
       );
     }

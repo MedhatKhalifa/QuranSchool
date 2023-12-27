@@ -78,7 +78,7 @@ class _RateSessionState extends State<RateSession> {
                   ),
             SizedBox(height: 20),
             Text(
-              'Comment',
+              'Comment'.tr,
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
@@ -96,7 +96,7 @@ class _RateSessionState extends State<RateSession> {
                       },
                       maxLines: 4,
                       decoration: InputDecoration(
-                        hintText: 'Your feedback...',
+                        hintText: 'feedback'.tr,
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -108,7 +108,7 @@ class _RateSessionState extends State<RateSession> {
                 onPressed: () {
                   submitFeedback();
                 },
-                child: Text('Submit'),
+                child: Text('Submit'.tr),
               ),
             ),
           ],

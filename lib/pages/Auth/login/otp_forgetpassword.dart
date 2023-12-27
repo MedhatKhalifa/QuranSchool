@@ -229,7 +229,7 @@ class _OtpForgetPassPageState extends State<OtpForgetPassPage> {
                               //     forgerPassController.resetPassword.value,
                               //     forgerPassController.username.value);
                             } else {
-                              Get.snackbar("Invalid", 'user_error');
+                              Get.snackbar("Invalid".tr, 'user_error'.tr);
                             }
                           }
                           //  print(value);

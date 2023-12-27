@@ -73,7 +73,7 @@ class _TrnaslationPageState extends State {
                       await SharedPreferences.getInstance();
                   await prefs.setString('lang', 'en');
                   myBottomBarCtrl.selectedIndBottomBar.value = 0;
-                  Get.to(IntroPage());
+                  Get.to(HomePage());
                 },
                 child: Text(
                   'English',
@@ -102,7 +102,7 @@ class _TrnaslationPageState extends State {
                   await prefs.setString('lang', 'ar');
                   myBottomBarCtrl.selectedIndBottomBar.value = 0;
 
-                  Get.to(IntroPage());
+                  Get.to(HomePage());
                 },
                 child: Text(
                   'عــربـى',

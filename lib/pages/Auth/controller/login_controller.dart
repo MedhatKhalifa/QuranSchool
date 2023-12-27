@@ -80,7 +80,7 @@ class LoginController extends GetxController {
         // // to read all cart data ( can be removed in other apps)
         // cartController.getcartList();
       } else {
-        mySnackbar('Failed'.tr, 'phone_password_not'.tr, false);
+        mySnackbar('Failed'.tr, 'phone_not'.tr, false);
       }
     } finally {
       isLoading.value = false;
@@ -109,9 +109,9 @@ class LoginController extends GetxController {
 
       if (response.statusCode == 200) {
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.offAll(HomePage());
+        Get.to(HomePage());
       } else {
-        mySnackbar('Failed'.tr, 'phone_password_not'.tr, false);
+        mySnackbar('Failed'.tr, 'phone_not'.tr, false);
       }
     } finally {
       isLoading.value = false;
@@ -143,9 +143,9 @@ class LoginController extends GetxController {
             'user'); // save UserID, User name , Phone Num
 
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.offAll(HomePage());
+        Get.to(HomePage());
       } else {
-        mySnackbar('Failed'.tr, 'phone_password_not'.tr, false);
+        mySnackbar('Failed'.tr, 'phone_not'.tr, false);
       }
     } finally {
       isLoading.value = false;
@@ -171,15 +171,16 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         User _regiuser = User.fromJson(response.data);
         // get user profile and store data
-        userctrl.currentUser.value = _regiuser;
+        // userctrl.currentUser.value = _regiuser;
 
         currentUserController.tempUser.value = _regiuser;
         currentUserController.tempUser.value.updateOld = false;
         currentUserController.tempUser.value.enabledit = false;
+        //currentUserController.currentUser.value.updateOld = false;
         currentUserController.currentUser.value.updateOld = false;
         Get.to(ProfileRegisterPage());
       } else {
-        mySnackbar('Failed'.tr, 'Error'.tr, false);
+        mySnackbar('Failed'.tr, 'error_data'.tr, false);
       }
     } finally {
       isLoading.value = false;
@@ -236,7 +237,7 @@ class LoginController extends GetxController {
           myBottomBarCtrl.selectedIndBottomBar.value = 0;
           currentUserController.tempUser = currentUserController.currentUser;
           currentUserController.tempUser.value.enabledit = true;
-          Get.offAll(ProfileRegisterPage());
+          Get.to(ProfileRegisterPage());
           // Navigate to the next screen or perform necessary actions.
         } else {
           // old USer read data
@@ -251,10 +252,10 @@ class LoginController extends GetxController {
               'user'); // save UserID, User name , Phone Num
 
           myBottomBarCtrl.selectedIndBottomBar.value = 0;
-          Get.offAll(HomePage());
+          Get.to(HomePage());
         }
       } else {
-        mySnackbar("Failed".tr, "invalid_num_or_already_exist".tr, "Error");
+        mySnackbar("Failed".tr, "error_num".tr, "Error");
       }
     } finally {
       isLoading.value = false;

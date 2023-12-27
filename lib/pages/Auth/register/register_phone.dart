@@ -405,9 +405,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                                         // Get.to(const OtpDialogue());
                                       } else {
                                         mySnackbar(
-                                            'Invalid'.tr,
-                                            'invalid_num_or_already_exist'.tr,
-                                            false);
+                                            'Failed'.tr, 'error_num'.tr, false);
                                       }
                                     }),
                           )),

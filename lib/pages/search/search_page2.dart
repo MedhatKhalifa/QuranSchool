@@ -387,7 +387,7 @@ class _SearchPage2State extends State<SearchPage2> {
             ),
           ),
         ),
-        bottomNavigationBar: mybottomBarWidget(),
+        bottomNavigationBar: MybottomBar(),
       ),
     );
   }

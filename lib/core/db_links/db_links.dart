@@ -27,9 +27,12 @@ const String studentsubscriptionsUrl =
     "${db_url1}student_subscription/studentsubscriptions/";
 const String createstudentsubscriptionsUrl =
     "${db_url1}student_subscription/studentsubscriptions/";
-const String updateSessionUrl = "${db_url1}/session/sessions/";
+const String updateSessionUrl = "${db_url1}session/sessions/";
+const String notificationUrl = "${db_url1}notifications/send-notification/";
 
 const String creatSessionUrl = "${db_url1}session/sessions/";
+
+const String phoneNumber = '+201022645564';
 
 ///////////////////////////////////////////////////////////////////////
 
