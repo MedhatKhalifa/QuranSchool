@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
@@ -87,6 +88,22 @@ class _NextSessionState extends State<NextSession> {
                     : ListView(
                         children: [
                           SizedBox(height: h(20)),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child:
+                                Center(child: Text('Your session will  '.tr)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                  child: Text(' at : ' +
+                                      (DateFormat('yy/MM/dd HH:mm').format(
+                                              DateTime.parse(mySesionController
+                                                      .nextSession.value.date! +
+                                                  ' ' +
+                                                  mySesionController.nextSession
+                                                      .value.time!)))
+                                          .toString()))),
                           const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Center(
@@ -95,23 +112,31 @@ class _NextSessionState extends State<NextSession> {
                           ),
                           Center(
                               child: SlideCountdown(
+                            durationTitle: Get.locale?.languageCode == 'ar'
+                                ? DurationTitle.ar()
+                                : DurationTitle.en(),
+                            slideDirection: SlideDirection.down,
+                            separatorType: SeparatorType.title,
                             duration: Duration(
                                 minutes: mySesionController.diffMinutes.value),
                           )),
-                          if (mySesionController.diffMinutes.value < 40 &&
-                              mySesionController.diffMinutes.value > -30)
-                            Padding(
-                              padding: const EdgeInsets.all(25),
-                              child: ElevatedButton(
-                                  onPressed: () {
+                          Padding(
+                            padding: const EdgeInsets.all(25),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  if (mySesionController.diffMinutes.value <
+                                          40 &&
+                                      mySesionController.diffMinutes.value >
+                                          -30) {
                                     mySesionController.getToken(
                                         mySesionController
                                             .nextSession.value.teacher,
                                         mySesionController
                                             .nextSession.value.student);
-                                  },
-                                  child: const Text(' Join Session ')),
-                            ),
+                                  }
+                                },
+                                child: const Text(' Join Session ')),
+                          ),
                         ],
                       )),
       ),

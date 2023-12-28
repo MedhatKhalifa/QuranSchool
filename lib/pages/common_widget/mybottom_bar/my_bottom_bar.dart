@@ -179,6 +179,8 @@ import 'package:quranschool/pages/common_widget/quick_common.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
+import 'package:quranschool/pages/quran/quranPageFlash.dart';
+import 'package:quranschool/pages/quran/quranPageAyaat.dart';
 import 'package:quranschool/pages/quran/selectionQuran.dart';
 import 'package:quranschool/pages/search/search_page2.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
@@ -225,7 +227,7 @@ class _MybottomBarState extends State<MybottomBar> {
     if (index == 0) {
       Get.to(const HomePage());
     } else if (index == 1) {
-      Get.to(const QuranSelection());
+      Get.to(const QuranPage());
     } else if (index == 2) {
       if (currentUserController.currentUser.value.userType != "teacher") {
         Get.to(SearchPage2());
@@ -311,7 +313,7 @@ class _MybottomBarState extends State<MybottomBar> {
             // });
 
             return Obx(() => ConvexAppBar.badge({1: 3 > 0 ? '' : ''},
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.red,
                     style: TabStyle.textIn,
                     items: [
                       TabItem(
@@ -365,6 +367,7 @@ class _MybottomBarState extends State<MybottomBar> {
                   {1: 3 > 0 ? '' : ''},
                   backgroundColor: Colors.white,
                   style: TabStyle.textIn,
+                  activeColor: myorangeColor,
                   items: [
                     TabItem(
                       activeIcon: Icon(Icons.account_box),
