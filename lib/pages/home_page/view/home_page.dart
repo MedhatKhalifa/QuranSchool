@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
                 child: Text('No'.tr),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
+                onPressed: () => exit(0), // Navigator.of(context).pop(true),
                 child: Text('Yes'.tr),
               ),
             ],

@@ -70,8 +70,8 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                         trimLines: 2,
                         colorClickableText: Colors.black,
                         trimMode: TrimMode.Line,
-                        trimCollapsedText: '.Show more',
-                        trimExpandedText: '.|Show less',
+                        trimCollapsedText: 'show_more'.tr,
+                        trimExpandedText: '.show_less'.tr,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -86,7 +86,7 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                       Get.to(TeacherCalendarShow());
                     },
                     leading: Icon(Icons.calendar_month),
-                    title: Text("Available Appointments",
+                    title: Text("aval_appoint".tr,
                         style: TextStyle(color: Colors.grey)),
                   ),
                   // Divider(color: Colors.grey[50], thickness: sp(1)),
@@ -100,8 +100,8 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                   ListTile(
                     onTap: () {},
                     leading: Icon(Icons.star),
-                    title:
-                        Text("Reviews", style: TextStyle(color: Colors.grey)),
+                    title: Text("Reviews".tr,
+                        style: TextStyle(color: Colors.grey)),
                   ),
                   Divider(color: Colors.grey[50], thickness: sp(1)),
                 ],

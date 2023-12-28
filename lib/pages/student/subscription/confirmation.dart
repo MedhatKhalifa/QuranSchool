@@ -97,7 +97,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                             onPressed: () {
                               myBottomBarCtrl.selectedIndBottomBar.value = 0;
 
-                              Get.offAll(HomePage());
+                              Get.to(HomePage());
                             },
                             icon: Icon(Icons.home))
                       ]),

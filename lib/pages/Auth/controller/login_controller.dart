@@ -177,7 +177,7 @@ class LoginController extends GetxController {
         currentUserController.tempUser.value.updateOld = false;
         currentUserController.tempUser.value.enabledit = false;
         //currentUserController.currentUser.value.updateOld = false;
-        currentUserController.currentUser.value.updateOld = false;
+        //currentUserController.currentUser.value.updateOld = false;
         Get.to(ProfileRegisterPage());
       } else {
         mySnackbar('Failed'.tr, 'error_data'.tr, false);
@@ -236,6 +236,8 @@ class LoginController extends GetxController {
               'user'); // save UserID, User name , Phone Num
           myBottomBarCtrl.selectedIndBottomBar.value = 0;
           currentUserController.tempUser = currentUserController.currentUser;
+          //currentUserController.tempUser.value.enabledit = true;
+          currentUserController.tempUser.value.updateOld = false;
           currentUserController.tempUser.value.enabledit = true;
           Get.to(ProfileRegisterPage());
           // Navigate to the next screen or perform necessary actions.

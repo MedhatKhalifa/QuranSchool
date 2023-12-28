@@ -168,7 +168,7 @@ class _SearchPage2State extends State<SearchPage2> {
 
         //drawer: Thedrawer(),
         //backgroundColor: Colors.transparent,
-        appBar: simplAppbar(false, "Search your Teacher"),
+        appBar: simplAppbar(false, "search_teacher".tr),
 
         ///=======================================================================
         ///==================== Body ========================================
@@ -210,7 +210,7 @@ class _SearchPage2State extends State<SearchPage2> {
                         hintText:
                             searchController.searchWords.value.searchWord != ""
                                 ? searchController.searchWords.value.searchWord
-                                : "search_hint".tr,
+                                : "Search_hint".tr,
                         hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -237,10 +237,10 @@ class _SearchPage2State extends State<SearchPage2> {
                                 child: TextField(
                               controller:
                                   dateinput, //editing controller of this TextField
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                   icon: Icon(Icons
                                       .calendar_today), //icon of text field
-                                  hintText: "Start Date" //label text of field
+                                  hintText: "date".tr //label text of field
                                   ),
                               readOnly:
                                   true, //set it true, so that user will not able to edit text
@@ -288,7 +288,7 @@ class _SearchPage2State extends State<SearchPage2> {
                                   timeinput, //editing controller of this TextField
                               decoration: InputDecoration(
                                   icon: Icon(Icons.timer), //icon of text field
-                                  hintText: "Enter Time" //label text of field
+                                  hintText: "Time".tr //label text of field
                                   ),
                               readOnly:
                                   true, //set it true, so that user will not able to edit text
@@ -338,7 +338,7 @@ class _SearchPage2State extends State<SearchPage2> {
                           child: Container(
                             width: w(90),
                             child: ElevatedButton(
-                              child: Text('Search Now'.tr,
+                              child: Text('search'.tr,
                                   style: TextStyle(fontSize: sp(17))),
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
@@ -354,7 +354,7 @@ class _SearchPage2State extends State<SearchPage2> {
                           ),
                         ),
                 ),
-                Text('Filter Selection'),
+                Text('filter'.tr),
                 Expanded(
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -373,7 +373,7 @@ class _SearchPage2State extends State<SearchPage2> {
                         child: SizedBox(
                           height: h(10),
                           child: ContainerCard(
-                            text: containerText[index],
+                            text: containerText[index].tr,
                             isClicked: containerClicked[index],
                             variable: containerVariables[index],
                             myicons: myicons[index],

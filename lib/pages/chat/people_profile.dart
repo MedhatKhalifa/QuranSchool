@@ -37,12 +37,12 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-class ProfileRegisterPage extends StatefulWidget {
+class ProfileShow extends StatefulWidget {
   @override
-  _ProfileRegisterPageState createState() => _ProfileRegisterPageState();
+  _ProfileShowState createState() => _ProfileShowState();
 }
 
-class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
+class _ProfileShowState extends State<ProfileShow> {
   //final Translatectrl translatectrl = Get.put(Translatectrl());
   //final PhoneController phoneController = Get.put(PhoneController());
   final CurrentUserController currentUserController =
@@ -77,7 +77,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
   getToken() async {
     mytoken = await FirebaseMessaging.instance.getToken();
     setState(() {
-      // currentUserController.currentUser.value.accountToken = mytoken!;
+      currentUserController.currentUser.value.accountToken = mytoken!;
       currentUserController.tempUser.value.accountToken = mytoken!;
       mytoken = mytoken;
     });
@@ -163,10 +163,10 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
       dateinput.text = "";
     }
 // get city list if use selected the country before
-    if (currentUserController.tempUser.value.country != "") {
+    if (currentUserController.currentUser.value.country != "") {
       try {
         var _checklist =
-            listof_city(currentUserController.tempUser.value.country.tr);
+            listof_city(currentUserController.currentUser.value.country.tr);
         if (_checklist != null) {
           _listofcity = _checklist;
         }
@@ -174,9 +174,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
         print('never reached');
       }
     }
-    if (currentUserController.tempUser.value.enabledit) {
-      getToken();
-    }
+    getToken();
   }
 
   @override
@@ -529,9 +527,9 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                     Expanded(
                       child: SearchChoices.single(
                         readOnly:
-                            !currentUserController.tempUser.value.enabledit,
+                            !currentUserController.currentUser.value.enabledit,
 
-                        icon: currentUserController.tempUser.value.enabledit
+                        icon: currentUserController.currentUser.value.enabledit
                             ? Icon(Icons.arrow_drop_down)
                             : Text(''),
                         //label: Icon(Icons.location_history),

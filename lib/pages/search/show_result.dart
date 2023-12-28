@@ -35,7 +35,7 @@ class _ShowResultState extends State<ShowResult> {
     return Scaffold(
       //backgroundColor: Color.fromARGB(255, 230, 222, 222),
       // drawer: Drawer(child: UserProfilePage(showbottombar: false)),
-      appBar: simplAppbar(true, 'Search Result'),
+      appBar: simplAppbar(true, 'search_result'.tr),
       body: Obx(() => searchController.teachers.isNotEmpty
           ? ListView.builder(
               itemCount: searchController.teachers.length,
@@ -54,7 +54,7 @@ class _ShowResultState extends State<ShowResult> {
                     Divider(color: Colors.grey[300], thickness: sp(1)),
                 ]);
               })
-          : Text('No data')),
+          : Text('no_data'.tr)),
       bottomNavigationBar: MybottomBar(),
     );
   }

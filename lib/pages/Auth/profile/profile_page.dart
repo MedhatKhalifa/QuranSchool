@@ -94,7 +94,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     currentUserController.tempUser.value = _user;
                     currentUserController.tempUser.value.updateOld = true;
                     currentUserController.tempUser.value.enabledit = true;
-                    currentUserController.currentUser.value.updateOld = true;
+                    //  currentUserController.currentUser.value.updateOld = true;
                     currentUserController.tempUser.value =
                         currentUserController.currentUser.value;
                     currentUserController.tempUser =

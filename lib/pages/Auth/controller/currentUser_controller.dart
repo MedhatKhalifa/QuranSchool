@@ -105,7 +105,8 @@ class CurrentUserController extends GetxController {
 
         tempUser = currentUser;
         currentUser.value.id = -1;
-
+        tempUser.value.updateOld = false;
+        tempUser.value.enabledit = true;
         Get.to(ProfileRegisterPage());
       } else {
         mySnackbar("Failed".tr, "error_user".tr, "Error");
@@ -316,7 +317,7 @@ class CurrentUserController extends GetxController {
         storeUserData(
             currentUser.value, 'user'); // save UserID, User name , Phone Num
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.offAll(HomePage());
+        Get.to(HomePage());
       } else {
         mySnackbar("Failed".tr, "validate_data".tr, "Error");
       }
