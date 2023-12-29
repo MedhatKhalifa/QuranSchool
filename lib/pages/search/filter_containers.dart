@@ -41,10 +41,14 @@ class ContainerCard extends StatelessWidget {
             size: sp(30),
           ),
           SizedBox(height: h(1)),
-          Text(
-            text,
-            style: TextStyle(
-                fontSize: sp(8), color: isClicked ? Colors.white : Colors.grey),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontSize: sp(8),
+                  color: isClicked ? Colors.white : Colors.grey),
+            ),
           ),
         ],
       ),

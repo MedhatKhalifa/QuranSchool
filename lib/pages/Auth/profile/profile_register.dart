@@ -353,6 +353,9 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                     // inputFormatters: [
                     //   FilteringTextInputFormatter.allow(RegExp('[0-9.,+]+'))
                     // ],
+                    onChanged: (value) {
+                      currentUserController.tempUser.value.fullName = value;
+                    },
 
                     /// decoration
                     decoration: InputDecoration(
@@ -384,66 +387,72 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                   //=======================================================================
                   //=============Gender Male Female ===========================================
                   //=======================================================================
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
                           child: Text('Gender'.tr,
                               style: TextStyle(color: graytextColor)),
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: ListTile(
-                            title: Text('Male'.tr,
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: ListTile(
+                          title: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Male'.tr,
                                 style: TextStyle(color: graytextColor)),
-                            leading: Radio(
-                              activeColor: textbuttonColor,
-                              value: 'male',
-                              groupValue:
-                                  currentUserController.tempUser.value.gender,
-                              onChanged:
-                                  currentUserController.tempUser.value.enabledit
-                                      ? (value) {
-                                          setState(() {
-                                            currentUserController.tempUser.value
-                                                .gender = value.toString();
-                                          });
-                                        }
-                                      : null,
-                            ),
+                          ),
+                          leading: Radio(
+                            activeColor: textbuttonColor,
+                            value: 'male',
+                            groupValue:
+                                currentUserController.tempUser.value.gender,
+                            onChanged:
+                                currentUserController.tempUser.value.enabledit
+                                    ? (value) {
+                                        setState(() {
+                                          currentUserController.tempUser.value
+                                              .gender = value.toString();
+                                        });
+                                      }
+                                    : null,
                           ),
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: ListTile(
-                            title: Text('Female'.tr,
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: ListTile(
+                          title: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Female'.tr,
                                 style: TextStyle(color: graytextColor)),
-                            leading: Radio(
-                              value: 'female',
-                              activeColor: textbuttonColor,
-                              groupValue:
-                                  currentUserController.tempUser.value.gender,
-                              onChanged:
-                                  currentUserController.tempUser.value.enabledit
-                                      ? (value) {
-                                          setState(() {
-                                            currentUserController.tempUser.value
-                                                .gender = value.toString();
-                                          });
-                                        }
-                                      : null,
-                            ),
+                          ),
+                          leading: Radio(
+                            value: 'female',
+                            activeColor: textbuttonColor,
+                            groupValue:
+                                currentUserController.tempUser.value.gender,
+                            onChanged:
+                                currentUserController.tempUser.value.enabledit
+                                    ? (value) {
+                                        setState(() {
+                                          currentUserController.tempUser.value
+                                              .gender = value.toString();
+                                        });
+                                      }
+                                    : null,
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(''.tr,
-                              style: TextStyle(color: graytextColor)),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child:
+                            Text(''.tr, style: TextStyle(color: graytextColor)),
+                      ),
+                    ],
                   ),
 
                   // Row(

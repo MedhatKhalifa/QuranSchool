@@ -6,8 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
+import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
@@ -20,6 +22,8 @@ class _NextSessionState extends State<NextSession> {
   late Timer _timer;
   late DateTime sessionDateTime;
   final MySesionController mySesionController = Get.put(MySesionController());
+  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
+
   late int remainingMinutes;
   @override
   void initState() {
@@ -66,81 +70,96 @@ class _NextSessionState extends State<NextSession> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: simplAppbar(false, "my_next_session".tr),
-      body: Container(
-        child: Obx(() => mySesionController.isNextSessionloading.value == true
-            ? Center(
-                child: LoadingBouncingGrid.circle(
-                  borderColor: mybrowonColor,
-                  backgroundColor: Colors.white,
-                  // borderSize: 3.0,
-                  // size: sp(20),
-                  // backgroundColor: Color(0xff112A04),
-                  //  duration: Duration(milliseconds: 500),
-                ),
-              )
-            : mySesionController.diffMinutes.value == -1000001
-                ? Center(child: Text(' Please Subscribe first '))
-                : mySesionController.diffMinutes.value == -1000002
-                    ? Center(
-                        child: Text(' Please renew your subscribtion  first '))
-                    : ListView(
-                        children: [
-                          SizedBox(height: h(20)),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child:
-                                Center(child: Text('Your session will  '.tr)),
-                          ),
-                          Padding(
+    return WillPopScope(
+      onWillPop: () async {
+        // Override the back button behavior to navigate to a specific page, e.g., '/home'
+        myBottomBarCtrl.selectedIndBottomBar.value = 0;
+        Get.to(HomePage());
+        return false; // Do not allow the default back button behavior
+      },
+      child: Scaffold(
+        appBar: simplAppbar(false, "my_next_session".tr),
+        body: Container(
+          child: Obx(() => mySesionController.isNextSessionloading.value == true
+              ? Center(
+                  child: LoadingBouncingGrid.circle(
+                    borderColor: mybrowonColor,
+                    backgroundColor: Colors.white,
+                    // borderSize: 3.0,
+                    // size: sp(20),
+                    // backgroundColor: Color(0xff112A04),
+                    //  duration: Duration(milliseconds: 500),
+                  ),
+                )
+              : mySesionController.diffMinutes.value == -1000001
+                  ? Center(child: Text(' Please Subscribe first '))
+                  : mySesionController.diffMinutes.value == -1000002
+                      ? Center(
+                          child:
+                              Text(' Please renew your subscribtion  first '))
+                      : ListView(
+                          children: [
+                            SizedBox(height: h(20)),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child:
+                                  Center(child: Text('Your session will  '.tr)),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Center(
+                                    child: Text(' at : ' +
+                                        (DateFormat('yy/MM/dd HH:mm').format(
+                                                DateTime.parse(
+                                                    mySesionController
+                                                            .nextSession
+                                                            .value
+                                                            .date! +
+                                                        ' ' +
+                                                        mySesionController
+                                                            .nextSession
+                                                            .value
+                                                            .time!)))
+                                            .toString()))),
+                            const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Center(
-                                  child: Text(' at : ' +
-                                      (DateFormat('yy/MM/dd HH:mm').format(
-                                              DateTime.parse(mySesionController
-                                                      .nextSession.value.date! +
-                                                  ' ' +
-                                                  mySesionController.nextSession
-                                                      .value.time!)))
-                                          .toString()))),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                                child:
-                                    Text('Your next Session will start after')),
-                          ),
-                          Center(
-                              child: SlideCountdown(
-                            durationTitle: Get.locale?.languageCode == 'ar'
-                                ? DurationTitle.ar()
-                                : DurationTitle.en(),
-                            slideDirection: SlideDirection.down,
-                            separatorType: SeparatorType.title,
-                            duration: Duration(
-                                minutes: mySesionController.diffMinutes.value),
-                          )),
-                          Padding(
-                            padding: const EdgeInsets.all(25),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  if (mySesionController.diffMinutes.value <
-                                          40 &&
-                                      mySesionController.diffMinutes.value >
-                                          -30) {
-                                    mySesionController.getToken(
-                                        mySesionController
-                                            .nextSession.value.teacher,
-                                        mySesionController
-                                            .nextSession.value.student);
-                                  }
-                                },
-                                child: const Text(' Join Session ')),
-                          ),
-                        ],
-                      )),
+                                  child: Text(
+                                      'Your next Session will start after')),
+                            ),
+                            Center(
+                                child: SlideCountdown(
+                              durationTitle: Get.locale?.languageCode == 'ar'
+                                  ? DurationTitle.ar()
+                                  : DurationTitle.en(),
+                              slideDirection: SlideDirection.down,
+                              separatorType: SeparatorType.title,
+                              duration: Duration(
+                                  minutes:
+                                      mySesionController.diffMinutes.value),
+                            )),
+                            Padding(
+                              padding: const EdgeInsets.all(25),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (mySesionController.diffMinutes.value <
+                                            40 &&
+                                        mySesionController.diffMinutes.value >
+                                            -30) {
+                                      mySesionController.getToken(
+                                          mySesionController
+                                              .nextSession.value.teacher,
+                                          mySesionController
+                                              .nextSession.value.student);
+                                    }
+                                  },
+                                  child: const Text(' Join Session ')),
+                            ),
+                          ],
+                        )),
+        ),
+        bottomNavigationBar: MybottomBar(),
       ),
-      bottomNavigationBar: MybottomBar(),
     );
   }
 }

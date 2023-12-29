@@ -6,8 +6,10 @@ import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/search/filter_containers.dart';
 import 'package:quranschool/pages/search/show_item.dart';
 import 'package:quranschool/pages/teacher/model/teacher_model.dart';
@@ -83,7 +85,9 @@ class _SearchPage2State extends State<SearchPage2> {
       }
     });
   }
+
   //////
+  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 
   bool isSearching = false;
   String _search_text = '';
@@ -157,8 +161,13 @@ class _SearchPage2State extends State<SearchPage2> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Container(
-      //  decoration: ldecoration,
+    return WillPopScope(
+      onWillPop: () async {
+        // Override the back button behavior to navigate to a specific page, e.g., '/home'
+        myBottomBarCtrl.selectedIndBottomBar.value = 0;
+        Get.to(HomePage());
+        return false; // Do not allow the default back button behavior
+      },
       child: Scaffold(
         backgroundColor: Colors.transparent,
 
