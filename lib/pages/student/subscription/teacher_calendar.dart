@@ -4,6 +4,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/login_controller.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/student/subscription/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
@@ -25,6 +26,8 @@ class CalendarShow extends StatefulWidget {
 class _CalendarShowState extends State<CalendarShow> {
   final SubscribitionController subscribitionController =
       Get.put(SubscribitionController());
+
+  final LoginController loginController = Get.put(LoginController());
 
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -159,6 +162,11 @@ class _CalendarShowState extends State<CalendarShow> {
                   subscribitionController
                       .selectedPayement.value.sessionCount!) {
                 subscribitionController.createStudentSubsc();
+                if (int.parse(subscribitionController
+                        .selectedPayement.value.price!) ==
+                    0) {
+                  loginController.setFreeSession();
+                }
                 Get.to(ConfirmationPage());
                 //Get.snackbar("Note", generateString(), colorText: Colors.black);
               } else {

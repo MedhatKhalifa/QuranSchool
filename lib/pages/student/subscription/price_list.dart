@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
+import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/student/subscription/teacher_calendar.dart';
 
@@ -78,7 +79,18 @@ class _SessionPriceListState extends State<SessionPriceList> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
+                                  color: ((subscribitionController
+                                                      .subPriceList[index]
+                                                      .subscriptionName! ==
+                                                  'Free Session' &&
+                                              currentUserController.currentUser
+                                                  .value.freeSession) ||
+                                          subscribitionController
+                                                  .subPriceList[index]
+                                                  .subscriptionName! !=
+                                              'Free Session')
+                                      ? Colors.white
+                                      : Color.fromARGB(255, 209, 209, 209),
                                   // border: Border.all(color: Colors.red),
                                 ),
                                 child: ListTile(
@@ -87,19 +99,90 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                           " EGP".tr),
                                   title: Text(paymentOption.subscriptionName!),
                                   subtitle: Text(paymentOption.description!),
-                                  leading: Radio(
-                                    activeColor: mybrowonColor,
-                                    value: index,
-                                    groupValue: _selectedPaymentOptionIndex,
-                                    onChanged: (value) {
+                                  onTap: () {
+                                    var _temp = subscribitionController
+                                        .selectedPayement.value;
+                                    subscribitionController
+                                            .selectedPayement.value =
+                                        subscribitionController
+                                            .subPriceList[index];
+                                    // do that if payement
+                                    if ((subscribitionController
+                                                    .selectedPayement
+                                                    .value
+                                                    .subscriptionName! ==
+                                                'Free Session' &&
+                                            currentUserController.currentUser
+                                                .value.freeSession) ||
+                                        subscribitionController.selectedPayement
+                                                .value.subscriptionName! !=
+                                            'Free Session') {
                                       setState(() {
                                         _selectedPaymentOptionIndex =
-                                            value as int;
+                                            index as int;
                                         subscribitionController
                                                 .selectedPayement.value =
                                             subscribitionController
                                                 .subPriceList[index];
                                       });
+                                    } else {
+                                      subscribitionController
+                                          .selectedPayement.value = _temp;
+                                    }
+                                  },
+                                  leading: Radio(
+                                    activeColor: mybrowonColor,
+                                    value: index,
+                                    groupValue: _selectedPaymentOptionIndex,
+                                    onChanged: (value) {
+                                      var _temp = subscribitionController
+                                          .selectedPayement.value;
+                                      subscribitionController
+                                              .selectedPayement.value =
+                                          subscribitionController
+                                              .subPriceList[index];
+                                      // do that if payement
+                                      if ((subscribitionController
+                                                      .selectedPayement
+                                                      .value
+                                                      .subscriptionName! ==
+                                                  'Free Session' &&
+                                              currentUserController.currentUser
+                                                  .value.freeSession) ||
+                                          subscribitionController
+                                                  .selectedPayement
+                                                  .value
+                                                  .subscriptionName! !=
+                                              'Free Session') {
+                                        setState(() {
+                                          _selectedPaymentOptionIndex =
+                                              value as int;
+                                          subscribitionController
+                                                  .selectedPayement.value =
+                                              subscribitionController
+                                                  .subPriceList[index];
+                                        });
+                                      } else {
+                                        subscribitionController
+                                            .selectedPayement.value = _temp;
+                                      }
+
+                                      // if (subscribitionController
+                                      //             .selectedPayement
+                                      //             .value
+                                      //             .price! ==
+                                      //         '0.00' &&
+                                      //     !currentUserController
+                                      //         .currentUser.value.freeSession) {
+                                      //   setState(() {
+                                      //     _selectedPaymentOptionIndex =
+                                      //         value as int;
+                                      //     subscribitionController
+                                      //             .selectedPayement.value =
+                                      //         subscribitionController
+                                      //             .subPriceList[index];
+                                      //   });
+                                      // }
                                     },
                                   ),
                                 ),

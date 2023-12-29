@@ -125,7 +125,7 @@ class _NextSessionState extends State<NextSession> {
                               padding: EdgeInsets.all(8.0),
                               child: Center(
                                   child: Text(
-                                      'Your next Session will start after')),
+                                      'Remaining time until the session starts is...')),
                             ),
                             Center(
                                 child: SlideCountdown(
@@ -143,7 +143,7 @@ class _NextSessionState extends State<NextSession> {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (mySesionController.diffMinutes.value <
-                                            40 &&
+                                            40000 &&
                                         mySesionController.diffMinutes.value >
                                             -30) {
                                       mySesionController.getToken(
@@ -151,6 +151,24 @@ class _NextSessionState extends State<NextSession> {
                                               .nextSession.value.teacher,
                                           mySesionController
                                               .nextSession.value.student);
+                                    } else {
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                          'The session hasn\'t started yet.',
+                                          style: TextStyle(
+                                              color: Colors
+                                                  .white), // Set text color to white
+                                        ),
+                                        backgroundColor: Colors
+                                            .red, // Set the background color to red
+                                        duration: Duration(
+                                            seconds:
+                                                3), // Set the duration for how long the SnackBar will be displayed
+                                      );
+
+                                      // Use ScaffoldMessenger to show the SnackBar
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
                                     }
                                   },
                                   child: const Text(' Join Session ')),

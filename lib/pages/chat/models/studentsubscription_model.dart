@@ -27,6 +27,7 @@ class StudSubModel {
     required this.friendtName,
     required this.friendImage,
     required this.unreadMsg,
+    required this.remainingSessions,
   });
   late final String teacherID;
   late final String teacherUsername;
@@ -41,6 +42,7 @@ class StudSubModel {
   late final String friendUsername;
   late final String friendtName;
   late final String friendImage;
+  late final int remainingSessions;
   bool unreadMsg = false;
 
   StudSubModel.fromJson(Map<String, dynamic> json) {
@@ -53,6 +55,7 @@ class StudSubModel {
     studentUsername = json['studentUsername'] ?? "";
     studentName = json['studentName'] ?? "";
     studentImage = json['studentImage'] ?? "";
+    remainingSessions = json['remainingSessions'] ?? 0;
 
     friendtID = currentUserController.currentUser.value.userType != "student"
         ? json['studentID'] ?? ""

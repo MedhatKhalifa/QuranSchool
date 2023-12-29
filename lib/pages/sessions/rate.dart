@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
@@ -46,6 +47,15 @@ class _RateSessionState extends State<RateSession> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text(
+              'Session_Review'.tr,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            SizedBox(height: h(10)),
             !mySesionController.feedbackEdit.value
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -76,16 +86,28 @@ class _RateSessionState extends State<RateSession> {
                       ),
                     ),
                   ),
-            SizedBox(height: 20),
+            SizedBox(height: h(5)),
             Text(
               'Comment'.tr,
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: h(1)),
             !mySesionController.feedbackEdit.value
-                ? Text(
-                    comment,
-                    style: TextStyle(fontSize: 16),
+                ? Container(
+                    width: w(80),
+                    height: h(50),
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        comment,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
                   )
                 : Expanded(
                     child: TextField(

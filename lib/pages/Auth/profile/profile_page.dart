@@ -19,6 +19,7 @@ import 'package:quranschool/pages/sessions/st.dart';
 import 'package:quranschool/pages/sessions/videoConference.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
+import 'package:quranschool/pages/subscribtionAll/showSubscriptionAll.dart';
 import 'package:quranschool/pages/teacher/availability_input.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:quranschool/pages/teacher/mystudent/showmyStudent.dart';
@@ -113,6 +114,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   onTap: () async {
                     Get.to(LoginPage());
                   })),
+
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(Icons.calendar_month),
+                    title: Text('Mysubscription'.tr),
+                    onTap: () async {
+                      chatController.isLoadingall.value = true;
+                      chatController.getallSubList();
+                      Get.to(ShowSubscriptionAll());
+                    }),
+              )),
 
           Divider(),
 

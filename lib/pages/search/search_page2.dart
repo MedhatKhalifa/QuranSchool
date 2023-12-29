@@ -6,6 +6,8 @@ import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/login_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
@@ -29,7 +31,9 @@ class SearchPage2 extends StatefulWidget {
 class _SearchPage2State extends State<SearchPage2> {
   // define variable
   final SearchController1 searchController = Get.put(SearchController1());
-
+  final LoginController loginController = Get.put(LoginController());
+  final CurrentUserController currentUserController =
+      Get.put(CurrentUserController());
   final TextEditingController controller = TextEditingController();
   final scrollController = ScrollController();
   // for date and time
@@ -358,6 +362,8 @@ class _SearchPage2State extends State<SearchPage2> {
                                 searchController.queryparmater.value =
                                     (buildQueryParams());
                                 searchController.getteacherFilter();
+                                loginController.checkFreeSession(
+                                    currentUserController.currentUser.value.id);
                               },
                             ),
                           ),

@@ -10,8 +10,9 @@ import 'package:quranschool/pages/chat/models/studentsubscription_model.dart';
 
 class ChatController extends GetxController {
   var studSubdata = <StudSubModel>[].obs;
-
+  var allsubdata = <StudSubModel>[].obs;
   var isLoading = true.obs;
+  var isLoadingall = true.obs;
 
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
@@ -192,6 +193,20 @@ class ChatController extends GetxController {
     });
   }
 
+  void sortallsubbdate() {
+    allsubdata.sort((a, b) {
+      // Place entries with unread messages first
+      if (a.unreadMsg && !b.unreadMsg) {
+        return -1;
+      } else if (!a.unreadMsg && b.unreadMsg) {
+        return 1;
+      }
+
+      // If both have unread messages or both don't, maintain their current order
+      return 0;
+    });
+  }
+
   // void createDocID() async {
   //   await chats
   //       .where('users', isEqualTo: {friendUid: null, currentUserId: null})
@@ -218,4 +233,56 @@ class ChatController extends GetxController {
   //       )
   //       .catchError((error) {});
   // }
+
+  // Get Availity First then Get Sessions then generate Meeting to be showed
+  Future getallSubList() async {
+    isLoadingall.value = true;
+    allsubdata.clear();
+    filteredFriends.clear();
+
+    var dio = Dio();
+    var response = await dio.get(
+      studsubUrl +
+          currentUserController.currentUser.value.userType +
+          "=" +
+          currentUserController.currentUser.value.id.toString(),
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      // sessions = parseAvailabilitysfromListofMap(
+      //     response.data.cast<Map<String, dynamic>>());
+
+      if (response.data.length > 0) {
+        List<Map<String, dynamic>> responseMapList =
+            List<Map<String, dynamic>>.from(response.data);
+
+        List<StudSubModel> _temp = studSubModelfromListofMap(responseMapList);
+        //_temp = _temp.toSet().toList();
+        allsubdata.clear();
+        allsubdata.assignAll(_temp);
+        updateFilteredFriends(allsubdata);
+        sortStudSubModels();
+
+        print(allsubdata);
+      }
+      // Now  call Session
+      isLoadingall.value = false;
+
+      // Get.to(const ShowResult());
+    } else {
+      _failmessage(response);
+      isLoadingall.value = false;
+    }
+    // isLoading.value = false;
+    isLoadingall.value = false;
+
+    //return studSubdata;
+  }
 }
