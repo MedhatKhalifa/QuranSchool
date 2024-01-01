@@ -127,11 +127,11 @@ class MySesionController extends GetxController {
     isLoading.value = true;
     var dio = Dio();
     var response = await dio.put(
-      _url!,
+      _url,
       data: {
         if (sessionStatus != null) 'sessionStatus': sessionStatus,
         if (teacherAttendance != null) 'teacherAttendance': teacherAttendance,
-        if (studentRate != null) 'studentRate': studentRate,
+        if (studentRate != null && studentRate != 0) 'studentRate': studentRate,
         if (teacherOpinion != null) 'teacherOpinion': teacherOpinion,
         if (studentAttendance != null) 'studentAttendance': studentAttendance,
         if (teacherRank != null) 'teacherRank': teacherRank,

@@ -102,48 +102,71 @@ class _NextSessionState extends State<NextSession> {
                             SizedBox(height: h(20)),
                             Padding(
                               padding: EdgeInsets.all(8.0),
-                              child:
-                                  Center(child: Text('Your session will  '.tr)),
+                              child: Center(
+                                  child: Text('Your session will at '.tr)),
                             ),
                             Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Center(
-                                    child: Text(' at : ' +
-                                        (DateFormat('yy/MM/dd HH:mm').format(
-                                                DateTime.parse(
+                                    child: Text((DateFormat('dd/MMM/yy hh:mm',
+                                                Get.locale?.languageCode)
+                                            .format(DateTime.parse(
+                                                mySesionController.nextSession
+                                                        .value.date! +
+                                                    ' ' +
                                                     mySesionController
-                                                            .nextSession
-                                                            .value
-                                                            .date! +
-                                                        ' ' +
-                                                        mySesionController
-                                                            .nextSession
-                                                            .value
-                                                            .time!)))
-                                            .toString()))),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Text(
-                                      'Remaining time until the session starts is...')),
-                            ),
-                            Center(
-                                child: SlideCountdown(
-                              durationTitle: Get.locale?.languageCode == 'ar'
-                                  ? DurationTitle.ar()
-                                  : DurationTitle.en(),
-                              slideDirection: SlideDirection.down,
-                              separatorType: SeparatorType.title,
-                              duration: Duration(
-                                  minutes:
-                                      mySesionController.diffMinutes.value),
-                            )),
+                                                        .nextSession
+                                                        .value
+                                                        .time!)))
+                                        .toString()))),
+                            // Visibility(
+                            //   visible:
+                            //       mySesionController.diffMinutes.value < 60 &&
+                            //           mySesionController.diffMinutes.value > 1,
+                            //   child: const Padding(
+                            //     padding: EdgeInsets.all(8.0),
+                            //     child: Center(
+                            //         child: Text(
+                            //             'Remaining time until the session starts is...')),
+                            //   ),
+                            // ),
+                            // Visibility(
+                            //   visible:
+                            //       mySesionController.diffMinutes.value < 60 &&
+                            //           mySesionController.diffMinutes.value > 1,
+                            //   child: Center(
+                            //       child: SlideCountdown(
+                            //     // showZeroValue: true,
+                            //     // durationTitle: Get.locale?.languageCode == 'ar'
+                            //     //     ? DurationTitle.ar()
+                            //     //     : DurationTitle.en(),
+                            //     durationTitle: DurationTitle.en(),
+                            //     slideDirection: SlideDirection.down,
+                            //     separatorType: SeparatorType.title,
+                            //     duration: Duration(
+                            //         minutes:
+                            //             mySesionController.diffMinutes.value),
+                            //   )),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.all(25),
                               child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: mySesionController
+                                                    .diffMinutes.value <
+                                                30 &&
+                                            mySesionController
+                                                    .diffMinutes.value >
+                                                -30
+                                        ? MaterialStateProperty.all<Color>(
+                                            mybrowonColor)
+                                        : MaterialStateProperty.all<Color>(
+                                            Colors.grey), // Change this color
+                                    // You can add more styles here, like padding, shape, etc.
+                                  ),
                                   onPressed: () {
                                     if (mySesionController.diffMinutes.value <
-                                            40000 &&
+                                            30 &&
                                         mySesionController.diffMinutes.value >
                                             -30) {
                                       mySesionController.getToken(

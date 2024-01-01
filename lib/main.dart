@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // textDirection: TextDirection.ltr,
       title: 'Madraset Al Quran',
       theme: LocalThemes.lightTheme, // located in core folder
       debugShowCheckedModeBanner: false,

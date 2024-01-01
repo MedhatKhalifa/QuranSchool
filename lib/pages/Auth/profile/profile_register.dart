@@ -252,9 +252,13 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                   _imageload = true;
 
                                   final bytes =
-                                      File(_imagexpick!.path).readAsBytesSync();
-                                  currentUserController.tempUser.value.image =
-                                      base64Encode(bytes);
+                                      //     File(_imagexpick!.path).readAsBytesSync();
+                                      // currentUserController.tempUser.value.image =
+                                      //     base64Encode(bytes);
+
+                                      currentUserController.tempUser.value
+                                          .image = _imagexpick!.path;
+
                                   currentUserController
                                       .tempUser.value.imagechanged = true;
                                 });

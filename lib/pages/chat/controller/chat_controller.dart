@@ -194,17 +194,20 @@ class ChatController extends GetxController {
   }
 
   void sortallsubbdate() {
-    allsubdata.sort((a, b) {
-      // Place entries with unread messages first
-      if (a.unreadMsg && !b.unreadMsg) {
-        return -1;
-      } else if (!a.unreadMsg && b.unreadMsg) {
-        return 1;
-      }
+    print(allsubdata);
+    allsubdata.sort((a, b) => b.subscriptionDate.compareTo(a.subscriptionDate));
+    print(allsubdata);
+    // allsubdata.sort((a, b) {
+    //   // Place entries with unread messages first
+    //   if (a.unreadMsg && !b.unreadMsg) {
+    //     return -1;
+    //   } else if (!a.unreadMsg && b.unreadMsg) {
+    //     return 1;
+    //   }
 
-      // If both have unread messages or both don't, maintain their current order
-      return 0;
-    });
+    //   // If both have unread messages or both don't, maintain their current order
+    //   return 0;
+    // });
   }
 
   // void createDocID() async {
@@ -267,8 +270,8 @@ class ChatController extends GetxController {
         //_temp = _temp.toSet().toList();
         allsubdata.clear();
         allsubdata.assignAll(_temp);
+        sortallsubbdate();
         updateFilteredFriends(allsubdata);
-        sortStudSubModels();
 
         print(allsubdata);
       }

@@ -6,6 +6,7 @@ import 'package:quranschool/pages/Auth/login/login_page.dart';
 import 'package:quranschool/pages/Auth/profile/aboutUs.dart';
 import 'package:quranschool/pages/Auth/profile/contactUs.dart';
 import 'package:quranschool/pages/Auth/profile/profile_register.dart';
+import 'package:quranschool/pages/Auth/profile/questions.dart';
 import 'package:quranschool/pages/chat/controller/chat_controller.dart';
 import 'package:quranschool/pages/chat/chat_details.dart';
 import 'package:quranschool/pages/chat/people_list.dart';
@@ -13,6 +14,7 @@ import 'package:quranschool/pages/chat/people_list.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
+import 'package:quranschool/pages/notification/notificationShow.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/sessions/st.dart';
@@ -118,12 +120,22 @@ class _UserProfilePageState extends State<UserProfilePage> {
           Obx(() => Visibility(
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
-                    leading: Icon(Icons.calendar_month),
-                    title: Text('Mysubscription'.tr),
+                    leading: Icon(Icons.shopify),
+                    title: Text('subscription'.tr),
                     onTap: () async {
                       chatController.isLoadingall.value = true;
                       chatController.getallSubList();
                       Get.to(ShowSubscriptionAll());
+                    }),
+              )),
+
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.id != -1,
+                child: ListTile(
+                    leading: Icon(Icons.notifications),
+                    title: Text('Notification'.tr),
+                    onTap: () async {
+                      Get.to(NotificationShow());
                     }),
               )),
 
@@ -261,10 +273,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
           //     )),
 
           ListTile(
-              leading: FaIcon(FontAwesomeIcons.quran),
-              title: Text('aboutus'.tr),
+              leading: Icon(Icons.help_outline),
+              title: Text('qna'.tr),
               onTap: () async {
-                Get.to(() => AboutUsPage());
+                currentUserController.readQuestions();
+                Get.to(() => QuestionShow());
               }),
 
           ListTile(

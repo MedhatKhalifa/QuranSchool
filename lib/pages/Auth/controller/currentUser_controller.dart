@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:quranschool/pages/Auth/Model/questions.dart';
+
 import 'package:quranschool/pages/Auth/controller/phone_controller.dart';
 
 import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
@@ -10,7 +14,6 @@ import 'package:quranschool/pages/common_widget/error_snackbar.dart';
 
 import 'package:get/get.dart';
 
-
 import 'package:quranschool/pages/Auth/Model/users.dart';
 
 import 'package:dio/dio.dart';
@@ -21,12 +24,9 @@ import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 import 'package:sms_autofill/sms_autofill.dart';
 
-
 import '../../../core/db_links/db_links.dart';
 
-
 class CurrentUserController extends GetxController {
-
   // Just this currentuser fetch User Model
 
   var currentUser = User().obs;
@@ -41,26 +41,21 @@ class CurrentUserController extends GetxController {
 
   var phoneExist = true.obs;
 
+  var isQuesLoading = true.obs;
+
+  var questionsList = <Quetions>[].obs;
 
   final PhoneController phoneController = Get.put(PhoneController());
 
-
   final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 
-
   @override
-
   void onInit() async {
-
     super.onInit();
-
   }
 
-
   Future updateUserData(User _userdata) async {
-
     try {
-
       isLoading(true);
 
       var dio = Dio(); // DIO is library to deal with APIs
@@ -68,79 +63,50 @@ class CurrentUserController extends GetxController {
       storeUserData(currentUser.value, 'user');
 
       var response = await dio.post(
-
         editprofileUrl,
-
         data: {
-
           'userId': currentUser.value.id,
 
           //'villaArea': _userdata.villaArea,
-
         },
-
         options: Options(
-
           followRedirects: false,
 
           validateStatus: (status) {
-
             return status! < 505;
-
           },
 
           //headers: {},
-
         ),
-
       );
 
-
       if (response.statusCode == 200) {
-
         storeUserData(currentUser.value, 'user');
-
       } else {
-
         //mySnackbar("Failed".tr, "cannot_update_user_data".tr, false);
-
       }
-
     } finally {
-
       isLoading.value = false;
-
     }
-
   }
 
-
   Future registeruser() async {
-
     // var f = _loadUserData('user');
 
     // print(f);
 
-
     //return Get.offAll(ProfileRegisterPage());
 
-
     try {
-
       isLoading(true);
 
       var dio = Dio(); // DIO is library to deal with APIs
 
-
       //tempUser.value.accountType = tempUser.value.showType;
 
-
       var response = await dio.post(
-
         register_url,
-
         data: {
-
           'username': tempUser.value.username, //tempUser.value.username,
 
           'password': tempUser.value.password,
@@ -154,42 +120,29 @@ class CurrentUserController extends GetxController {
           // 'accountToken': currentUserController.currentUser.value.accountToken,
 
           // 'country': tempUser.value.country,
-
         },
-
         options: Options(
-
           followRedirects: false,
 
           validateStatus: (status) {
-
             return status! < 505;
-
           },
 
           //headers: {},
-
         ),
-
       );
 
-
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         //final responseData = json.decode(response.data);
 
         User _regiuser = User.fromJson(response.data);
 
-
         currentUser.value = _regiuser;
 
-
         storeUserData(
-
             currentUser.value, 'user'); // save UserID, User name , Phone Num
 
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
-
 
         tempUser = currentUser;
 
@@ -200,74 +153,48 @@ class CurrentUserController extends GetxController {
         tempUser.value.enabledit = true;
 
         Get.to(ProfileRegisterPage());
-
       } else {
-
         mySnackbar("Failed".tr, "error_user".tr, "Error");
-
       }
-
     } finally {
-
       isLoading.value = false;
-
     }
-
   }
 
-
   Future chdeck_number(String _number) async {
-
     // var f = _loadUserData('user');
 
     // print(f);
 
-
     try {
-
       isLoading(true);
 
       var dio = Dio(); // DIO is library to deal with APIs
 
-
       // tempUser.value.accountType = tempUser.value.showType;
 
-
       var response = await dio.post(
-
         phoneCheckUrl,
-
         data: {
-
           'phoneNumber': _number,
-
         },
-
         options: Options(
-
           followRedirects: false,
 
           validateStatus: (status) {
-
             return status! < 505;
-
           },
 
           //headers: {},
-
         ),
-
       );
 
-
       if (response.statusCode == 200) {
-
         //final responseData = json.decode(response.data);
 
         print(response.data['Date']);
 
         if (response.data['Date'] == "phone number not exist") {
-
           phoneExist.value = false;
 
           var resp = await phoneController.verifyPhone(_number);
@@ -275,30 +202,18 @@ class CurrentUserController extends GetxController {
           await SmsAutoFill().listenForCode;
 
           Get.to(const OtpDialogue());
-
         } else {
-
           mySnackbar("Failed".tr, "error_user".tr, "Error");
-
         }
-
       } else {
-
         mySnackbar("Failed".tr, "error_user".tr, "Error");
-
       }
-
     } finally {
-
       isLoading.value = false;
-
     }
-
   }
 
-
   Future chdeckUsername(String _number, String userName) async {
-
     // var f = _loadUserData('user');
 
     // print(f);
@@ -311,47 +226,32 @@ class CurrentUserController extends GetxController {
 
     // return Get.to(const OtpDialogue());
 
-
     try {
-
       isLoading(true);
 
       var dio = Dio(); // DIO is library to deal with APIs
 
-
       // tempUser.value.accountType = tempUser.value.showType;
 
-
       var response = await dio.get(
-
         userCheckUrl + userName,
-
         options: Options(
-
           followRedirects: false,
 
           validateStatus: (status) {
-
             return status! < 505;
-
           },
 
           //headers: {},
-
         ),
-
       );
 
-
       if (response.statusCode == 200) {
-
         //final responseData = json.decode(response.data);
 
         // var _x = response.data[0];
 
-
         if (response.data.isEmpty) {
-
           userExist.value = false;
 
           var resp = await phoneController.verifyPhone(_number);
@@ -359,54 +259,35 @@ class CurrentUserController extends GetxController {
           await SmsAutoFill().listenForCode;
 
           Get.to(const OtpDialogue());
-
         } else {
-
           mySnackbar("Failed".tr, "error_user".tr, "Error");
-
         }
-
       } else {
-
         mySnackbar("Failed".tr, "error_data".tr, "Error");
-
       }
-
     } finally {
-
       isLoading.value = false;
-
     }
-
   }
 
-
   Future profileUpdate(User userProfile) async {
-
     // var f = _loadUserData('user');
 
     // print(f);
 
-
     //return Get.offAll(ProfileRegisterPage());
 
-
     try {
-
       isLoading(true);
 
       var dio = Dio(); // DIO is library to deal with APIs
-
 
       //tempUser.value.accountType = tempUser.value.showType;
 
       String _url = profileUrl;
 
-
       if (currentUser.value.id != -1 && currentUser.value.id != null) {
-
         _url = _url + "/" + currentUser.value.id.toString();
-
       }
 
       // var response = await (currentUserController.currentUser.value.id != null
@@ -415,13 +296,9 @@ class CurrentUserController extends GetxController {
 
       //     : dio.post)
 
-
       var response = await dio.post(
-
         profileUrl,
-
         data: {
-
           'username': currentUser.value.username, //tempUser.value.username,
 
           'email': userProfile.email,
@@ -443,85 +320,57 @@ class CurrentUserController extends GetxController {
           'userType': 'student',
 
           'token': currentUser.value.token,
-
         },
-
         options: Options(
-
           followRedirects: false,
 
           validateStatus: (status) {
-
             return status! < 505;
-
           },
 
           //headers: {},
-
         ),
-
       );
 
-
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         //final responseData = json.decode(response.data);
 
         User _regiuser = User.fromJson(response.data);
 
-
         currentUser.value = _regiuser;
 
-
         storeUserData(
-
             currentUser.value, 'user'); // save UserID, User name , Phone Num
 
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
 
         Get.to(HomePage());
-
       } else {
-
         mySnackbar("Failed".tr, "error_data".tr, "Error");
-
       }
-
     } finally {
-
       isLoading.value = false;
-
     }
-
   }
 
-
   Future UpdateoldProfile(User userProfile) async {
-
     // var f = _loadUserData('user');
 
     // print(f);
 
-
     //return Get.offAll(ProfileRegisterPage());
 
-
     try {
-
       isLoading(true);
 
       var dio = Dio(); // DIO is library to deal with APIs
-
 
       //tempUser.value.accountType = tempUser.value.showType;
 
       String _url = profileUrl;
 
-
       if (currentUser.value.id != -1 && currentUser.value.id != null) {
-
         _url = _url + "/" + currentUser.value.id.toString();
-
       }
 
       // var response = await (currentUserController.currentUser.value.id != null
@@ -530,13 +379,9 @@ class CurrentUserController extends GetxController {
 
       //     : dio.post)
 
-
       var response = await dio.put(
-
         profileUrl + "/" + currentUser.value.id.toString() + '/',
-
         data: {
-
           'username': currentUser.value.username, //tempUser.value.username,
 
           // 'email': userProfile.email,
@@ -557,57 +402,89 @@ class CurrentUserController extends GetxController {
 
           'nationality': userProfile.nationality,
 
-          'image': userProfile.image,
-
+          // 'image': userProfile.image,
         },
-
         options: Options(
-
           followRedirects: false,
 
           validateStatus: (status) {
-
             return status! < 505;
-
           },
 
           //headers: {},
-
         ),
-
       );
 
-
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         //final responseData = json.decode(response.data);
 
         User _regiuser = User.fromJson(response.data);
 
         currentUser.value = _regiuser;
 
-
         storeUserData(
-
             currentUser.value, 'user'); // save UserID, User name , Phone Num
 
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
 
         Get.to(HomePage());
-
       } else {
-
         mySnackbar("Failed".tr, "validate_data".tr, "Error");
-
       }
-
     } finally {
-
       isLoading.value = false;
-
     }
-
   }
 
-}
+  //// Question
 
+  ///
+
+  Future readQuestions() async {
+    try {
+      isQuesLoading(true);
+
+      var dio = Dio(); // DIO is library to deal with APIs
+
+      var response = await dio.get(
+        qustionnUrl,
+
+        // data: {
+
+        //   'userId': currentUser.value.id,
+
+        //   //'villaArea': _userdata.villaArea,
+
+        // },
+
+        options: Options(
+          followRedirects: false,
+
+          validateStatus: (status) {
+            return status! < 505;
+          },
+
+          //headers: {},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        // Parse the JSON response into a list of Quetions objects
+
+        // var parsedData =
+
+        //     List<Map<String, dynamic>>.from(json.decode(response.data));
+
+        List<Map<String, dynamic>> parsedData =
+            List<Map<String, dynamic>>.from(response.data);
+
+        questionsList.value =
+            parsedData.map((json) => Quetions.fromJson(json)).toList();
+      } else {
+        //mySnackbar("Failed".tr, "cannot_update_user_data".tr, false);
+      }
+    } finally {
+      isQuesLoading.value = false;
+    }
+  }
+}

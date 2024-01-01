@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
@@ -31,9 +32,9 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
   // // Add a TextEditingController for the search query
   final TextEditingController searchController = TextEditingController();
   String studentSubscriptionStatusValue = 'NotPaid';
-
+  String query = '';
 // Function to filter friends based on search query in username or name
-  List<StudSubModel> filterFriends(String query) {
+  List<StudSubModel> filterFriends() {
     return chatController.allsubdata
         .where((friend) =>
             (friend.friendUsername
@@ -42,7 +43,8 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                 friend.friendtName
                     .toLowerCase()
                     .contains(query.toLowerCase())) &&
-            friend.studentSubscriptionStatus == studentSubscriptionStatusValue)
+            friend.studentSubscriptionStatus
+                .contains(studentSubscriptionStatusValue))
         .toList();
   }
 
@@ -57,6 +59,20 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
   // Open Chat
   gotoChat(context, index) {}
 
+  myTextStyle(index) {
+    return TextStyle(
+      color: chatController.filteredFriends[index].studentSubscriptionStatus ==
+              "Paid"
+          ? Colors.black
+          : Color.fromARGB(135, 64, 63, 63),
+      fontWeight:
+          chatController.filteredFriends[index].studentSubscriptionStatus ==
+                  "Paid"
+              ? FontWeight.bold
+              : FontWeight.normal,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -67,7 +83,7 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
-        appBar: simplAppbar(false, "list".tr),
+        appBar: simplAppbar(true, "subscription_package".tr),
         body: Column(
           children: [
             // Add a TextField for search
@@ -79,10 +95,13 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       controller: searchController,
-                      onChanged: (query) {
+                      onChanged: (value) {
                         // Update the list of friends when the search query changes
-                        chatController
-                            .updateFilteredFriends(filterFriends(query));
+                        setState(() {
+                          query = value;
+                        });
+
+                        chatController.updateFilteredFriends(filterFriends());
                       },
                       decoration: InputDecoration(
                         labelText: 'search_name'.tr,
@@ -94,6 +113,13 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                 Expanded(
                   flex: 1,
                   child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: studentSubscriptionStatusValue ==
+                                'Paid'
+                            ? mybrowonColor
+                            : Colors.grey // Change this to the desired color
+                        ),
                     onPressed: () {
                       setState(() {
                         if (studentSubscriptionStatusValue == 'Paid') {
@@ -102,10 +128,10 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                           studentSubscriptionStatusValue = 'Paid';
                         }
                       });
-                      chatController.updateFilteredFriends(filterFriends(''));
+                      chatController.updateFilteredFriends(filterFriends());
                     },
-                    icon: Icon(Icons.filter_alt),
-                    label: Text('paid'),
+                    icon: Icon(Icons.filter_alt, color: Colors.white),
+                    label: Text('Paid'.tr),
                   ),
                 )
               ],
@@ -197,47 +223,58 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                                   //         .filteredFriends[index].friendtID);
                                 },
                                 child: Text(
-                                  chatController
-                                      .filteredFriends[index].friendtName,
-                                  style: TextStyle(
-                                    color: chatController
-                                            .filteredFriends[index].unreadMsg
-                                        ? Colors.black
-                                        : Colors.grey,
-                                    fontWeight: chatController
-                                            .filteredFriends[index].unreadMsg
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                    //  decoration: TextDecoration.underline,
+                                    chatController
+                                        .filteredFriends[index].friendtName,
+                                    style: myTextStyle(index)),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'date'.tr +
+                                        " : " +
+                                        DateFormat('yy/MM/dd').format(
+                                            chatController
+                                                .filteredFriends[index]
+                                                .subscriptionDate),
+                                    style: myTextStyle(index),
                                   ),
-                                ),
+                                  Text(
+                                      'package_price'.tr +
+                                          ' : ' +
+                                          chatController.filteredFriends[index]
+                                              .actualPrice +
+                                          ' ' +
+                                          'EGP'.tr,
+                                      style: myTextStyle(index)),
+                                  Text(
+                                      'No_of_sessions'.tr +
+                                          ' : ' +
+                                          chatController.filteredFriends[index]
+                                              .sessionCount,
+                                      style: myTextStyle(index)),
+                                  Text(
+                                      'remainingSessions'.tr +
+                                          ' : ' +
+                                          chatController.filteredFriends[index]
+                                              .remainingSessions
+                                              .toString(),
+                                      style: myTextStyle(index)),
+                                ],
                               ),
-                              subtitle: Text(
-                                chatController.filteredFriends[index]
-                                    .studentSubscriptionStatus,
-                                style: TextStyle(
-                                  color: chatController.filteredFriends[index]
-                                              .studentSubscriptionStatus ==
-                                          "Paid"
-                                      ? Colors.black
-                                      : Colors.grey,
-                                  fontWeight: chatController
-                                              .filteredFriends[index]
-                                              .studentSubscriptionStatus ==
-                                          "Paid"
-                                      ? FontWeight.bold
-                                      : FontWeight.normal,
-                                ),
-                              ),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.message,
-                                  color: mybrowonColor,
-                                ),
-                                onPressed: () {
-                                  // gotoChat(context, index);
-                                },
-                              ),
+                              trailing: Text(
+                                  chatController.filteredFriends[index]
+                                      .studentSubscriptionStatus,
+                                  style: myTextStyle(index)),
+                              // trailing: IconButton(
+                              //   icon: Icon(
+                              //     Icons.message,
+                              //     color: mybrowonColor,
+                              //   ),
+                              //   onPressed: () {
+                              //     // gotoChat(context, index);
+                              //   },
+                              // ),
                             ),
                           );
                         },
@@ -246,7 +283,8 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
             ),
           ],
         ),
-        bottomNavigationBar: MybottomBar(),
+
+        ///   bottomNavigationBar: MybottomBar(),
       ),
     );
   }

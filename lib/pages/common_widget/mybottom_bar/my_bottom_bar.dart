@@ -313,7 +313,7 @@ class _MybottomBarState extends State<MybottomBar> {
             // });
 
             return Obx(() => ConvexAppBar.badge({1: 3 > 0 ? '' : ''},
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.white,
                     style: TabStyle.textIn,
                     items: [
                       TabItem(

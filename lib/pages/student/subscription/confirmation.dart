@@ -67,40 +67,42 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(14),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Tthanks_registeration".tr,
-                          style:
-                              TextStyle(color: Colors.green, fontSize: sp(14)),
-                        ),
-                        Text("admin_will_call".tr),
-                        Text(""),
-                        Text("Selected_teacher".tr +
-                            subscribitionController
-                                .selectedTeacher.value.user!.fullName),
-                        // Text(" userName " +
-                        //     subscribitionController
-                        //         .selectedTeacher.value.user!.username),
-                        Text(""),
-                        Text("Selected_package".tr +
-                            subscribitionController
-                                .selectedPayement.value.sessionCount!
-                                .toString()),
-                        Text("session_cost".tr +
-                            subscribitionController
-                                .selectedPayement.value.price! +
-                            "EGP".tr),
-                        IconButton(
-                            onPressed: () {
-                              myBottomBarCtrl.selectedIndBottomBar.value = 0;
+                  child: Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "thanks_registeration".tr,
+                            style: TextStyle(
+                                color: Colors.green, fontSize: sp(14)),
+                          ),
+                          Text("admin_will_call".tr),
+                          Text(""),
+                          Text("Selected_teacher".tr +
+                              subscribitionController
+                                  .selectedTeacher.value.user!.fullName),
+                          // Text(" userName " +
+                          //     subscribitionController
+                          //         .selectedTeacher.value.user!.username),
+                          Text(""),
+                          Text("Selected_package".tr +
+                              subscribitionController
+                                  .selectedPayement.value.sessionCount!
+                                  .toString()),
+                          Text("session_cost".tr +
+                              subscribitionController
+                                  .selectedPayement.value.price! +
+                              "EGP".tr),
+                          IconButton(
+                              onPressed: () {
+                                myBottomBarCtrl.selectedIndBottomBar.value = 0;
 
-                              Get.to(HomePage());
-                            },
-                            icon: Icon(Icons.home))
-                      ]),
+                                Get.to(HomePage());
+                              },
+                              icon: Icon(Icons.home))
+                        ]),
+                  ),
                 ))),
     );
   }

@@ -31,7 +31,7 @@ const String updateSessionUrl = "${db_url1}session/sessions/";
 const String notificationUrl = "${db_url1}notifications/send-notification/";
 
 const String creatSessionUrl = "${db_url1}session/sessions/";
-
+const String qustionnUrl = "${db_url1}qna/questions/";
 const String phoneNumber = '+201022645564';
 
 ///////////////////////////////////////////////////////////////////////

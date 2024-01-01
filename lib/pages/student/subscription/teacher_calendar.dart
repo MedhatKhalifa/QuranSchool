@@ -162,9 +162,9 @@ class _CalendarShowState extends State<CalendarShow> {
                   subscribitionController
                       .selectedPayement.value.sessionCount!) {
                 subscribitionController.createStudentSubsc();
-                if (int.parse(subscribitionController
-                        .selectedPayement.value.price!) ==
-                    0) {
+                if (subscribitionController
+                        .selectedPayement.value.subscriptionName! ==
+                    'Free Session') {
                   loginController.setFreeSession();
                 }
                 Get.to(ConfirmationPage());

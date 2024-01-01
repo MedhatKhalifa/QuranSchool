@@ -201,13 +201,8 @@ class _SessionsShowState extends State<SessionsShow> {
                             )
                           : SfCalendar(
                               allowedViews: [
-                                CalendarView.day,
                                 CalendarView.week,
                                 CalendarView.month,
-                                CalendarView.timelineDay,
-                                CalendarView.timelineWeek,
-                                CalendarView.timelineWorkWeek,
-                                CalendarView.timelineMonth,
                                 CalendarView.schedule
                               ],
 
@@ -226,8 +221,11 @@ class _SessionsShowState extends State<SessionsShow> {
                               //     DragAndDropSettings(allowNavigation: true),
 
                               scheduleViewSettings: ScheduleViewSettings(
-                                hideEmptyScheduleWeek: true,
-                              ),
+                                  hideEmptyScheduleWeek: true,
+                                  monthHeaderSettings: MonthHeaderSettings(
+                                    height: h(13),
+                                    textAlign: TextAlign.center,
+                                  )),
                               // monthViewSettings: const MonthViewSettings(
                               //     showTrailingAndLeadingDates: false,
                               //     appointmentDisplayMode:
@@ -310,13 +308,7 @@ class _SessionsShowState extends State<SessionsShow> {
                             height: h(80),
                             child: SfCalendar(
                               allowedViews: [
-                                CalendarView.day,
-                                CalendarView.week,
                                 CalendarView.month,
-                                CalendarView.timelineDay,
-                                CalendarView.timelineWeek,
-                                CalendarView.timelineWorkWeek,
-                                CalendarView.timelineMonth,
                                 CalendarView.schedule
                               ],
                               showNavigationArrow: true,
@@ -325,9 +317,13 @@ class _SessionsShowState extends State<SessionsShow> {
                               maxDate: DateTime
                                   .now(), //.add(const Duration(days: 90)),
                               dataSource: MeetingDataSource(_getOldSessions()),
+
                               scheduleViewSettings: ScheduleViewSettings(
-                                hideEmptyScheduleWeek: true,
-                              ),
+                                  hideEmptyScheduleWeek: true,
+                                  monthHeaderSettings: MonthHeaderSettings(
+                                    height: h(13),
+                                    textAlign: TextAlign.center,
+                                  )),
                               monthViewSettings: const MonthViewSettings(
                                   showTrailingAndLeadingDates: false,
                                   appointmentDisplayMode:
@@ -472,7 +468,8 @@ class _SessionsShowState extends State<SessionsShow> {
         }
       }
     }
-
+    // Sort meetings in descending order by start time
+    meetings.sort((a, b) => a.from.compareTo(b.from)); // Newest to oldest
     return meetings;
   }
 }
