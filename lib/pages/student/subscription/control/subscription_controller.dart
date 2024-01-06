@@ -9,6 +9,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:quranschool/pages/search/show_result.dart';
+import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/student/subscription/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/models/subscriptionPrice_model.dart';
 import 'package:quranschool/pages/teacher/availability_input.dart';
@@ -25,6 +26,7 @@ class SubscribitionController extends GetxController {
   var sessions = <Session>[].obs;
   List<Rx<SubscriptionsPrice>> subscriptionsPrice = [SubscriptionsPrice().obs];
   Rx<SubscriptionsPrice> selectedsubscriptionsPrice = SubscriptionsPrice().obs;
+  //final MySesionController mySesionController = Get.put(MySesionController());
 
   var availabilities = <Availability>[].obs;
   // var filteredSlots = <Availability>[].obs;
@@ -159,6 +161,39 @@ class SubscribitionController extends GetxController {
     }
   }
 
+  Future sendNotification(userprofileId, body, title) async {
+    isLoading.value = true;
+    var dio = Dio();
+    var response = await dio.post(
+      notificationUrl,
+      data: {
+        'body': body,
+        'title': title,
+        'userprofileId': userprofileId,
+        'imgUrl':
+            "https://i.ytimg.com/vi/m5WUPHRgdOA/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDwz-yjKEdwxvKjwMANGk5BedCOXQ",
+        'iconUrl':
+            'https://yt3.ggpht.com/ytc/AKedOLSMvoy4DeAVkMSAuiuaBdIGKC7a5Ib75bKzKO3jHg=s900-c-k-c0x00ffffff-no-rj',
+
+        //'accountToken': userctrl.currentUser.value.accountToken,
+      },
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200) {
+      // Send Notification to student
+    } else {
+      _failmessage(response);
+    }
+    isLoading.value = false;
+  }
+
   Future createSession() async {
     isLoading.value = true;
     var dio = Dio();
@@ -206,6 +241,11 @@ class SubscribitionController extends GetxController {
             "EGP";
 
         _launchWhatsApp(_message);
+
+        sendNotification(
+            selectedMeeting.teacher,
+            "new ${selectedPayement.value.sessionCount!.toString()} are in progress ",
+            "new reservation");
         Get.to(ConfirmationPage());
       }
     }
@@ -223,17 +263,31 @@ class SubscribitionController extends GetxController {
   //// Send WhatsApp message
   ///
   _launchWhatsApp(String message) async {
-    // The WhatsApp URL scheme
-    String whatsappUrl =
-        "whatsapp://send?phone=$phoneNumber&text=${Uri.encodeComponent(message)}";
-    Uri uri = Uri.parse(whatsappUrl);
+    final url = Uri.parse(
+        'https://wa.me/$phoneNumber/?text=${Uri.encodeFull(message)}'); // Arguments are correctly included here
 
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     } else {
-      // Handle the case where WhatsApp is not installed
-      print('WhatsApp is not installed.');
+      Get.snackbar('error', 'Could not launch WhatsApp'.tr,
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
     }
+
+    // // The WhatsApp URL scheme
+    // String whatsappUrl =
+    //     "whatsapp://send?phone=$phoneNumber&text=${Uri.encodeComponent(message)}";
+
+    //     https://wa.me/
+    // Uri uri = Uri.parse(whatsappUrl);
+
+    // if (await canLaunchUrl(uri)) {
+    //   await launchUrl(uri);
+    // } else {
+    //   // Handle the case where WhatsApp is not installed
+    //   print('WhatsApp is not installed.');
+    //   Get.snackbar('error', 'WhatsApp is not installed'.tr,
+    //       snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+    // }
   }
 
 // Get Availity First then Get Sessions then generate Meeting to be showed

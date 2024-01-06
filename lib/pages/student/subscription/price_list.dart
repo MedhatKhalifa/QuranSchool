@@ -71,6 +71,19 @@ class _SessionPriceListState extends State<SessionPriceList> {
                           itemCount:
                               subscribitionController.subPriceList.length,
                           itemBuilder: (context, index) {
+                            print('ooooooooooooooooo');
+                            print(currentUserController
+                                .currentUser.value.freeSession);
+
+                            // print((subscribitionController.subPriceList[index]
+                            //                 .subscriptionName! ==
+                            //             'Free Session' &&
+                            //         currentUserController
+                            //             .currentUser.value.freeSession) ||
+                            //     subscribitionController.subPriceList[index]
+                            //             .subscriptionName! !=
+                            //         'Free Session');
+
                             final paymentOption =
                                 subscribitionController.subPriceList[index];
 
