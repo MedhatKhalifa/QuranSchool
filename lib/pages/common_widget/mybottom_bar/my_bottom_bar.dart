@@ -350,7 +350,11 @@ class _MybottomBarState extends State<MybottomBar> {
                         TabItem(
                           activeIcon: Icon(Icons.people),
                           icon: NewMessageIndicator(),
-                          title: 'peope'.tr,
+                          title: currentUserController
+                                      .currentUser.value.userType ==
+                                  "teacher"
+                              ? 'MyStudents'.tr
+                              : 'MyTeachers'.tr,
                         ),
 
                       // BottomNavigationBarItem(
@@ -381,7 +385,7 @@ class _MybottomBarState extends State<MybottomBar> {
                       icon: Icon(FlutterIslamicIcons.quran2,
                           color: Colors
                               .grey), //Image.asset("assets/icons/quran.png"),
-                      title: 'quran'.tr,
+                      title: 'Quran'.tr,
                     ),
                     if (currentUserController.currentUser.value.userType !=
                         "teacher")
@@ -396,13 +400,17 @@ class _MybottomBarState extends State<MybottomBar> {
                       TabItem(
                         activeIcon: Icon(Icons.play_arrow),
                         icon: Icon(Icons.play_arrow, color: Colors.grey),
-                        title: 'Next_sesion'.tr,
+                        title: 'next_s'.tr,
                       ),
                     if (currentUserController.currentUser.value.id != -1)
                       TabItem(
                         activeIcon: Icon(Icons.people),
                         icon: Icon(Icons.people, color: Colors.grey),
-                        title: 'people'.tr,
+                        title:
+                            currentUserController.currentUser.value.userType ==
+                                    "teacher"
+                                ? 'MyStudents'.tr
+                                : 'MyTeachers'.tr,
                       ),
                   ],
                   initialActiveIndex:

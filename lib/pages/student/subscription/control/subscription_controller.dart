@@ -272,22 +272,6 @@ class SubscribitionController extends GetxController {
       Get.snackbar('error', 'Could not launch WhatsApp'.tr,
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
     }
-
-    // // The WhatsApp URL scheme
-    // String whatsappUrl =
-    //     "whatsapp://send?phone=$phoneNumber&text=${Uri.encodeComponent(message)}";
-
-    //     https://wa.me/
-    // Uri uri = Uri.parse(whatsappUrl);
-
-    // if (await canLaunchUrl(uri)) {
-    //   await launchUrl(uri);
-    // } else {
-    //   // Handle the case where WhatsApp is not installed
-    //   print('WhatsApp is not installed.');
-    //   Get.snackbar('error', 'WhatsApp is not installed'.tr,
-    //       snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
-    // }
   }
 
 // Get Availity First then Get Sessions then generate Meeting to be showed

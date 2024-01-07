@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Define a top-level named handler which background/terminated messages will
 /// call.
@@ -117,6 +118,7 @@ class _Application extends State<Application> {
   void initState() {
     super.initState();
     getToken();
+    checkNotificationPermissions();
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
@@ -125,7 +127,12 @@ class _Application extends State<Application> {
       //       arguments: MessageArguments(message, true));
       // }
     });
+////
+    ///
 
+    ///
+    ///
+    ///
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -154,6 +161,51 @@ class _Application extends State<Application> {
     });
   }
 
+////
+  ///
+  ///
+  ///
+  Future<void> checkNotificationPermissions() async {
+    PermissionStatus status = await Permission.notification.status;
+    if (status != PermissionStatus.granted) {
+      // If notification permission is not granted, request it
+      await Permission.notification.request();
+      status = await Permission.notification.status;
+      if (status != PermissionStatus.granted) {
+        showPermissionDialog();
+      }
+    }
+  }
+
+  // ... (your existing methods)
+
+  void showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Notification Permission Required'),
+          content: Text(
+              'Notification permissions are required to receive push notifications.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                openAppSettings();
+              },
+              child: Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+////
+  ///
+  ///
+  ///
+  ///
   getToken() async {
     mytoken = await FirebaseMessaging.instance.getToken();
     setState(() {

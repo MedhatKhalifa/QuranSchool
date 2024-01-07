@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
+import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AvailabilityInputPage extends StatefulWidget {
@@ -24,6 +26,35 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
 
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
+
+  bool hasConflict(List<Availability> existingList, String day, String fromTime,
+      String toTime) {
+    DateTime newFromTime = DateFormat('HH:mm').parse(fromTime);
+    DateTime newToTime = DateFormat('HH:mm').parse(toTime);
+
+    for (var entry in existingList) {
+      if (entry.day == day) {
+        DateTime existingFromTime = DateFormat('HH:mm').parse(entry.fromTime!);
+        DateTime existingToTime = DateFormat('HH:mm').parse(entry.toTime!);
+
+        // Check for intersection between the existing and new time intervals
+        // if (!((newFromTime.isAfter(existingToTime) ||
+        //         newToTime.isBefore(existingFromTime)) ||
+        //     (newFromTime.isBefore(existingFromTime) &&
+        //         newToTime.isAfter(existingToTime))))
+        if (!((newFromTime.isAfter(existingToTime) ||
+            newFromTime == existingToTime ||
+            newToTime == existingFromTime ||
+            newToTime.isBefore(existingFromTime)))) {
+          // Conflict found
+          return true;
+        }
+      }
+    }
+
+    // No conflict found
+    return false;
+  }
 
   Future<void> _showAvailabilityDialog(BuildContext context) async {
     String selectedDay = 'Sunday';
@@ -131,13 +162,29 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                 print('Selected To Time: ${selectedToTime.format(context)}');
                 // Check if formattedToTime is after formattedFromTime
                 if (formattedToTime.compareTo(formattedFromTime) > 0) {
-                  // Do something with selected values
-                  subscribitionController.addAvaiTime(
-                      currentUserController.currentUser.value.id.toString(),
+                  // Check if new adding conflict with the current avai
+                  if (hasConflict(
+                      subscribitionController.availabilities,
                       subscribitionController.selectedDay.value,
                       formattedFromTime,
-                      formattedToTime);
-                  Navigator.of(context).pop();
+                      formattedToTime)) {
+                    Get.snackbar(
+                      "Warning".tr,
+                      "coflict_for_existing_times".tr,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                      snackPosition: SnackPosition.BOTTOM,
+                      duration: Duration(seconds: 2),
+                    );
+                  } else {
+                    // Do something with selected values
+                    subscribitionController.addAvaiTime(
+                        currentUserController.currentUser.value.id.toString(),
+                        subscribitionController.selectedDay.value,
+                        formattedFromTime,
+                        formattedToTime);
+                    Navigator.of(context).pop();
+                  }
                 } else {
                   // Show an error message or take appropriate action
 

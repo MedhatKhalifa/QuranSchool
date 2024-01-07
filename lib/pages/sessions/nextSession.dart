@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
@@ -28,6 +29,8 @@ class _NextSessionState extends State<NextSession> {
   @override
   void initState() {
     super.initState();
+    _checkPermissions();
+
     remainingMinutes = mySesionController.diffMinutes.value;
     if (remainingMinutes > 0) {
       sessionDateTime = DateTime.parse(
@@ -39,6 +42,58 @@ class _NextSessionState extends State<NextSession> {
         print("Timer is running...");
       });
     }
+  }
+
+  Future<void> _checkPermissions() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.camera,
+      Permission.microphone,
+      Permission.notification,
+      Permission.photos
+    ].request();
+
+    if (statuses[Permission.camera] == PermissionStatus.granted &&
+            statuses[Permission.microphone] == PermissionStatus.granted
+        //&&
+        //  statuses[Permission.notification] == PermissionStatus.granted &&
+        //  statuses[Permission.photos] == PermissionStatus.granted
+
+        ) {
+      // Permissions granted, proceed with camera/microphone actions
+      print("Camera and microphone permissions granted!");
+      _useCameraAndMicrophone();
+    } else {
+      // Permissions denied, handle accordingly
+      print("Permissions denied");
+      if (statuses[Permission.camera] != PermissionStatus.permanentlyDenied ||
+          statuses[Permission.microphone] !=
+              PermissionStatus.permanentlyDenied ||
+          statuses[Permission.notification] !=
+              PermissionStatus.permanentlyDenied ||
+          statuses[Permission.photos] != PermissionStatus.permanentlyDenied) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Camera and Microphone Permission Required"),
+            content: Text(
+                "Please grant camera and microphone permissions to use this feature."),
+            actions: [
+              TextButton(
+                onPressed: () => openAppSettings(),
+                child: Text("Open Settings"),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
+  void _useCameraAndMicrophone() {
+    // Perform actions using the camera and microphone here
+    // For example:
+    // - Access the camera stream using camera plugin
+    // - Record audio using audio recording plugin
   }
 
   int calculateDifferenceInMinutes(DateTime sessionDateTime) {

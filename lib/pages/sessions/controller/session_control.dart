@@ -245,6 +245,7 @@ class MySesionController extends GetxController {
   getFirstSessionAfterNow() async {
     isNextSessionloading.value = true;
     await getMySesions();
+
     if (sessions.isNotEmpty) {
       DateTime now = DateTime.now();
       DateTime comparetime = now.subtract(Duration(minutes: 30));
@@ -253,7 +254,8 @@ class MySesionController extends GetxController {
       final List<Session> futureSessions = sessions.where((session) {
         final DateTime sessionDateTime =
             DateTime.parse('${session.date} ${session.time}');
-        return sessionDateTime.isAfter(comparetime);
+        return sessionDateTime.isAfter(comparetime) &&
+            session.studentSubscriptionStatus == 'Paid';
       }).toList();
 
       // Sort the filtered sessions by date and time

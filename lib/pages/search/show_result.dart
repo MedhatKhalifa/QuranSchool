@@ -7,6 +7,7 @@ import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/search/controller/search_controller.dart';
 import 'package:quranschool/pages/search/detail_search.dart';
 import 'package:quranschool/pages/search/show_item.dart';
+import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 
 class ShowResult extends StatefulWidget {
@@ -41,6 +42,7 @@ class _ShowResultState extends State<ShowResult> {
               itemCount: searchController.teachers.length,
               itemBuilder: (BuildContext ctx, index) {
                 return Column(children: [
+                  if (index == 0) mystepper(1),
                   GestureDetector(
                       onTap: () {
                         subscribitionController.selectedTeacher.value =

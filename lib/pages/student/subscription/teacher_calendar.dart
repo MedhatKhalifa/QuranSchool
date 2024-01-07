@@ -6,6 +6,7 @@ import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/login_controller.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
@@ -72,63 +73,73 @@ class _CalendarShowState extends State<CalendarShow> {
                   //  duration: Duration(milliseconds: 500),
                 ),
               )
-            : SfCalendar(
-                showNavigationArrow: true,
-                view: CalendarView.month,
-                minDate: DateTime.now(),
-                maxDate: DateTime.now().add(const Duration(days: 90)),
-                dataSource: MeetingDataSource(_getDataSource()),
-                onViewChanged: (ViewChangedDetails viewChangedDetails) {
-                  List<DateTime> dates = viewChangedDetails.visibleDates;
-                  SchedulerBinding.instance!
-                      .addPostFrameCallback((Duration duration) {
-                    setState(() {
-                      var _month = DateFormat('MMMM')
-                          .format(viewChangedDetails.visibleDates[
-                              viewChangedDetails.visibleDates.length ~/ 2])
-                          .toString();
-                      var _year = DateFormat('yyyy')
-                          .format(viewChangedDetails.visibleDates[
-                              viewChangedDetails.visibleDates.length ~/ 2])
-                          .toString();
+            : Column(
+                children: [
+                  mystepper(4),
+                  Expanded(
+                    child: SfCalendar(
+                      showNavigationArrow: true,
+                      view: CalendarView.month,
+                      minDate: DateTime.now(),
+                      maxDate: DateTime.now().add(const Duration(days: 90)),
+                      dataSource: MeetingDataSource(_getDataSource()),
+                      onViewChanged: (ViewChangedDetails viewChangedDetails) {
+                        List<DateTime> dates = viewChangedDetails.visibleDates;
+                        SchedulerBinding.instance!
+                            .addPostFrameCallback((Duration duration) {
+                          setState(() {
+                            var _month = DateFormat('MMMM')
+                                .format(viewChangedDetails.visibleDates[
+                                    viewChangedDetails.visibleDates.length ~/
+                                        2])
+                                .toString();
+                            var _year = DateFormat('yyyy')
+                                .format(viewChangedDetails.visibleDates[
+                                    viewChangedDetails.visibleDates.length ~/
+                                        2])
+                                .toString();
 
-                      print(_month + _year);
-                    });
-                  });
-                },
-                monthViewSettings: const MonthViewSettings(
-                    showTrailingAndLeadingDates: false,
-                    appointmentDisplayMode:
-                        MonthAppointmentDisplayMode.appointment,
-                    showAgenda: true),
-                onTap: (day) {
-                  // Filter freeSlots to get times when the day matches
+                            print(_month + _year);
+                          });
+                        });
+                      },
+                      monthViewSettings: const MonthViewSettings(
+                          showTrailingAndLeadingDates: false,
+                          appointmentDisplayMode:
+                              MonthAppointmentDisplayMode.appointment,
+                          showAgenda: true),
+                      onTap: (day) {
+                        // Filter freeSlots to get times when the day matches
 
-                  setState(() {
-                    if (day.targetElement == CalendarElement.appointment) {
-                      Meeting appointment = day.appointments![0];
-                      if (subscribitionController.countofSelectSession <
-                              subscribitionController
-                                  .selectedPayement.value.sessionCount! ||
-                          appointment.selected) {
-                        appointment.selected = !appointment.selected;
+                        setState(() {
+                          if (day.targetElement ==
+                              CalendarElement.appointment) {
+                            Meeting appointment = day.appointments![0];
+                            if (subscribitionController.countofSelectSession <
+                                    subscribitionController
+                                        .selectedPayement.value.sessionCount! ||
+                                appointment.selected) {
+                              appointment.selected = !appointment.selected;
 
-                        if (appointment.selected) {
-                          subscribitionController.selectedMeetings
-                              .add(appointment);
-                          appointment.background = Colors.green;
-                          subscribitionController.countofSelectSession++;
-                        } else {
-                          subscribitionController.selectedMeetings
-                              .remove(appointment);
-                          appointment.background = Colors.grey;
-                          subscribitionController.countofSelectSession--;
-                        }
-                      }
-                      //appointment.background = Colors.red;
-                    }
-                  });
-                },
+                              if (appointment.selected) {
+                                subscribitionController.selectedMeetings
+                                    .add(appointment);
+                                appointment.background = Colors.green;
+                                subscribitionController.countofSelectSession++;
+                              } else {
+                                subscribitionController.selectedMeetings
+                                    .remove(appointment);
+                                appointment.background = Colors.grey;
+                                subscribitionController.countofSelectSession--;
+                              }
+                            }
+                            //appointment.background = Colors.red;
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
       ),
       bottomNavigationBar: Padding(
@@ -162,11 +173,11 @@ class _CalendarShowState extends State<CalendarShow> {
                   subscribitionController
                       .selectedPayement.value.sessionCount!) {
                 subscribitionController.createStudentSubsc();
-                if (subscribitionController
-                        .selectedPayement.value.subscriptionName! ==
-                    'Free Session') {
-                  loginController.setFreeSession();
-                }
+                // if (subscribitionController
+                //         .selectedPayement.value.subscriptionName! ==
+                //     'Free Session') {
+                //   loginController.setFreeSession();
+                // }
                 Get.to(ConfirmationPage());
                 //Get.snackbar("Note", generateString(), colorText: Colors.black);
               } else {

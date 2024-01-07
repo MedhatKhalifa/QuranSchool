@@ -29,6 +29,7 @@ class Session {
   String? teacherName;
   String? teacherImage;
   String? studentName;
+  String? studentSubscriptionStatus;
 
   Session({
     this.teacherAttendance,
@@ -47,6 +48,7 @@ class Session {
     this.teacherName,
     this.teacherImage,
     this.studentName,
+    this.studentSubscriptionStatus,
   });
 
   Session.fromJson(Map<String, dynamic> json) {
@@ -67,6 +69,7 @@ class Session {
     student = json['student'] ?? -1;
     review = json['review'] ?? "";
     studentSubscription = json['studentSubscription'] ?? -1;
+    studentSubscriptionStatus = json['StudentSubscriptionStatus'] ?? "Pending";
   }
 
   Map<String, dynamic> toJson() {

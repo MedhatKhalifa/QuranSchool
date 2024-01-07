@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/core/size_config.dart';
+import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/student/subscription/price_list.dart';
 import 'package:quranschool/pages/teacher/teacher_avail_show.dart';
@@ -57,6 +58,7 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
               height: h(70),
               child: ListView(
                 children: [
+                  mystepper(2),
                   Center(
                       child: Text(
                           subscribitionController

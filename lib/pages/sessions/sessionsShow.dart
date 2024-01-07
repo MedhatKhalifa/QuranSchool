@@ -398,19 +398,19 @@ class _SessionsShowState extends State<SessionsShow> {
               .inMinutes;
 
           bool isNextSession =
-              minutesUntilEvent >= 30 && minutesUntilEvent <= 900000000;
+              minutesUntilEvent >= 35 && minutesUntilEvent <= 30;
 
           meetings.add(Meeting(
-              isNextSession
-                  ? currentUserController.currentUser.value.accountToken ==
-                          "teacher"
-                      ? s.teacherName!
-                      : s.studentName!
-                  : s.sessionStatus!,
+              currentUserController.currentUser.value.accountToken == "teacher"
+                  ? s.teacherName!
+                  : s.studentName! + ' , ' + s.studentSubscriptionStatus!,
               DateTime.parse(s.date! + " " + s.time!),
               DateTime.parse(s.date! + " " + s.time!)
                   .add(Duration(minutes: 30)),
-              isNextSession ? Colors.green : Colors.grey,
+              s.studentSubscriptionStatus == 'Paid'
+                  ? Colors.green
+                  : Colors.grey,
+              // isNextSession ? Colors.green : Colors.grey,
               false,
               isNextSession,
               s.teacher!,

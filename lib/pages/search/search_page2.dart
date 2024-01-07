@@ -5,7 +5,9 @@ import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:im_stepper/stepper.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/login_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
@@ -14,6 +16,7 @@ import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/search/filter_containers.dart';
 import 'package:quranschool/pages/search/show_item.dart';
+import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/teacher/model/teacher_model.dart';
 import 'package:search_choices/search_choices.dart';
 
@@ -193,6 +196,7 @@ class _SearchPage2State extends State<SearchPage2> {
             color: Color.fromARGB(99, 209, 200, 182),
             child: Column(
               children: [
+                mystepper(0),
                 Container(
                   padding: EdgeInsets.all(sp(8)),
                   width: w(97),

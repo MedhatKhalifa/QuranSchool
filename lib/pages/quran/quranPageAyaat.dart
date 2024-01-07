@@ -101,7 +101,7 @@ class _QuranPageAyaatState extends State<QuranPageAyaat> {
                   child: Text('open_use_falsh'.tr),
                 ),
                 PopupMenuItem<String>(
-                  value: 'page3',
+                  value: 'page2',
                   child: Text('open_use_file'.tr),
                 ),
               ],

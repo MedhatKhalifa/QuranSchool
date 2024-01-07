@@ -101,7 +101,7 @@ class _QuranPageState extends State<QuranPage> {
                   child: Text('open_use_ayaat'.tr),
                 ),
                 PopupMenuItem<String>(
-                  value: 'page3',
+                  value: 'page2',
                   child: Text('open_use_file'.tr),
                 ),
               ],

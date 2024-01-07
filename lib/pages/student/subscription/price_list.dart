@@ -4,6 +4,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/profile/profile_page.dart';
+import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/student/subscription/teacher_calendar.dart';
 
@@ -49,6 +50,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
               : Center(
                   child: ListView(
                     children: [
+                      mystepper(3),
                       SizedBox(height: h(3)),
                       Center(
                         child: Text(
@@ -71,10 +73,6 @@ class _SessionPriceListState extends State<SessionPriceList> {
                           itemCount:
                               subscribitionController.subPriceList.length,
                           itemBuilder: (context, index) {
-                            print('ooooooooooooooooo');
-                            print(currentUserController
-                                .currentUser.value.freeSession);
-
                             // print((subscribitionController.subPriceList[index]
                             //                 .subscriptionName! ==
                             //             'Free Session' &&
@@ -96,7 +94,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                                       .subPriceList[index]
                                                       .subscriptionName! ==
                                                   'Free Session' &&
-                                              currentUserController.currentUser
+                                              !currentUserController.currentUser
                                                   .value.freeSession) ||
                                           subscribitionController
                                                   .subPriceList[index]
@@ -125,7 +123,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                                     .value
                                                     .subscriptionName! ==
                                                 'Free Session' &&
-                                            currentUserController.currentUser
+                                            !currentUserController.currentUser
                                                 .value.freeSession) ||
                                         subscribitionController.selectedPayement
                                                 .value.subscriptionName! !=
@@ -160,7 +158,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                                       .value
                                                       .subscriptionName! ==
                                                   'Free Session' &&
-                                              currentUserController.currentUser
+                                              !currentUserController.currentUser
                                                   .value.freeSession) ||
                                           subscribitionController
                                                   .selectedPayement

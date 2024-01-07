@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/login_controller.dart';
@@ -35,6 +36,48 @@ class _NotificationShowState extends State<NotificationShow> {
   final TextEditingController searchController = TextEditingController();
   String studentSubscriptionStatusValue = 'NotPaid';
   String query = '';
+  @override
+  void initState() {
+    super.initState();
+    checkNotificationPermissions();
+  }
+
+  Future<void> checkNotificationPermissions() async {
+    PermissionStatus status = await Permission.notification.status;
+    if (status != PermissionStatus.granted) {
+      // If notification permission is not granted, request it
+      await Permission.notification.request();
+      status = await Permission.notification.status;
+      if (status != PermissionStatus.granted) {
+        showPermissionDialog();
+      }
+    }
+  }
+
+  // ... (your existing methods)
+
+  void showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Notification Permission Required'),
+          content: Text(
+              'Notification permissions are required to receive push notifications.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                openAppSettings();
+              },
+              child: Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 // Function to filter friends based on search query in username or name
   // List<StudSubModel> filterFriends() {
   //   return chatController.allsubdata
