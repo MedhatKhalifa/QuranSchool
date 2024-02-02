@@ -80,8 +80,11 @@ class _TeacherCalendarShowState extends State<TeacherCalendarShow> {
                     showNavigationArrow: true,
                     view: CalendarView.schedule,
                     scheduleViewSettings: ScheduleViewSettings(
-                      hideEmptyScheduleWeek: true,
-                    ),
+                        hideEmptyScheduleWeek: true,
+                        monthHeaderSettings: MonthHeaderSettings(
+                          height: h(13),
+                          textAlign: TextAlign.center,
+                        )),
                     minDate: DateTime.now(),
                     maxDate: DateTime.now().add(const Duration(days: 90)),
                     dataSource: MeetingDataSource(_getDataSource()),

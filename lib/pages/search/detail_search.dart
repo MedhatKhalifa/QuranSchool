@@ -58,7 +58,7 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
               height: h(70),
               child: ListView(
                 children: [
-                  mystepper(2),
+                  //mystepper(2),
                   Center(
                       child: Text(
                           subscribitionController

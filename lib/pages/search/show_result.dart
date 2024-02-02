@@ -42,7 +42,7 @@ class _ShowResultState extends State<ShowResult> {
               itemCount: searchController.teachers.length,
               itemBuilder: (BuildContext ctx, index) {
                 return Column(children: [
-                  if (index == 0) mystepper(1),
+                  //  if (index == 0) mystepper(1),
                   GestureDetector(
                       onTap: () {
                         subscribitionController.selectedTeacher.value =

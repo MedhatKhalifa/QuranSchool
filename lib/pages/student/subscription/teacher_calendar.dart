@@ -75,7 +75,7 @@ class _CalendarShowState extends State<CalendarShow> {
               )
             : Column(
                 children: [
-                  mystepper(4),
+                  // mystepper(4),
                   Expanded(
                     child: SfCalendar(
                       showNavigationArrow: true,
@@ -103,6 +103,12 @@ class _CalendarShowState extends State<CalendarShow> {
                           });
                         });
                       },
+                      scheduleViewSettings: ScheduleViewSettings(
+                          hideEmptyScheduleWeek: true,
+                          monthHeaderSettings: MonthHeaderSettings(
+                            height: h(13),
+                            textAlign: TextAlign.center,
+                          )),
                       monthViewSettings: const MonthViewSettings(
                           showTrailingAndLeadingDates: false,
                           appointmentDisplayMode:

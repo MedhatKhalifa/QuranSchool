@@ -7,10 +7,7 @@ mystepper(int activeicon) {
     steppingEnabled: false,
     enableNextPreviousButtons: false,
     icons: [
-      Icon(
-        Icons.search,
-        color: Colors.white,
-      ),
+      Icon(Icons.search, color: Colors.white),
       Icon(Icons.supervised_user_circle, color: Colors.white),
       Icon(Icons.person, color: Colors.white),
       Icon(Icons.attach_money, color: Colors.white),

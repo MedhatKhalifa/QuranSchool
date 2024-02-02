@@ -196,7 +196,7 @@ class _SearchPage2State extends State<SearchPage2> {
             color: Color.fromARGB(99, 209, 200, 182),
             child: Column(
               children: [
-                mystepper(0),
+                //  mystepper(0),
                 Container(
                   padding: EdgeInsets.all(sp(8)),
                   width: w(97),

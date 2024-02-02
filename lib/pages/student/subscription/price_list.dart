@@ -50,7 +50,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
               : Center(
                   child: ListView(
                     children: [
-                      mystepper(3),
+                      //  mystepper(3),
                       SizedBox(height: h(3)),
                       Center(
                         child: Text(

@@ -14,6 +14,7 @@ import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/register/register_phone.dart';
 import 'package:quranschool/pages/intro/introudtion.dart';
 import 'package:quranschool/pages/search/detail_search.dart';
+import 'package:quranschool/pages/search/intro_search.dart';
 import 'package:quranschool/pages/search/search_page2.dart';
 import 'package:quranschool/pages/student/subscription/price_list.dart';
 import 'package:quranschool/pages/student/subscription/teacher_calendar.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
       theme: LocalThemes.lightTheme, // located in core folder
       debugShowCheckedModeBanner: false,
       // our home page is the splash
-      home: SplashScreen(),
+      home: IntroSearch(),
       // this localization for calendar language
       localizationsDelegates: [
         GlobalWidgetsLocalizations.delegate,
