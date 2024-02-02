@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       theme: LocalThemes.lightTheme, // located in core folder
       debugShowCheckedModeBanner: false,
       // our home page is the splash
-      home: IntroSearch(),
+      home: SplashScreen(),
       // this localization for calendar language
       localizationsDelegates: [
         GlobalWidgetsLocalizations.delegate,
