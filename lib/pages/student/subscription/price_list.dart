@@ -36,7 +36,8 @@ class _SessionPriceListState extends State<SessionPriceList> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Obx(
-          () => subscribitionController.isLoadinpricelist.isTrue
+          () => subscribitionController.isLoadinpricelist.isTrue ||
+                  subscribitionController.isLoadingAvail.isTrue
               ? Center(
                   child: LoadingBouncingGrid.circle(
                     borderColor: mybrowonColor,
@@ -91,15 +92,22 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: ((subscribitionController
-                                                      .subPriceList[index]
-                                                      .subscriptionName! ==
-                                                  'Free Session' &&
-                                              !currentUserController.currentUser
-                                                  .value.freeSession) ||
-                                          subscribitionController
+                                                  .availabilities.length >=
+                                              subscribitionController
                                                   .subPriceList[index]
-                                                  .subscriptionName! !=
-                                              'Free Session')
+                                                  .sessionCount!) &&
+                                          ((subscribitionController
+                                                          .subPriceList[index]
+                                                          .subscriptionName! ==
+                                                      'Free Session' &&
+                                                  !currentUserController
+                                                      .currentUser
+                                                      .value
+                                                      .freeSession) ||
+                                              (subscribitionController
+                                                      .subPriceList[index]
+                                                      .subscriptionName! !=
+                                                  'Free Session')))
                                       ? Colors.white
                                       : Color.fromARGB(255, 209, 209, 209),
                                   // border: Border.all(color: Colors.red),
@@ -119,15 +127,22 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                             .subPriceList[index];
                                     // do that if payement
                                     if ((subscribitionController
-                                                    .selectedPayement
+                                                .availabilities.length >=
+                                            subscribitionController
+                                                .subPriceList[index]
+                                                .sessionCount!) &&
+                                        ((subscribitionController
+                                                        .subPriceList[index]
+                                                        .subscriptionName! ==
+                                                    'Free Session' &&
+                                                !currentUserController
+                                                    .currentUser
                                                     .value
-                                                    .subscriptionName! ==
-                                                'Free Session' &&
-                                            !currentUserController.currentUser
-                                                .value.freeSession) ||
-                                        subscribitionController.selectedPayement
-                                                .value.subscriptionName! !=
-                                            'Free Session') {
+                                                    .freeSession) ||
+                                            (subscribitionController
+                                                    .subPriceList[index]
+                                                    .subscriptionName! !=
+                                                'Free Session'))) {
                                       setState(() {
                                         _selectedPaymentOptionIndex =
                                             index as int;
@@ -154,17 +169,22 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                               .subPriceList[index];
                                       // do that if payement
                                       if ((subscribitionController
-                                                      .selectedPayement
+                                                  .availabilities.length >=
+                                              subscribitionController
+                                                  .subPriceList[index]
+                                                  .sessionCount!) &&
+                                          ((subscribitionController
+                                                          .subPriceList[index]
+                                                          .subscriptionName! ==
+                                                      'Free Session' &&
+                                                  !currentUserController
+                                                      .currentUser
                                                       .value
-                                                      .subscriptionName! ==
-                                                  'Free Session' &&
-                                              !currentUserController.currentUser
-                                                  .value.freeSession) ||
-                                          subscribitionController
-                                                  .selectedPayement
-                                                  .value
-                                                  .subscriptionName! !=
-                                              'Free Session') {
+                                                      .freeSession) ||
+                                              (subscribitionController
+                                                      .subPriceList[index]
+                                                      .subscriptionName! !=
+                                                  'Free Session'))) {
                                         setState(() {
                                           _selectedPaymentOptionIndex =
                                               value as int;

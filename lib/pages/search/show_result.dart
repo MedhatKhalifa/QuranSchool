@@ -48,7 +48,7 @@ class _ShowResultState extends State<ShowResult> {
                         subscribitionController.selectedTeacher.value =
                             searchController.teachers[index];
                         print(subscribitionController.selectedTeacher.value);
-
+                        subscribitionController.getAvaiTime();
                         Get.to(DetailSearchTeacher());
                       },
                       child: showitem(searchController.teachers[index])),

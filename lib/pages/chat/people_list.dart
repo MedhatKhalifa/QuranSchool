@@ -88,7 +88,7 @@ class _PeopleListState extends State<PeopleList> {
             ),
             Expanded(
               child: Obx(
-                () => chatController.isLoading.value == true
+                () => chatController.isLoading.value
                     ? Center(
                         child: LoadingBouncingGrid.circle(
                           borderColor: mybrowonColor,

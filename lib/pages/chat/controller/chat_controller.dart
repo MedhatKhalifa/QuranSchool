@@ -11,7 +11,7 @@ import 'package:quranschool/pages/chat/models/studentsubscription_model.dart';
 class ChatController extends GetxController {
   var studSubdata = <StudSubModel>[].obs;
   var allsubdata = <StudSubModel>[].obs;
-  var isLoading = true.obs;
+  RxBool isLoading = true.obs;
   var isLoadingall = true.obs;
 
   final CurrentUserController currentUserController =
@@ -31,8 +31,6 @@ class ChatController extends GetxController {
   }
 
   _failmessage(response) async {
-    isLoading(false);
-
     Get.snackbar('${response.statusCode}', 'fetch_failed'.tr,
         snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
   }
@@ -109,17 +107,16 @@ class ChatController extends GetxController {
         print(studSubdata);
       }
       // Now  call Session
-      isLoading.value = false;
-      updateloading(false);
+
+      // updateloading(false);
 
       // Get.to(const ShowResult());
     } else {
       _failmessage(response);
-      isLoading.value = false;
     }
-    // isLoading.value = false;
+
     isLoading.value = false;
-    updateloading(false);
+    //updateloading(false);
     //return studSubdata;
   }
 

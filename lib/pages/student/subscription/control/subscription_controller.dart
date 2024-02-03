@@ -599,6 +599,7 @@ class SubscribitionController extends GetxController {
         // List<SubscriptionsPrice> _subscriptionsPrices = parseSessionsfromListofMap(responseMapList);
         var _sublist = parseSubscriptionsPricesfromListofMap(responseMapList);
         subPriceList.clear();
+
         subPriceList.assignAll(_sublist);
 
         isLoadinpricelist.value = false;

@@ -353,8 +353,8 @@ class _MybottomBarState extends State<MybottomBar> {
                           title: currentUserController
                                       .currentUser.value.userType ==
                                   "teacher"
-                              ? 'MyStudents'.tr
-                              : 'MyTeachers'.tr,
+                              ? 'stud'.tr
+                              : 'tech'.tr,
                         ),
 
                       // BottomNavigationBarItem(
@@ -409,8 +409,8 @@ class _MybottomBarState extends State<MybottomBar> {
                         title:
                             currentUserController.currentUser.value.userType ==
                                     "teacher"
-                                ? 'MyStudents'.tr
-                                : 'MyTeachers'.tr,
+                                ? 'stud'.tr
+                                : 'tech'.tr,
                       ),
                   ],
                   initialActiveIndex:
