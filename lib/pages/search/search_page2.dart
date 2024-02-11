@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +27,7 @@ import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/search/controller/search_controller.dart';
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:intl/intl.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class SearchPage2 extends StatefulWidget {
   @override
@@ -100,6 +103,73 @@ class _SearchPage2State extends State<SearchPage2> {
   String _search_text = '';
 
   final _formKey = GlobalKey<FormState>();
+
+  final buttonKey = GlobalKey();
+  TutorialCoachMark? tutorial;
+
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+        identify: "buttonKey",
+        keyTarget: buttonKey,
+        alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "search".tr,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    return targets;
+  }
+
+  late TutorialCoachMark tutorialCoachMark;
+  void initTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+      colorShadow: mybrowonColor,
+      textSkip: "SKIP",
+      paddingFocus: 10,
+      opacityShadow: 0.5,
+      focusAnimationDuration: Duration(milliseconds: 30),
+      // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+      onSkip: () {
+        print("skip");
+        return true;
+      },
+    )..show(context: context);
+  }
+
   // Inital state
   void initState() {
     //searchController.getdata();
@@ -120,6 +190,8 @@ class _SearchPage2State extends State<SearchPage2> {
     }
     dateinput.text = ""; //set the initial value of text field
     timeinput.text = ""; //set the initial value of text field
+
+    initTutorial();
     super.initState();
   }
 
@@ -353,8 +425,9 @@ class _SearchPage2State extends State<SearchPage2> {
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            width: w(90),
+                            width: w(40),
                             child: ElevatedButton(
+                              key: buttonKey,
                               child: Text('search'.tr,
                                   style: TextStyle(fontSize: sp(17))),
                               style: ButtonStyle(
