@@ -14,10 +14,10 @@ import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/register/register_phone.dart';
 import 'package:quranschool/pages/intro/introudtion.dart';
 import 'package:quranschool/pages/search/detail_search.dart';
-import 'package:quranschool/pages/search/intro_search.dart';
-import 'package:quranschool/pages/search/search_page2.dart';
-import 'package:quranschool/pages/student/subscription/price_list.dart';
-import 'package:quranschool/pages/student/subscription/teacher_calendar.dart';
+
+import 'package:quranschool/pages/search/search_page.dart';
+import 'package:quranschool/pages/search/price_list.dart';
+import 'package:quranschool/pages/search/teacher_calendar.dart';
 import 'package:quranschool/test_page.dart';
 import 'package:quranschool/translation/translate_ctrl.dart';
 import 'package:quranschool/translation/translation.dart';

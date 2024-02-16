@@ -13,7 +13,7 @@ import 'package:quranschool/pages/sessions/rate.dart';
 import 'package:quranschool/pages/sessions/videoScreen.dart';
 import 'package:quranschool/pages/sessions/test.dart';
 import 'package:quranschool/pages/sessions/videoConference.dart';
-import 'package:quranschool/pages/student/subscription/confirmation.dart';
+import 'package:quranschool/pages/search/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:quranschool/pages/teacher/model/meeting_model.dart';

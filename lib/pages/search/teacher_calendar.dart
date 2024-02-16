@@ -7,7 +7,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/login_controller.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/search/stepper_pages.dart';
-import 'package:quranschool/pages/student/subscription/confirmation.dart';
+import 'package:quranschool/pages/search/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:quranschool/pages/teacher/model/meeting_model.dart';
@@ -79,7 +79,7 @@ class _CalendarShowState extends State<CalendarShow> {
                   Expanded(
                     child: SfCalendar(
                       showNavigationArrow: true,
-                      view: CalendarView.month,
+                      view: CalendarView.schedule,
                       minDate: DateTime.now(),
                       maxDate: DateTime.now().add(const Duration(days: 90)),
                       dataSource: MeetingDataSource(_getDataSource()),

@@ -111,6 +111,7 @@ class _SearchPage2State extends State<SearchPage2> {
     List<TargetFocus> targets = [];
     targets.add(
       TargetFocus(
+        shape: ShapeLightFocus.RRect,
         identify: "buttonKey",
         keyTarget: buttonKey,
         alignSkip: Alignment.topRight,
@@ -124,7 +125,7 @@ class _SearchPage2State extends State<SearchPage2> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "search".tr,
+                    "Search for the teacher you want to subscribe to".tr,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -146,23 +147,23 @@ class _SearchPage2State extends State<SearchPage2> {
       colorShadow: mybrowonColor,
       textSkip: "SKIP",
       paddingFocus: 10,
-      opacityShadow: 0.5,
-      focusAnimationDuration: Duration(milliseconds: 30),
+      opacityShadow: 0.8,
+      //focusAnimationDuration: Duration(milliseconds: 30),
       // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-      onFinish: () {
-        print("finish");
-      },
-      onClickTarget: (target) {
-        print('onClickTarget: $target');
-      },
-      onClickTargetWithTapPosition: (target, tapDetails) {
-        print("target: $target");
-        print(
-            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-      },
-      onClickOverlay: (target) {
-        print('onClickOverlay: $target');
-      },
+      // onFinish: () {
+      //   print("finish");
+      // },
+      // onClickTarget: (target) {
+      //   print('onClickTarget: $target');
+      // },
+      // onClickTargetWithTapPosition: (target, tapDetails) {
+      //   print("target: $target");
+      //   print(
+      //       "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      // },
+      // onClickOverlay: (target) {
+      //   print('onClickOverlay: $target');
+      // },
       onSkip: () {
         print("skip");
         return true;
@@ -244,7 +245,9 @@ class _SearchPage2State extends State<SearchPage2> {
       onWillPop: () async {
         // Override the back button behavior to navigate to a specific page, e.g., '/home'
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
+        tutorialCoachMark..skip();
         Get.to(HomePage());
+
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
@@ -425,7 +428,7 @@ class _SearchPage2State extends State<SearchPage2> {
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            width: w(40),
+                            width: w(80),
                             child: ElevatedButton(
                               key: buttonKey,
                               child: Text('search'.tr,

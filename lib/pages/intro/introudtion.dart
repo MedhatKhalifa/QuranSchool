@@ -4,7 +4,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
-import 'package:quranschool/pages/search/search_page2.dart';
+import 'package:quranschool/pages/search/search_page.dart';
 
 class IntroPage extends StatefulWidget {
   @override

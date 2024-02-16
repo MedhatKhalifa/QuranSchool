@@ -66,16 +66,17 @@ generateIntervals(var originalList) {
   for (var entry in originalList) {
     String fromTime = entry.fromTime;
     String toTime = entry.toTime;
-    var count = 1;
 
-    if (isTimeFormatValid(fromTime) && isTimeFormatValid(toTime)) {
-      while (fromTime != toTime || count < 40) {
-        count++;
-        DateTime fromDateTime = DateFormat('HH:mm').parse(fromTime);
+    if (isTimeFormatValid(fromTime) &&
+        isTimeFormatValid(toTime) &&
+        fromTime != toTime) {
+      DateTime fromDateTime = DateFormat('HH:mm').parse(fromTime);
+      DateTime toDateTime = DateFormat('HH:mm').parse(toTime);
+
+      while (fromDateTime.isBefore(toDateTime)) {
         DateTime nextTime = fromDateTime.add(Duration(minutes: 30));
-        if (nextTime.isAfter(DateFormat('HH:mm').parse(toTime)) ||
-            nextTime == DateFormat('HH:mm').parse(toTime)) {
-          nextTime = DateFormat('HH:mm').parse(toTime);
+        if (nextTime.isAfter(toDateTime)) {
+          nextTime = toDateTime;
         }
 
         resultList.add(Availability(
@@ -86,7 +87,7 @@ generateIntervals(var originalList) {
           teacher: entry.teacher,
         ));
 
-        fromTime = DateFormat('HH:mm').format(nextTime);
+        fromDateTime = nextTime;
       }
     }
   }

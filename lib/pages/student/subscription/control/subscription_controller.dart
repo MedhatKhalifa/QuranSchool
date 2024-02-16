@@ -10,7 +10,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
 import 'package:quranschool/pages/search/show_result.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
-import 'package:quranschool/pages/student/subscription/confirmation.dart';
+import 'package:quranschool/pages/search/confirmation.dart';
 import 'package:quranschool/pages/student/subscription/models/subscriptionPrice_model.dart';
 import 'package:quranschool/pages/teacher/availability_input.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';

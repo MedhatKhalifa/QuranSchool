@@ -6,7 +6,7 @@ import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
-import 'package:quranschool/pages/student/subscription/teacher_calendar.dart';
+import 'package:quranschool/pages/search/teacher_calendar.dart';
 
 class SessionPriceList extends StatefulWidget {
   const SessionPriceList({super.key});
@@ -92,7 +92,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: ((subscribitionController
-                                                  .availabilities.length >=
+                                                  .meetings.length >=
                                               subscribitionController
                                                   .subPriceList[index]
                                                   .sessionCount!) &&
@@ -127,7 +127,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                             .subPriceList[index];
                                     // do that if payement
                                     if ((subscribitionController
-                                                .availabilities.length >=
+                                                .meetings.length >=
                                             subscribitionController
                                                 .subPriceList[index]
                                                 .sessionCount!) &&
@@ -169,7 +169,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                               .subPriceList[index];
                                       // do that if payement
                                       if ((subscribitionController
-                                                  .availabilities.length >=
+                                                  .meetings.length >=
                                               subscribitionController
                                                   .subPriceList[index]
                                                   .sessionCount!) &&
@@ -241,6 +241,7 @@ class _SessionPriceListState extends State<SessionPriceList> {
                   onPressed: () async {
                     if (_selectedPaymentOptionIndex != null) {
                       subscribitionController.selectedMeetings.clear();
+                      subscribitionController.getAvaiTime();
                       Get.to(() => CalendarShow());
                     } else {
                       Get.snackbar("Warning".tr, "select_pack_first".tr,

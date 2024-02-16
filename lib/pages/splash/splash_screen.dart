@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 import 'package:quranschool/pages/intro/introudtion.dart';
-import 'package:quranschool/pages/search/search_page2.dart';
+import 'package:quranschool/pages/search/search_page.dart';
 import 'package:quranschool/translation/translation_page.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
