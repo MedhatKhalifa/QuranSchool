@@ -178,6 +178,7 @@ import 'package:quranschool/pages/chat/people_list.dart';
 import 'package:quranschool/pages/common_widget/quick_common.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:intl/intl.dart';
+import 'package:quranschool/pages/home_page/profile_page_bottom.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/quran/quranPageFlash.dart';
 import 'package:quranschool/pages/quran/quranPageAyaat.dart';
@@ -202,18 +203,14 @@ class _MybottomBarState extends State<MybottomBar> {
 
   void dispose() {
     currentUserController.currentUser.value.incomeMessage = false;
-
-    // Call your function here
-    // FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(currentUserController.currentUser.value.id.toString())
-    //     .delete();
     super.dispose();
   }
 
-  //
+  // tab function to nagiate based on user type and index value
   tabFunc(index) {
     myBottomBarCtrl.selectedIndBottomBar.value = index;
+
+    // in case goting to chat page detele firebase doc that indicate that there is/are new message/s
     if (myBottomBarCtrl.selectedIndBottomBar.value == 4) {
       currentUserController.currentUser.value.incomeMessage = false;
 
@@ -224,11 +221,16 @@ class _MybottomBarState extends State<MybottomBar> {
     }
 
     myBottomBarCtrl.selectedIndBottomBar.value = index;
+    // index Zero Go to Home page for all users
     if (index == 0) {
       Get.to(const HomePage());
-    } else if (index == 1) {
+    }
+    // index 1 Go to Quran Page for all users
+    else if (index == 1) {
       Get.to(const QuranPage());
-    } else if (index == 2) {
+    }
+    // index 2 Serach Page for teacher and Next Session for student as there is no search pagefor teachers
+    else if (index == 2) {
       if (currentUserController.currentUser.value.userType != "teacher") {
         Get.to(SearchPage2());
       } else {
@@ -236,9 +238,13 @@ class _MybottomBarState extends State<MybottomBar> {
 
         Get.to(NextSession());
       }
-    } else if (index == 3) {
-      if (currentUserController.currentUser.value.id != -1 &&
-          currentUserController.currentUser.value.userType != "teacher") {
+    }
+    // index 3 will be next session for student and people list for users and people list for teacher  ,
+    else if (index == 3) {
+      if (currentUserController.currentUser.value.id == -1) {
+        Get.to(ProfilePageBottom());
+      } else if (currentUserController.currentUser.value.userType !=
+          "teacher") {
         mySesionController.getFirstSessionAfterNow();
 
         Get.to(NextSession());
@@ -252,15 +258,29 @@ class _MybottomBarState extends State<MybottomBar> {
         chatController.getchatList();
         Get.to(PeopleList());
       }
-    } else if (index == 4) {
-      currentUserController.currentUser.value.incomeMessage = false;
+    }
 
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUserController.currentUser.value.id.toString())
-          .delete();
-      chatController.getchatList();
-      Get.to(PeopleList());
+    // index 4 ,  for student  , go to people list , for teacher go to ProfilePagebottom Note : there is no idex > 3 for non register users at this stage
+    else if (index == 4) {
+      if (currentUserController.currentUser.value.userType == "student") {
+        currentUserController.currentUser.value.incomeMessage = false;
+
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserController.currentUser.value.id.toString())
+            .delete();
+        chatController.getchatList();
+        Get.to(PeopleList());
+      } else if (currentUserController.currentUser.value.userType ==
+          "teacher") {
+        Get.to(ProfilePageBottom());
+      }
+    }
+    // index for student only , go to profile page bottom
+    else if (index == 5) {
+      if (currentUserController.currentUser.value.userType == "student") {
+        Get.to(ProfilePageBottom());
+      }
     }
   }
 
@@ -317,8 +337,8 @@ class _MybottomBarState extends State<MybottomBar> {
                     style: TabStyle.textIn,
                     items: [
                       TabItem(
-                        activeIcon: Icon(Icons.account_box),
-                        icon: Icon(Icons.account_box, color: Colors.grey),
+                        activeIcon: Icon(Icons.home),
+                        icon: Icon(Icons.home, color: Colors.grey),
                         title: 'home'.tr,
                       ),
 
@@ -356,7 +376,10 @@ class _MybottomBarState extends State<MybottomBar> {
                               ? 'stud'.tr
                               : 'tech'.tr,
                         ),
-
+                      TabItem(
+                          activeIcon: Icon(Icons.menu),
+                          icon: Icon(Icons.menu, color: Colors.grey),
+                          title: 'setting'),
                       // BottomNavigationBarItem(
                       //   icon: Icon(Icons.chat),
                       //   label: 'Chats',
@@ -374,8 +397,8 @@ class _MybottomBarState extends State<MybottomBar> {
                   activeColor: myorangeColor,
                   items: [
                     TabItem(
-                      activeIcon: Icon(Icons.account_box),
-                      icon: Icon(Icons.account_box, color: Colors.grey),
+                      activeIcon: Icon(Icons.home),
+                      icon: Icon(Icons.home, color: Colors.grey),
                       title: 'home'.tr,
                     ),
                     TabItem(
@@ -406,12 +429,12 @@ class _MybottomBarState extends State<MybottomBar> {
                       TabItem(
                         activeIcon: Icon(Icons.people),
                         icon: Icon(Icons.people, color: Colors.grey),
-                        title:
-                            currentUserController.currentUser.value.userType ==
-                                    "teacher"
-                                ? 'stud'.tr
-                                : 'tech'.tr,
+                        title: 'list',
                       ),
+                    TabItem(
+                        activeIcon: Icon(Icons.menu),
+                        icon: Icon(Icons.menu, color: Colors.grey),
+                        title: 'setting'),
                   ],
                   initialActiveIndex:
                       myBottomBarCtrl.selectedIndBottomBar.value,

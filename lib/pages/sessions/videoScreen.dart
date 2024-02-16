@@ -261,7 +261,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       // Start screen sharing
 
       agoraEngine.startScreenCapture(const ScreenCaptureParameters2(
-          captureAudio: true,
+          //  captureAudio: true,
           audioParams: ScreenAudioParameters(
               sampleRate: 16000, channels: 2, captureSignalVolume: 100),
           captureVideo: true,
@@ -276,7 +276,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     // Update channel media options to publish camera or screen capture streams
     ChannelMediaOptions options = ChannelMediaOptions(
       publishCameraTrack: !_isScreenShared,
-      publishMicrophoneTrack: !_isScreenShared,
+      publishMicrophoneTrack: true, // !_isScreenShared,
       publishScreenTrack: _isScreenShared,
       publishScreenCaptureAudio: _isScreenShared,
       publishScreenCaptureVideo: _isScreenShared,
