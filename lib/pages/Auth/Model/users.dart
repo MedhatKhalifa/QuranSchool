@@ -6,6 +6,8 @@
 
 import 'dart:convert';
 
+import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
+
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
 String userToJson(User data) => json.encode(data.toJson());

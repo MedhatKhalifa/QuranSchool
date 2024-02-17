@@ -8,12 +8,15 @@ import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quranschool/core/theme.dart';
+import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/quran/pdfview2.dart';
 import 'package:quranschool/pages/quran/quranPageAyaat.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 // #docregion platform_imports
 // Import for Android features.
@@ -34,7 +37,9 @@ class _QuranPageState extends State<QuranPage> {
   @override
   void initState() {
     super.initState();
-
+    if (currentUserController.showTutorial.value.quran) {
+      initTutorial();
+    }
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -57,6 +62,81 @@ class _QuranPageState extends State<QuranPage> {
   }
 
   final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
+
+  /// For Tutuorial
+  ///
+  final buttonKey = GlobalKey();
+  TutorialCoachMark? tutorial;
+
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+        shape: ShapeLightFocus.Circle,
+        identify: "buttonKey",
+        keyTarget: buttonKey,
+        alignSkip: Alignment.bottomRight,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "select different quran sources here".tr,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    return targets;
+  }
+
+  final CurrentUserController currentUserController =
+      Get.put(CurrentUserController());
+  late TutorialCoachMark tutorialCoachMark;
+  void initTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+
+      /// alignSkip: Alignment.bottomRight,
+      colorShadow: mybrowonColor,
+      textSkip: "Don't show Again",
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      //focusAnimationDuration: Duration(milliseconds: 30),
+      // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+      // onFinish: () {
+      //   print("finish");
+      // },
+      // onClickTarget: (target) {
+      //   print('onClickTarget: $target');
+      // },
+      // onClickTargetWithTapPosition: (target, tapDetails) {
+      //   print("target: $target");
+      //   print(
+      //       "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      // },
+      // onClickOverlay: (target) {
+      //   print('onClickOverlay: $target');
+      // },
+      onSkip: () {
+        currentUserController.showTutorial.value.quran = false;
+        storeTutorialData(
+            currentUserController.showTutorial.value, 'showTutorial');
+        return true;
+      },
+    )..show(context: context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +166,7 @@ class _QuranPageState extends State<QuranPage> {
           title: Text('Quran'.tr, style: const TextStyle(color: Colors.white)),
           actions: [
             PopupMenuButton<String>(
+              key: buttonKey,
               onSelected: (value) {
                 if (value == 'page1') {
                   // Navigate to Page 1

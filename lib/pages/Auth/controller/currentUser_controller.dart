@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:quranschool/pages/Auth/Model/questions.dart';
+import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
 
 import 'package:quranschool/pages/Auth/controller/phone_controller.dart';
 
@@ -44,6 +45,8 @@ class CurrentUserController extends GetxController {
   var isQuesLoading = true.obs;
 
   var questionsList = <Quetions>[].obs;
+
+  var showTutorial = ShowTutorial().obs;
 
   final PhoneController phoneController = Get.put(PhoneController());
 

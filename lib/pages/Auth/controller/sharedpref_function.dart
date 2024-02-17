@@ -2,6 +2,7 @@ import 'dart:convert';
 
 // import 'package:get/get.dart';
 import 'package:get/get.dart';
+import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quranschool/pages/Auth/Model/users.dart';
 import 'dart:async';
@@ -36,6 +37,29 @@ loadUserData(labelStored) async {
   // unlockController.getlist();
 
   return (_user);
+}
+
+loadTutorialData(labelStored) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? userPref = prefs.getString(labelStored);
+
+  if (userPref == null) {
+    return ShowTutorial();
+  }
+  var json = jsonDecode(userPref);
+  ShowTutorial _showTutorial = ShowTutorial.fromJson(json);
+  // favController.getdata();
+  // unlockController.getlist();
+
+  return (_showTutorial);
+}
+
+Future<void> storeTutorialData(ShowTutorial _tutorialShow, labelStored) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  Map<String, dynamic> _user = _tutorialShow.toJson();
+  bool reult = await prefs.setString(labelStored, jsonEncode(_user));
+  print(reult);
 }
 
 checklanguage() async {

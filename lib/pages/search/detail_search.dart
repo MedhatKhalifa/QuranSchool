@@ -5,6 +5,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/Auth/login/login_page.dart';
 import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
@@ -126,7 +127,9 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
       //   print('onClickOverlay: $target');
       // },
       onSkip: () {
-        print("skip");
+        currentUserController.showTutorial.value.searchteacher = false;
+        storeTutorialData(
+            currentUserController.showTutorial.value, 'showTutorial');
         return true;
       },
     )..show(context: context);
@@ -146,7 +149,8 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
         body: Obx(
           () {
             if (subscribitionController.isLoadingAvail.isFalse &&
-                showtTuorial) {
+                showtTuorial &&
+                currentUserController.showTutorial.value.searchteacher) {
               initTutorial();
               showtTuorial = false;
             }

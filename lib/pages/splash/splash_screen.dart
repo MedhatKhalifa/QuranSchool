@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 import 'package:quranschool/pages/intro/introudtion.dart';
@@ -128,9 +129,13 @@ class _SplashScreenState extends State<SplashScreen> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
           var _lang = prefs.getString('lang');
+
           try {
             currentUserController.currentUser.value =
                 await loadUserData('user');
+
+            currentUserController.showTutorial.value =
+                await loadTutorialData('showTutorial');
             //cartController.getcartList();
 
             var locale = Locale(_lang!, _lang);

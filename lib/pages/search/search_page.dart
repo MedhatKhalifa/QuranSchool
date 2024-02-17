@@ -12,6 +12,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/login_controller.dart';
+import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
@@ -145,7 +146,7 @@ class _SearchPage2State extends State<SearchPage2> {
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(),
       colorShadow: mybrowonColor,
-      textSkip: "SKIP",
+      textSkip: "Don't show Again",
       paddingFocus: 10,
       opacityShadow: 0.8,
       //focusAnimationDuration: Duration(milliseconds: 30),
@@ -165,7 +166,9 @@ class _SearchPage2State extends State<SearchPage2> {
       //   print('onClickOverlay: $target');
       // },
       onSkip: () {
-        print("skip");
+        currentUserController.showTutorial.value.search = false;
+        storeTutorialData(
+            currentUserController.showTutorial.value, 'showTutorial');
         return true;
       },
     )..show(context: context);
@@ -191,8 +194,9 @@ class _SearchPage2State extends State<SearchPage2> {
     }
     dateinput.text = ""; //set the initial value of text field
     timeinput.text = ""; //set the initial value of text field
-
-    initTutorial();
+    if (currentUserController.showTutorial.value.search) {
+      initTutorial();
+    }
     super.initState();
   }
 
