@@ -1029,350 +1029,202 @@ const Map<String, String> ar = {
 
   ///
 
-  'login': 'إدخل',
-
+  'login': 'تسجيل الدخول',
   'Phone_Number': 'رقم التليفون',
-
   'Password': 'كلمة السر',
-
-  'No_account_register': 'لا يوجد حساب من فضلك سجل',
-
+  'No_account_register': 'لا يوجد حساب من فضلك إنشاء حساب',
   'forget_password': 'نسيت كلمة السر',
-
   'Agree': 'أوافق',
-
   'terms': 'الأحكام والشروط',
-
   'Congratulation': 'مبروك',
-
   'Failed': 'خطأ',
-
   'Login_fail': 'تسجيل خاطئ',
-
   'Thanks': 'شكرا',
-
   'Login_success': 'تسجيل صحيح',
-
   'Please_Enter_The_Name': 'إسمك',
-
   'Enter_yourName': 'ادخل إسمك',
-
   'Account_Type': 'نوع الحساب',
-
   'Password_too_short': 'كلمة السر قصيره جدا',
-
   'password': 'كلمة السر',
-
   'password_are_not_matching': 'كلمة السر غير متشابه',
-
   'reenter_password': 'إعد أدخال كلمة السر',
-
   'Already_have_an_account_sign_in': 'لدى حساب مسبقا',
-
   'Sign_up': 'تسجيل',
-
   'new_password': 'كلمة السر الجديده',
-
   're_enter_new_password': 'تأكيد كلمة السر',
-
   'change_password': 'تحديث كلمة السر',
-
   'Go_To_sign_in_Page': 'اذهب الى صفحة الدخول',
-
   'enter_otp': 'ادخل الكود المرسل فى الرساله المكون من 6 ارقام',
-
   'resend_otp': 'إعادة إرسال الكود',
-
   'Invalid': 'خطأ',
-
   'user_error': 'خطأ فى بيانات المستخدم',
-
   'Less_size_100': 'أقل مساحه هى 100 متر',
-
   'enter_size': 'إذخل المساحه',
-
   'Request': 'الطلبات',
-
   'Profile': 'الخصائص',
-
   'Home': 'الرئيسيه',
-
   'invalid_num_or_already_exist': 'رقم غير صحيح او موجود بالفعل',
-
   'cannot_update_user_data': 'لا يمكن تحديث البيانات ، حاول في وقت لاحق',
-
   'can_not_updated_password': 'غير قادر على تحديث كلمة المرور',
-
   'Go_To_home_page': 'اذهب إلى الصفحة الرئيسية',
-
   'old_password': 'كلمة المرور القديمة',
-
   'CHANGE_PASSWORD': 'تغيير كلمة المرور',
-
   'edit': 'تغيير',
-
   'myarea_size': 'المساحة بالمتر',
-
   'update_size': 'تحديث المساحه',
-
   'order_histroy': 'الطلبات السابقه',
-
   'aboutus': 'معلومات عنا',
-
   'contactus': 'اتصل بنا',
-
   'change_language': 'تغيير اللغة',
-
   'logout': 'تسجيل خروج',
-
   'error_data': 'خطأ في جلب البيانات ، حاول لاحقًا',
-
   'less_size_100': 'الحد الأدنى للمساحه 100 متر',
-
   'ensure_internet_is_working': 'تأكد من أن الشبكة جيدة',
-
   'OK': 'نعم',
-
   'not_show_again': 'لا تظهر مرة أخرى',
-
   'or_login_with': 'أو سجل بواسطة',
-
   'no_account': 'لا تماك حساب',
-
-  'register_now': 'سجل الان',
-
+  'register_now': 'إنشاء حساب الان',
   'sing_agree': 'بالتسجيل توافق على',
-
   'wait_sms': 'انتظر ….',
-
   'appointments': 'مواعيدى المحاضرات',
-
   'available': 'مواعيدى المتاحة',
-
   'Chat': 'محادثة',
-
   'my_next_session': 'المحاضرة القادمة',
-
   'my_students': 'طلابى',
-
   'country_hint': 'الدوله',
-
   'Search_hint': 'ابحث',
-
   'city_hint': 'المدينة',
-
   'nationality_hint': 'الجنسية',
-
   'list': 'قائمة المحادثة',
-
   'search_name': 'البحث بالاسم',
-
   'type_message': 'اكتب رسالتك',
-
   'Hi': 'مرحبا',
-
   'Gender': 'النوع',
-
   'error_user': 'سم المستخدم مستخدم بالفعل أو يحتوي على خطأ',
-
   'error_num': 'رقم غير صالح أو موجود بالفعل',
-
   'pass_change_succ': 'تم تغيير كلمة المرور بنجاح',
-
   'pass_change_fail': 'can_not_updated_password',
-
   'phone_not': 'رقم الهاتف غير صحيح',
-
   'otp_sent': 'لم يتم إرسال رمز OTP',
-
   'otp_sms': 'رقم مكتب المدعي العام',
-
   'otp_valid': 'كلمة المرور لمرة واحدة صالحة',
-
   'Success': 'نجاح',
-
   'Correct_OTP': 'كلمة مرور لمرة واحدة الصحيحة',
-
   'Invalid_OTP': 'كلمة المرور لمرة واحدة غير صالحة',
-
   'user_Name': 'اسم المستخدم',
-
   'confirm_password': 'تأكيد كلمة المرور',
-
   'Next': 'التالي',
-
   'sent_code': 'لقد أرسلنا لك رمز الوصول',
-
   'via_sms': 'عبر الرسائل القصيرة للتحقق من رقم الهاتف المحمول',
-
   'sent_sms_to_num': 'تم الإرسال عبر الرسائل القصيرة على هذا الرقم',
-
   'I_confirm_data': 'لقد قرأت وقبلت الشروط والأحكام',
-
   'update': 'تحديث',
-
   'Birth_date': 'سنة الميلاد',
-
   'sure_exit': 'هل أنت متأكد أنك تريد الخروج؟',
-
   'No': 'لا',
-
   'Yes': 'نعم',
-
-  'Login_Register': 'دخول / تسجيل',
-
+  'Login_Register': 'إنشاء حساب / تسجيل',
   'fetch_failed': 'فشل الاتصال',
-
   'Intro_11': 'قبل ان تبدا',
-
   'Intro_12': 'يجب عليك أن تختار طريقك الصحيح...',
-
   'Intro_21': 'الآن نحن هنا!',
-
   'Intro_22': 'لمساعدتك على البدء بنجاح والسير على الطريق الصحيح',
-
   'Quran': 'القرآن',
-
   'next_': 'جلستك القادمة',
-
   'feedback': 'تعليقاتك...',
-
   'Comment': 'تعليق',
-
   'change_session': 'تغيير وقت الجلسة',
-
   'sure_change_session': 'هل أنت متأكد أنك تريد تغيير وقت الجلسة؟',
-
   'Next_sessions': 'الجلسات القادمة',
-
   'Old_session': 'الجلسات القديمة',
-
   'Warning': 'تحذير',
-
   'cannot_change_withinhour': 'لا يمكنك تغيير مؤقت الجلسة خلال ساعة واحدة"',
-
   'Joinachannel': 'انضم إلى القناة',
-
   'thanks_registeration': 'شكرا لتسجيلك معنا',
-
   'Selected_teacher': 'المعلم المختار',
-
   'Selected_package': 'الباقة المختارة تتكون من',
-
   'session_cost': 'جلسات بتكلفة',
-
   'EGP': 'جنيه مصري',
-
   'admin_will_call': 'سيتواصل معك أحد المسؤولين قريبًا',
-
-  'Select': 'يختار',
-
+  'Select': 'اختر',
   'select_pack_first': 'الرجاء تحديد الحزمة أولاً',
-
   'Select_Package': 'حدد الحزمة الخاصة بك',
-
   'Note': 'ملحوظة',
-
   'select_session_first': 'حدد الجلسات أولاً"',
-
-  'Submit': 'يُقدِّم',
-
-  'Selected_sessions': 'جلسات مختارة',
-
-  'out_of': 'بعيدا عن المكان',
-
-  'sesions': 'جلسات',
-
+  'Submit': 'تقديم الطلب',
+  'out_of': 'من بين',
+  'sesions': 'محاضرات',
   'Saturday': 'السبت',
-
   'Sunday': 'الأحد',
-
   'Monday': 'الاثنين',
-
   'Tuesday': 'يوم الثلاثاء',
-
   'Wednesday': 'الأربعاء',
-
   'Thursday': 'يوم الخميس',
-
   'Friday': 'جمعة',
-
   'from_time': 'من وقت:',
-
   'to_time': 'الى وقت:',
-
   'Cancel': 'يلغي',
-
   'invalid_time_after_before':
       'تحديد وقت غير صالح. إلى الوقت يجب أن يكون بعد من الوقت.',
-
   'Save': 'يحفظ',
-
   'sure_del_avail': 'هل أنت متأكد أنك تريد حذف فترة التوفر هذه؟',
-
   'Delete': 'يمسح',
-
   'Availability': 'التوفر',
-
   'add_new': 'اضف جديد',
-
   'No_free_slots': 'لا توجد فتحات مجانية',
-
   'MyStudents': 'طلابي',
-
   'MyTeachers': 'معلمي',
-
-  'search': 'يبحث',
-
-  'filter': 'خيار التصفية',
-
-  'man': 'رجل',
-
-  'woman': 'امرأة',
-
-  'children': 'تعليم الأطفال',
-
-  'Camera': 'تشغيل الكاميرا',
-
-  'memorization': 'الحفظ',
-
-  'tagweed': 'التجويد',
-
-  'time': 'وقت',
-
-  'date': 'تاريخ',
-
-  'search_teacher': 'ابحث عن المعلم المناسب لك',
-
-  'Reviews': 'التعليقات',
-
-  'aval_appoint': 'المواعيد المتاحة',
-
-  'show_more': 'أظهر المزيد',
-
-  'show_less': '|إظهار أقل',
-
-  'search_result': 'نتيجة البحث',
-
-  'no_data': 'لايوجد بيانات',
-
-  'open_use_ayaat': 'الانطلاقة مع آيات',
-
-  'open_use_file': 'افتح الملف المحلي',
-
-  'open_use_flash': 'إطلاق مع فلاش',
-
-  'reEnter_New_password': 'أعد إدخال كلمة المرور الجديدة',
-
-  'Session_Review': 'مراجعة الجلسة',
-
-  'subscription_package': 'باقة الاشتراك',
-
-  'package_price': 'سعر الحزمة',
-
-  'qna': 'سؤال وجواب',
-
-  'subscription': 'الاشتراكات',
-
+  'open_use_ayaat': 'الوصول عن طريق الآيات',
+  'open_use_file': 'إطلاق باستخدام الملف المحلي',
+  'open_use_flash': 'الوصول من خلال فلاش',
+  'reEnter_New_password': 'قم باستئجار كلمة المرور الجديدة',
+  'Session_Review': 'تقييم الجلسة',
+  'subscription_package': 'اشنراكاتى',
+  'package_price': 'أسعار الباقة',
+  'qna': 'أسئلة وأجوبة',
+  'Loading': 'تحميل',
+  'next_s': 'محاضرتى',
   'Paid': 'مدفوع',
+  'notification_required': 'إذن الإخطار مطلوب',
+  'notification_perm_req': 'أذونات الإعلام مطلوبة لتلقي إشعارات الدفع',
+  'open_setting': 'أفتح الإعدادات',
+  'notification': 'إشعارات',
+  'you_have_not': 'ليس لديك',
+  'Notification_Currently': 'الإخطار حاليا',
+  'open_use_falsh': 'الوصول من خلال فلاش',
+  'sel_quran': 'اختر من بين مصادر القرآن المختلفة المتاحة هنا',
+  'Not_show_again': 'لا تظهر مرة أخرى',
+  'show_more': 'أظهر المزيد',
+  'show_less': '. تظهر أقل',
+  'aval_appoint': 'مواعيد التوفر',
+  'Reviews': 'التعليقات',
+  'search_teacher': 'بحث عن معلم',
+  'date': 'تاريخ',
+  'Time': 'وقت',
+  'search': 'يبحث',
+  'filter': 'منقي',
+  'man': 'رجل',
+  'woman': 'امرأة',
+  'children': 'أطفال',
+  'Camera': 'آلة تصوير',
+  'memorization': 'الحفظ',
+  'tagweed': 'التجويد',
+  'search_result': 'نتائج البحث',
+  'no_data': 'ليس هنالك معلومات',
+  'check_teacher_avail': 'التحقق من توافر المعلم',
+  'next_choose_teacher': 'بعد ذلك، اختر المعلم الذي ترغب في الاشتراك فيه',
+  'skip_dont_show': 'تخطي ولا تظهر مرة أخرى',
+  'No_free_slots_teacher':
+      'لا توجد فتحات مجانية متاحة. لن يكون المعلم متاحًا خلال الأشهر الثلاثة القادمة.',
+  'pls_sub_first': 'الرجاء الاشتراك أولا',
+  'pls_renew_sub': 'يرجى تجديد اشتراكك  أولًا',
+  'session_start_at': 'جلستك ستكون في',
+  'session_not_start': 'الجلسة لم تبدأ بعد.',
+  'join_session': 'انضم إلى الجلسة',
+  'No_of_sessions': 'عدد الجلسات',
+  'remainingSessions': 'تبقى الجلسات',
+  'Popular_Questions': 'الأسئلة_الشعبية',
+  'Selected': 'اختيرت',
+  'sessions': 'محاضرات',
 };

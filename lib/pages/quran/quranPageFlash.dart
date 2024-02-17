@@ -86,7 +86,7 @@ class _QuranPageState extends State<QuranPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "select different quran sources here".tr,
+                    "sel_quran".tr,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
@@ -110,7 +110,7 @@ class _QuranPageState extends State<QuranPage> {
 
       /// alignSkip: Alignment.bottomRight,
       colorShadow: mybrowonColor,
-      textSkip: "Don't show Again",
+      textSkip: "Not_show_again".tr,
       paddingFocus: 10,
       opacityShadow: 0.8,
       //focusAnimationDuration: Duration(milliseconds: 30),

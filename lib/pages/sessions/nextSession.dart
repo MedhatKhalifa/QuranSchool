@@ -147,18 +147,15 @@ class _NextSessionState extends State<NextSession> {
                   ),
                 )
               : mySesionController.diffMinutes.value == -1000001
-                  ? Center(child: Text(' Please Subscribe first '))
+                  ? Center(child: Text('pls_sub_first'.tr))
                   : mySesionController.diffMinutes.value == -1000002
-                      ? Center(
-                          child:
-                              Text(' Please renew your subscribtion  first '))
+                      ? Center(child: Text('pls_renew_sub'.tr))
                       : ListView(
                           children: [
                             SizedBox(height: h(20)),
                             Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Text('Your session will at '.tr)),
+                              child: Center(child: Text('session_start_at'.tr)),
                             ),
                             Padding(
                                 padding: EdgeInsets.all(8.0),
@@ -232,7 +229,7 @@ class _NextSessionState extends State<NextSession> {
                                     } else {
                                       final snackBar = SnackBar(
                                         content: Text(
-                                          'The session hasn\'t started yet.',
+                                          'session_not_start',
                                           style: TextStyle(
                                               color: Colors
                                                   .white), // Set text color to white
@@ -249,7 +246,7 @@ class _NextSessionState extends State<NextSession> {
                                           .showSnackBar(snackBar);
                                     }
                                   },
-                                  child: const Text(' Join Session ')),
+                                  child: Text('join_session'.tr)),
                             ),
                           ],
                         )),

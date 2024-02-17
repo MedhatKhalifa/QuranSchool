@@ -479,7 +479,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       }
     } else {
       return Text(
-        'Join a channel'.tr,
+        'join_session'.tr,
         textAlign: TextAlign.center,
       );
     }

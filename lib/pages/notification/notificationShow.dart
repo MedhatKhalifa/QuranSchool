@@ -61,16 +61,15 @@ class _NotificationShowState extends State<NotificationShow> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Notification Permission Required'),
-          content: Text(
-              'Notification permissions are required to receive push notifications.'),
+          title: Text('notification_required'.tr),
+          content: Text('notification_perm_req'.tr),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 openAppSettings();
               },
-              child: Text('Open Settings'),
+              child: Text('open_setting'.tr),
             ),
           ],
         );
@@ -128,7 +127,7 @@ class _NotificationShowState extends State<NotificationShow> {
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
-        appBar: simplAppbar(true, "Notification".tr),
+        appBar: simplAppbar(true, "notification".tr),
         body: Column(
           children: [
             // Add a TextField for search
@@ -203,13 +202,13 @@ class _NotificationShowState extends State<NotificationShow> {
                                 SizedBox(
                                     height:
                                         20), // Add spacing between image and text
-                                Text('You Have No ',
+                                Text('you_have_not'.tr,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     )),
                                 Text(
-                                  'Notification Currently',
+                                  'Notification_Currently'.tr,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,

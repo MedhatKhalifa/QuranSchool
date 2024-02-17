@@ -121,7 +121,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
                     leading: Icon(Icons.shopify),
-                    title: Text('subscription'.tr),
+                    title: Text('subscription_package'.tr),
                     onTap: () async {
                       chatController.isLoadingall.value = true;
                       chatController.getallSubList();
@@ -133,7 +133,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
                     leading: Icon(Icons.notifications),
-                    title: Text('Notification'.tr),
+                    title: Text('notification'.tr),
                     onTap: () async {
                       Get.to(NotificationShow());
                     }),

@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -184,16 +185,15 @@ class _Application extends State<Application> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Notification Permission Required'),
-          content: Text(
-              'Notification permissions are required to receive push notifications.'),
+          title: Text('notification_required'.tr),
+          content: Text('notification_perm_req'.tr),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 openAppSettings();
               },
-              child: Text('Open Settings'),
+              child: Text('open_setting'.tr),
             ),
           ],
         );

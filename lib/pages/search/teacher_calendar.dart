@@ -60,7 +60,9 @@ class _CalendarShowState extends State<CalendarShow> {
           "Select".tr +
               subscribitionController.selectedPayement.value.sessionCount
                   .toString() +
-              " sesions".tr),
+              " "
+                      "sesions"
+                  .tr),
       body: Obx(
         () => subscribitionController.isLoadingmeetings.isTrue
             ? Center(
@@ -158,13 +160,17 @@ class _CalendarShowState extends State<CalendarShow> {
                         subscribitionController
                             .selectedPayement.value.sessionCount!
                     ? 'Submit'.tr
-                    : 'Selected_sessions'.tr +
+                    : 'Selected'.tr +
+                        " " +
                         subscribitionController.countofSelectSession
                             .toString() +
+                        " " +
                         'out_of'.tr +
+                        " " +
                         subscribitionController
                             .selectedPayement.value.sessionCount!
-                            .toString(),
+                            .toString() +
+                        'sessions'.tr,
                 style: TextStyle(fontSize: sp(14))),
             style: ButtonStyle(
                 backgroundColor: subscribitionController.countofSelectSession <

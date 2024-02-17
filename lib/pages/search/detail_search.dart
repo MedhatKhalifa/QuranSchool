@@ -84,7 +84,7 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Next, choose the teacher you wish to subscribe to".tr,
+                    "next_choose_teacher".tr,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -107,7 +107,7 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
       colorShadow: mybrowonColor,
       alignSkip: Alignment.topRight,
 
-      textSkip: "Skip and don't show again",
+      textSkip: "skip_dont_show".tr,
       paddingFocus: 10,
       opacityShadow: 0.8,
       focusAnimationDuration: Duration(milliseconds: 30),
@@ -141,7 +141,9 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
 
     return WillPopScope(
       onWillPop: () async {
-        tutorialCoachMark..skip();
+        if (currentUserController.showTutorial.value.searchteacher) {
+          tutorialCoachMark..skip();
+        }
 
         return true; // Do not allow the default back button behavior
       },
@@ -247,7 +249,21 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                               Divider(color: Colors.grey[50], thickness: sp(1)),
                               ListTile(
                                 onTap: () {},
-                                leading: Icon(Icons.star),
+                                leading: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Color(0xFFA58223),
+                                    ),
+                                    SizedBox(
+                                      width: w(2),
+                                    ),
+                                    Text(subscribitionController
+                                        .selectedTeacher.value.maxRating
+                                        .toString()),
+                                  ],
+                                ),
                                 title: Text("Reviews".tr,
                                     style: TextStyle(color: Colors.grey)),
                               ),
@@ -287,8 +303,8 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                             Get.to(() => SessionPriceList());
                           } else {
                             Get.snackbar(
-                              'Warning',
-                              'No free slots available. The teacher will not be available for the next three months.',
+                              'Warning'.tr,
+                              'No_free_slots_teacher'.tr,
                               backgroundColor: Colors
                                   .orange, // Set the background color for a warning.
                               colorText: Colors
@@ -306,6 +322,26 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                 ),
         ),
       ),
+    );
+  }
+}
+
+class StarRatingWidget extends StatelessWidget {
+  final int maxRating;
+
+  StarRatingWidget({required this.maxRating});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: maxRating,
+      itemBuilder: (context, index) {
+        return Icon(
+          Icons.star,
+          color: Colors.yellow,
+        );
+      },
     );
   }
 }

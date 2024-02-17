@@ -182,7 +182,7 @@ import 'package:quranschool/pages/home_page/profile_page_bottom.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/quran/quranPageFlash.dart';
 import 'package:quranschool/pages/quran/quranPageAyaat.dart';
-import 'package:quranschool/pages/quran/selectionQuran.dart';
+
 import 'package:quranschool/pages/search/search_page.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/teacher/mystudent/showmyStudent.dart';
