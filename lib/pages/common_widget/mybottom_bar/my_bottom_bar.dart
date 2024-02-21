@@ -334,12 +334,12 @@ class _MybottomBarState extends State<MybottomBar> {
 
             return Obx(() => ConvexAppBar.badge({1: 3 > 0 ? '' : ''},
                     backgroundColor: Colors.white,
-                    style: TabStyle.textIn,
+                    style: TabStyle.react,
                     items: [
                       TabItem(
                         activeIcon: Icon(Icons.home),
                         icon: Icon(Icons.home, color: Colors.grey),
-                        title: 'home'.tr,
+                        //  title: 'home'.tr,
                       ),
 
                       TabItem(
@@ -349,7 +349,7 @@ class _MybottomBarState extends State<MybottomBar> {
                         icon: Icon(FlutterIslamicIcons.quran2,
                             color: Colors
                                 .grey), //Image.asset("assets/icons/quran.png"),
-                        title: 'quran'.tr,
+                        // title: 'quran'.tr,
                       ),
                       if (currentUserController.currentUser.value.userType !=
                           "teacher")
@@ -358,28 +358,29 @@ class _MybottomBarState extends State<MybottomBar> {
                           icon: Icon(Icons.search, color: Colors.grey),
 
                           //  ),
-                          title: 'Search'.tr,
+                          //  title: 'Search'.tr,
                         ),
                       if (currentUserController.currentUser.value.id != -1)
                         TabItem(
-                          activeIcon: Icon(Icons.play_arrow),
-                          icon: Icon(Icons.play_arrow, color: Colors.grey),
-                          title: 'Next_sesion'.tr,
+                          activeIcon: Icon(Icons.play_lesson),
+                          icon: Icon(Icons.play_lesson, color: Colors.grey),
+                          //  title: 'Next_sesion'.tr,
                         ),
                       if (currentUserController.currentUser.value.id != -1)
                         TabItem(
                           activeIcon: Icon(Icons.people),
                           icon: NewMessageIndicator(),
-                          title: currentUserController
-                                      .currentUser.value.userType ==
-                                  "teacher"
-                              ? 'stud'.tr
-                              : 'tech'.tr,
+                          // title: currentUserController
+                          //             .currentUser.value.userType ==
+                          //         "teacher"
+                          //     ? 'stud'.tr
+                          //     : 'tech'.tr,
                         ),
                       TabItem(
-                          activeIcon: Icon(Icons.menu),
-                          icon: Icon(Icons.menu, color: Colors.grey),
-                          title: 'setting'),
+                        activeIcon: Icon(Icons.menu),
+                        icon: Icon(Icons.menu, color: Colors.grey),
+                        // title: 'setting'
+                      ),
                       // BottomNavigationBarItem(
                       //   icon: Icon(Icons.chat),
                       //   label: 'Chats',
@@ -393,13 +394,13 @@ class _MybottomBarState extends State<MybottomBar> {
             return Obx(() => ConvexAppBar.badge(
                   {1: 3 > 0 ? '' : ''},
                   backgroundColor: Colors.white,
-                  style: TabStyle.textIn,
+                  style: TabStyle.react,
                   activeColor: myorangeColor,
                   items: [
                     TabItem(
                       activeIcon: Icon(Icons.home),
                       icon: Icon(Icons.home, color: Colors.grey),
-                      title: 'home'.tr,
+                      // title: 'home'.tr,
                     ),
                     TabItem(
                       //isIconBlend: true,
@@ -408,7 +409,7 @@ class _MybottomBarState extends State<MybottomBar> {
                       icon: Icon(FlutterIslamicIcons.quran2,
                           color: Colors
                               .grey), //Image.asset("assets/icons/quran.png"),
-                      title: 'Quran'.tr,
+                      //  title: 'Quran'.tr,
                     ),
                     if (currentUserController.currentUser.value.userType !=
                         "teacher")
@@ -417,24 +418,26 @@ class _MybottomBarState extends State<MybottomBar> {
                         icon: Icon(Icons.search, color: Colors.grey),
 
                         //  ),
-                        title: 'Search'.tr,
+                        //  title: 'Search'.tr,
                       ),
                     if (currentUserController.currentUser.value.id != -1)
                       TabItem(
-                        activeIcon: Icon(Icons.play_arrow),
-                        icon: Icon(Icons.play_arrow, color: Colors.grey),
-                        title: 'next_s'.tr,
+                        activeIcon: Icon(Icons.play_lesson_outlined),
+                        icon: Icon(Icons.play_lesson_outlined,
+                            color: Colors.grey),
+                        // title: 'next_s'.tr,
                       ),
                     if (currentUserController.currentUser.value.id != -1)
                       TabItem(
                         activeIcon: Icon(Icons.people),
                         icon: Icon(Icons.people, color: Colors.grey),
-                        title: 'list',
+                        //  title: 'list',
                       ),
                     TabItem(
-                        activeIcon: Icon(Icons.menu),
-                        icon: Icon(Icons.menu, color: Colors.grey),
-                        title: 'setting'),
+                      activeIcon: Icon(Icons.menu),
+                      icon: Icon(Icons.menu, color: Colors.grey),
+                      //  title: 'setting'
+                    ),
                   ],
                   initialActiveIndex:
                       myBottomBarCtrl.selectedIndBottomBar.value,

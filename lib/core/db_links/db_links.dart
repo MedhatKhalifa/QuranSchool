@@ -6,6 +6,7 @@ const String appId = "65a5460ed6af49978a85479fdd87fa13";
 const String usernameCheckUrl = "$db_url1/numbercheck/";
 
 const String login_url = "${db_url1}userprofile/login/";
+const String homePage_url = "${db_url1}userprofile/staticPage/homepage/";
 const String resetPassUrl = "${db_url1}userprofile/resetpass/";
 
 const String profileUrl = "${db_url1}userprofile/userprofiles/";

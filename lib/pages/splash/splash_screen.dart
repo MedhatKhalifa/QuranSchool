@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
+import 'package:quranschool/pages/home_page/controller/home_controller.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 import 'package:quranschool/pages/intro/introudtion.dart';
@@ -29,7 +30,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
-
+  final HomePageController homePageController = Get.put(HomePageController());
   String? mytoken;
   bool _isSkipped = false;
 
@@ -131,6 +132,7 @@ class _SplashScreenState extends State<SplashScreen> {
           var _lang = prefs.getString('lang');
 
           try {
+            homePageController.getHomePageData();
             currentUserController.currentUser.value =
                 await loadUserData('user');
 

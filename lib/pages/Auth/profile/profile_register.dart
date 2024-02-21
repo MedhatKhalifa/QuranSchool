@@ -251,13 +251,14 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                   _imagexpick = _imagexpick;
                                   _imageload = true;
 
-                                  final bytes =
-                                      //     File(_imagexpick!.path).readAsBytesSync();
-                                      // currentUserController.tempUser.value.image =
-                                      //     base64Encode(bytes);
-
-                                      currentUserController.tempUser.value
-                                          .image = _imagexpick!.path;
+                                  // final bytes =
+                                  //     File(_imagexpick!.path).readAsBytesSync();
+                                  // currentUserController.tempUser.value
+                                  //     .imageFile = base64Encode(bytes);
+                                  currentUserController
+                                      .tempUser.value.imageFile = _imagexpick;
+                                  currentUserController.tempUser.value.image =
+                                      _imagexpick!.path;
 
                                   currentUserController
                                       .tempUser.value.imagechanged = true;
@@ -285,7 +286,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                       child: _imageload &&
                               currentUserController
                                       .tempUser.value.image.length >
-                                  1000
+                                  20
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.file(
@@ -302,8 +303,13 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                     width: sp(120),
                                     height: sp(120),
                                     fit: BoxFit.contain,
-                                    imageUrl:
-                                        '${currentUserController.tempUser.value.image}',
+                                    imageUrl: currentUserController
+                                            .tempUser.value.image
+                                            .contains('media')
+                                        ? '${currentUserController.tempUser.value.image}'
+                                        : db_url +
+                                            "media/" +
+                                            '${currentUserController.tempUser.value.image}',
                                     progressIndicatorBuilder: (context, url,
                                             downloadProgress) =>
                                         CircularProgressIndicator(

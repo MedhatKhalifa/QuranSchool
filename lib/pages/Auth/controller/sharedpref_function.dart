@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 // import 'package:quranschool/pages/home/controller/home_controller.dart';
 // import 'package:quranschool/pages/unlock_profiles/controller/unlockcontroller.dart';
 
-Future<void> storeUserData(var _regiuser, labelStored) async {
+Future<void> storeUserData(User _regiuser, labelStored) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   Map<String, dynamic> _user = _regiuser.toJson();

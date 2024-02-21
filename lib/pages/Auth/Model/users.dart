@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
@@ -54,6 +55,7 @@ class User {
     this.fullName = "",
     this.username = "",
     this.image = "",
+    this.imageFile,
     this.enabledit = true,
     this.imagechanged = false,
     this.updateOld = false,
@@ -86,6 +88,7 @@ class User {
   String token;
 
   String password;
+  XFile? imageFile;
 
   String fullName;
 
@@ -143,5 +146,6 @@ class User {
         "fullName": fullName,
         "username": username,
         'nationality': nationality,
+        "image": image,
       };
 }

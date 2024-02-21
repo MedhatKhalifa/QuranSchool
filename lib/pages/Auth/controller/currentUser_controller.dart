@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/src/multipart_file.dart' as dio_multipart_file;
 
 import 'package:quranschool/pages/Auth/Model/questions.dart';
 import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
@@ -26,6 +28,8 @@ import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../core/db_links/db_links.dart';
+
+import 'package:http/http.dart' as http;
 
 class CurrentUserController extends GetxController {
   // Just this currentuser fetch User Model
@@ -376,52 +380,47 @@ class CurrentUserController extends GetxController {
         _url = _url + "/" + currentUser.value.id.toString();
       }
 
-      // var response = await (currentUserController.currentUser.value.id != null
+      File file = File(userProfile.imageFile!.path);
 
-      //     ? dio.put
+      var request = http.MultipartRequest('PUT',
+          Uri.parse(profileUrl + "/" + currentUser.value.id.toString() + '/'));
+      request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
-      //     : dio.post)
+      var additionalData = {
+        'username': currentUser.value.username, //tempUser.value.username,
 
-      var response = await dio.put(
-        profileUrl + "/" + currentUser.value.id.toString() + '/',
-        data: {
-          'username': currentUser.value.username, //tempUser.value.username,
+        // 'email': userProfile.email,
 
-          // 'email': userProfile.email,
+        // 'phoneNumber': userProfile.phoneNumber,
 
-          // 'phoneNumber': userProfile.phoneNumber,
+        'fullName': userProfile.fullName,
 
-          'fullName': userProfile.fullName,
+        'accountToken': userProfile.accountToken,
 
-          'accountToken': userProfile.accountToken,
+        'country': userProfile.country,
 
-          'country': userProfile.country,
+        'birthYear': userProfile.birthYear,
 
-          'birthYear': userProfile.birthYear,
+        'gender': userProfile.gender,
 
-          'gender': userProfile.gender,
+        'city': userProfile.city,
 
-          'city': userProfile.city,
+        'nationality': userProfile.nationality,
 
-          'nationality': userProfile.nationality,
+        //'image': file // userProfile.imageFile,
+      };
 
-          // 'image': userProfile.image,
-        },
-        options: Options(
-          followRedirects: false,
+      additionalData.forEach((key, value) {
+        request.fields[key] = value.toString();
+      });
+      var response = await request.send();
 
-          validateStatus: (status) {
-            return status! < 505;
-          },
-
-          //headers: {},
-        ),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200) {
         //final responseData = json.decode(response.data);
+        String responseData = await response.stream.bytesToString();
+        Map<String, dynamic> decodedResponse = jsonDecode(responseData);
 
-        User _regiuser = User.fromJson(response.data);
+        User _regiuser = User.fromJson(decodedResponse);
 
         currentUser.value = _regiuser;
 
@@ -437,6 +436,71 @@ class CurrentUserController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+    // var response = await (currentUserController.currentUser.value.id != null
+
+    //     ? dio.put
+
+    //     : dio.post)
+    //   var response = await dio.put(
+    //     profileUrl + "/" + currentUser.value.id.toString() + '/',
+    //     data: {
+    //       'username': currentUser.value.username, //tempUser.value.username,
+
+    //       // 'email': userProfile.email,
+
+    //       // 'phoneNumber': userProfile.phoneNumber,
+
+    //       'fullName': userProfile.fullName,
+
+    //       'accountToken': userProfile.accountToken,
+
+    //       'country': userProfile.country,
+
+    //       'birthYear': userProfile.birthYear,
+
+    //       'gender': userProfile.gender,
+
+    //       'city': userProfile.city,
+
+    //       'nationality': userProfile.nationality,
+
+    //       //'image': file // userProfile.imageFile,
+
+    //       'image': await dio_multipart_file.MultipartFile.fromFile(file.path,
+    //           filename: userProfile.imageFile!.name),
+    //     },
+    //     options: Options(
+    //       followRedirects: false,
+    //       contentType: 'multipart/form-data',
+    //       //  contentType: dio.MediaType.parse('multipart/form-data'), // Ensure correct content type
+
+    //       validateStatus: (status) {
+    //         return status! < 505;
+    //       },
+
+    //       //headers: {},
+    //     ),
+    //   );
+
+    //   if (response.statusCode == 200 || response.statusCode == 201) {
+    //     //final responseData = json.decode(response.data);
+
+    //     User _regiuser = User.fromJson(response.data);
+
+    //     currentUser.value = _regiuser;
+
+    //     storeUserData(
+    //         currentUser.value, 'user'); // save UserID, User name , Phone Num
+
+    //     myBottomBarCtrl.selectedIndBottomBar.value = 0;
+
+    //     Get.to(HomePage());
+    //   } else {
+    //     mySnackbar("Failed".tr, "validate_data".tr, "Error");
+    //   }
+    // } finally {
+    //   isLoading.value = false;
+    // }
   }
 
   //// Question
