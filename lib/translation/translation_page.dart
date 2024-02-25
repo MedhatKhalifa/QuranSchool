@@ -59,7 +59,7 @@ class _TrnaslationPageState extends State {
             padding: EdgeInsets.only(right: w(10), left: w(10)),
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
+                  backgroundColor: Colors.white,
                   side: BorderSide(color: Colors.white),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -87,7 +87,7 @@ class _TrnaslationPageState extends State {
             padding: EdgeInsets.only(left: w(10), right: w(10)),
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
+                  backgroundColor: Colors.white,
                   side: BorderSide(color: Colors.white),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

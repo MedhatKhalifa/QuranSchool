@@ -37,7 +37,7 @@ class LocalThemes {
 // text button theme
       textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-        primary: lgreen,
+        foregroundColor: lgreen,
         textStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontStyle: FontStyle.italic,
@@ -47,9 +47,9 @@ class LocalThemes {
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              backgroundColor: lgreen,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              primary: lgreen, // background color
+                  borderRadius: BorderRadius.circular(20)), // background color
               textStyle: TextStyle(
                 color: Colors.white,
                 // fontStyle: FontStyle.italic,
@@ -88,11 +88,10 @@ class LocalThemes {
     //ElvatedButton theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: clickIconColor,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        primary: clickIconColor, // background color
-        onPrimary: Colors.white,
-
         textStyle: TextStyle(
           color: Colors.grey,
           // fontStyle: FontStyle.italic,
@@ -117,7 +116,7 @@ class LocalThemes {
     // text button theme
     textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-      primary: textbuttonColor,
+      foregroundColor: textbuttonColor,
       textStyle: const TextStyle(
         fontWeight: FontWeight.bold,
         fontStyle: FontStyle.italic,
