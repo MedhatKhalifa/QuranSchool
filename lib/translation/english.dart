@@ -1216,4 +1216,5 @@ const Map<String, String> en = {
   'Popular_Questions': 'Popular Questions',
   'Selected': 'Selected',
   'sessions': 'Sessions',
+  "No_reserved_session": "there are no reserved sessions available",
 };

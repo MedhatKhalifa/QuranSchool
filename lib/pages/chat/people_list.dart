@@ -143,18 +143,26 @@ class _PeopleListState extends State<PeopleList> {
                                         ),
                                       ),
                                     )
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: Opacity(
-                                        opacity: 0.5,
-                                        child: Image.asset(
-                                          "assets/images/logo/logo.png",
-                                          // width: sp(80),
-                                          // height: sp(80),
-                                          //color: Colors.red,
+                                  : GestureDetector(
+                                      onTap: () {
+                                        loginController.getStudentProfile(
+                                            chatController
+                                                .filteredFriends[index]
+                                                .friendtID);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Opacity(
+                                          opacity: 0.5,
+                                          child: Image.asset(
+                                            "assets/images/logo/logo.png",
+                                            // width: sp(80),
+                                            // height: sp(80),
+                                            //color: Colors.red,
+                                          ),
                                         ),
                                       ),
                                     ),

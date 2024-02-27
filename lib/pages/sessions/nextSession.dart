@@ -7,10 +7,12 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
+import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
+import 'package:quranschool/pages/search/search_page.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
@@ -149,7 +151,31 @@ class _NextSessionState extends State<NextSession> {
               : mySesionController.diffMinutes.value == -1000001
                   ? Center(child: Text('pls_sub_first'.tr))
                   : mySesionController.diffMinutes.value == -1000002
-                      ? Center(child: Text('pls_renew_sub'.tr))
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(child: Text('No_reserved_session'.tr)),
+                            if (currentUserController
+                                    .currentUser.value.userType ==
+                                'student')
+                              Center(
+                                child: TextButton(
+                                  onPressed: () {
+                                    myBottomBarCtrl.selectedIndBottomBar.value =
+                                        2;
+                                    Get.to(SearchPage2());
+                                  },
+                                  child: Text(
+                                    'search_teacher'.tr,
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        )
                       : ListView(
                           children: [
                             SizedBox(height: h(20)),
@@ -229,7 +255,7 @@ class _NextSessionState extends State<NextSession> {
                                     } else {
                                       final snackBar = SnackBar(
                                         content: Text(
-                                          'session_not_start',
+                                          'session_not_start'.tr,
                                           style: TextStyle(
                                               color: Colors
                                                   .white), // Set text color to white

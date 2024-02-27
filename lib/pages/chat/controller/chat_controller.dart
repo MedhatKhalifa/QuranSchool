@@ -47,10 +47,7 @@ class ChatController extends GetxController {
     // } else if ((currentUserController.currentUser.value.userType == "student")) {
     //   _url = studsubUrl + id.toString();
     // }
-    print(studsubUrl +
-        currentUserController.currentUser.value.userType +
-        "=" +
-        currentUserController.currentUser.value.id.toString());
+
     var dio = Dio();
     var response = await dio.get(
       studsubUrl +

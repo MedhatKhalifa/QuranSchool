@@ -1174,7 +1174,7 @@ const Map<String, String> ar = {
   'add_new': 'إضافة جديدة',
   'No_free_slots': 'لا توجد فتحات مجانية',
   'MyStudents': 'طلابي',
-  'MyTeachers': 'معلموي',
+  'MyTeachers': 'معلمي',
   'open_use_ayaat': 'الوصول من خلال الآيات',
   'open_use_file': 'البدء باستخدام الملف المحلي',
   'open_use_flash': 'الوصول من خلال الفلاش',
@@ -1227,4 +1227,5 @@ const Map<String, String> ar = {
   'Popular_Questions': 'الأسئلة الشائعة',
   'Selected': 'محدد',
   'sessions': 'جلسات',
+  'No_reserved_session': 'لا توجد جلسات محجوزة متاحة.',
 };
