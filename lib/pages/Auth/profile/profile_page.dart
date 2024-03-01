@@ -170,7 +170,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         "teacher",
                 child: ListTile(
                     leading: Icon(Icons.add_box_rounded),
-                    title: Text('available'.tr),
+                    title: Text('myAvailability'.tr),
                     onTap: () async {
                       // subscribitionController.getSessionsbyteaherID(
                       //     currentUserController.currentUser.value.id,

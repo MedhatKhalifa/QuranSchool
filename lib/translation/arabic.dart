@@ -1035,7 +1035,7 @@ const Map<String, String> ar = {
   'No_account_register': 'لا يوجد حساب، يرجى التسجيل',
   'forget_password': 'نسيت كلمة المرور',
   'Agree': 'موافق',
-  'terms': 'الشروط والأحكام',
+  'terms': '',
   'Congratulation': 'تهانينا',
   'Failed': 'فشل',
   'Login_fail': 'فشل تسجيل الدخول',
@@ -1171,7 +1171,7 @@ const Map<String, String> ar = {
   'sure_del_avail': 'هل أنت متأكد أنك تريد حذف هذه الفترة من التوفر؟',
   'Delete': 'حذف',
   'Availability': 'التوفر',
-  'add_new': 'إضافة جديدة',
+  'add_new': 'إضافة ميعاد متاح جديد',
   'No_free_slots': 'لا توجد فتحات مجانية',
   'MyStudents': 'طلابي',
   'MyTeachers': 'معلمي',
@@ -1228,4 +1228,5 @@ const Map<String, String> ar = {
   'Selected': 'محدد',
   'sessions': 'جلسات',
   'No_reserved_session': 'لا توجد جلسات محجوزة متاحة.',
+  'myAvailability': 'مواعيدى المتاحة',
 };

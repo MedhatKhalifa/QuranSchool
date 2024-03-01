@@ -116,8 +116,13 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                   trailing: Text(
                                       paymentOption.price.toString() +
                                           " EGP".tr),
-                                  title: Text(paymentOption.subscriptionName!),
-                                  subtitle: Text(paymentOption.description!),
+                                  title: Text(Get.locale?.languageCode == 'ar'
+                                      ? paymentOption.subscriptionNameAr!
+                                      : paymentOption.subscriptionName!),
+                                  subtitle: Text(
+                                      Get.locale?.languageCode == 'ar'
+                                          ? paymentOption.descriptionAr!
+                                          : paymentOption.description!),
                                   onTap: () {
                                     var _temp = subscribitionController
                                         .selectedPayement.value;

@@ -213,6 +213,114 @@ class _SessionsShowState extends State<SessionsShow> {
                               //   timeInterval: Duration(minutes: 30),
                               // ),
 
+                              appointmentBuilder: (BuildContext context,
+                                  CalendarAppointmentDetails details) {
+                                final Meeting meeting =
+                                    details.appointments.first;
+
+                                // Check the current locale language
+                                String languageCode =
+                                    Get.locale?.languageCode ?? 'en';
+
+                                // Define the date format based on the language
+                                DateFormat formatter = languageCode == 'ar'
+                                    ? DateFormat.jm('ar')
+                                    : DateFormat.jm('en');
+
+                                // Format the time
+                                String formattedTime =
+                                    formatter.format(meeting.from);
+
+                                if (currentUserController
+                                        .currentUser.value.userType ==
+                                    "teacher") {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Handle long press action here
+                                      if (currentUserController
+                                              .currentUser.value.userType ==
+                                          "teacher") {
+                                        for (Meeting appointment
+                                            in details.appointments) {
+                                          if (calculateDifferenceInMinutes(
+                                                  appointment) >
+                                              60) {
+                                            _showChangeSessionTimeDialog(
+                                                context, appointment);
+                                          } else {
+                                            Get.snackbar(
+                                              "Warning".tr,
+                                              "cannot_change_withinhour".tr,
+                                              backgroundColor: Colors.red,
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              duration: Duration(seconds: 5),
+                                            );
+                                          }
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      //color: meeting.background,
+                                      decoration: BoxDecoration(
+                                          color: meeting.background,
+                                          borderRadius: BorderRadius.circular(
+                                              5) // Adjust the value as needed
+                                          ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            meeting.eventName,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                formattedTime,
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              Icon(Icons.edit),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ), // Replace this with your desired icon
+                                  );
+                                } else {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        color: meeting.background,
+                                        borderRadius: BorderRadius.circular(
+                                            5) // Adjust the value as needed
+                                        ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          meeting.eventName,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              formattedTime,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              },
+
                               // minDate: DateTime.now(),
                               // maxDate: DateTime.now().add(const Duration(days: 90)),
                               dataSource: MeetingDataSource(_getNextSessions()),
@@ -231,6 +339,7 @@ class _SessionsShowState extends State<SessionsShow> {
                               //     appointmentDisplayMode:
                               //         MonthAppointmentDisplayMode.appointment,
                               //     showAgenda: true),
+
                               onLongPress: (day) {
                                 if (currentUserController
                                         .currentUser.value.userType ==
