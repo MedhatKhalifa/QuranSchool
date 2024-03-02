@@ -394,7 +394,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                   monthViewSettings: const MonthViewSettings(
                     dayFormat: 'EEE', // Display only day name (Sun, Mon, ...)
                   ),
-                  onLongPress: (day) {
+                  onTap: (day) {
                     // Filter freeSlots to get times when the day matches
 
                     if (day.targetElement == CalendarElement.appointment) {

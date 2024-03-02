@@ -268,6 +268,30 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                                     style: TextStyle(color: Colors.grey)),
                               ),
                               Divider(color: Colors.grey[50], thickness: sp(1)),
+                              ExpansionTile(
+                                textColor: Colors.grey,
+                                initiallyExpanded: true,
+                                title: Center(
+                                  child: Text(
+                                      Get.locale?.languageCode == 'ar'
+                                          ? 'ملخص السيرة'
+                                          : 'Summary',
+                                      style: TextStyle(color: Colors.black)),
+                                ),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        Get.locale?.languageCode == 'ar'
+                                            ? subscribitionController
+                                                .selectedTeacher.value.aboutAr!
+                                            : subscribitionController
+                                                .selectedTeacher.value.about!,
+                                        style: TextStyle(color: Colors.black)),
+                                  ),
+                                  SizedBox(height: h(5)),
+                                ],
+                              )
                             ],
                           ),
                         ),

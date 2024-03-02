@@ -21,6 +21,7 @@ class Teacher {
   bool? children;
   double? maxRating;
   String? about;
+  String? aboutAr;
   int? id;
 
   Teacher(
@@ -32,7 +33,8 @@ class Teacher {
       this.tagweed,
       this.children,
       this.maxRating,
-      this.about,
+      this.about = "",
+      this.aboutAr = "",
       this.id});
 
   Teacher.fromJson(Map<String, dynamic> json) {
@@ -48,6 +50,7 @@ class Teacher {
     maxRating = json['maxRating'] ?? -1;
     about = json['about'] ?? "";
     id = json['id'] ?? -1;
+    aboutAr = json['aboutAr'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +67,7 @@ class Teacher {
     data['maxRating'] = this.maxRating;
     data['about'] = this.about;
     data['id'] = this.id;
+    data['aboutAr'] = this.aboutAr;
     return data;
   }
 }

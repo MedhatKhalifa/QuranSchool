@@ -1218,4 +1218,6 @@ const Map<String, String> en = {
   "sessions": "Sessions",
   "No_reserved_session": "there are no reserved sessions available",
   "myAvailability": "My Availability time",
+  "user_exist_warning":
+      "The username you entered is already in use. Please choose a different username.",
 };

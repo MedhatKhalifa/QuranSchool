@@ -1168,11 +1168,11 @@ const Map<String, String> ar = {
   'invalid_time_after_before':
       'تحديد وقت غير صالح. يجب أن يكون وقت النهاية بعد وقت البداية.',
   'Save': 'حفظ',
-  'sure_del_avail': 'هل أنت متأكد أنك تريد حذف هذه الفترة من التوفر؟',
+  'sure_del_avail': 'هل أنت متأكد أنك تريد حذف هذه الفترة من مواعيدك؟',
   'Delete': 'حذف',
-  'Availability': 'التوفر',
+  'Availability': 'المتاح',
   'add_new': 'إضافة ميعاد متاح جديد',
-  'No_free_slots': 'لا توجد فتحات مجانية',
+  'No_free_slots': 'لا توجد مواعيد متاحة',
   'MyStudents': 'طلابي',
   'MyTeachers': 'معلمي',
   'open_use_ayaat': 'الوصول من خلال الآيات',
@@ -1197,7 +1197,7 @@ const Map<String, String> ar = {
   'Not_show_again': 'لا تظهر مرة أخرى',
   'show_more': 'عرض المزيد',
   'show_less': 'عرض أقل',
-  'aval_appoint': 'مواعيد التوافر',
+  'aval_appoint': 'مواعيد المتاحة',
   'Reviews': 'المراجعات',
   'search_teacher': 'البحث عن معلم',
   'date': 'التاريخ',
@@ -1216,7 +1216,7 @@ const Map<String, String> ar = {
   'next_choose_teacher': 'ثم، اختر المعلم الذي ترغب في الاشتراك فيه',
   'skip_dont_show': 'تخطي وعدم إظهار مرة أخرى',
   'No_free_slots_teacher':
-      'لا تتوفر فتحات مجانية. لن يكون المعلم متاحًا للشهور الثلاثة القادمة.',
+      'لا تتواجد مواعيد متاحة. لن يكون المعلم متاحًا للشهور الثلاثة القادمة.',
   'pls_sub_first': 'يرجى الاشتراك أولاً',
   'pls_renew_sub': 'يرجى تجديد اشتراكك أولاً',
   'session_start_at': 'ستبدأ جلستك في',
@@ -1229,4 +1229,6 @@ const Map<String, String> ar = {
   'sessions': 'جلسات',
   'No_reserved_session': 'لا توجد جلسات محجوزة متاحة.',
   'myAvailability': 'مواعيدى المتاحة',
+  'user_exist_warning':
+      'الاسم المستخدم الذي أدخلته مستخدم بالفعل. الرجاء اختيار اسم مستخدم مختلف',
 };
