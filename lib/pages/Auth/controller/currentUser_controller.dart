@@ -267,7 +267,7 @@ class CurrentUserController extends GetxController {
 
           Get.to(const OtpDialogue());
         } else {
-          mySnackbar("Failed".tr, "error_user".tr, "Error");
+          mySnackbar("Failed".tr, "user_exist_warning".tr, "Error");
         }
       } else {
         mySnackbar("Failed".tr, "error_data".tr, "Error");

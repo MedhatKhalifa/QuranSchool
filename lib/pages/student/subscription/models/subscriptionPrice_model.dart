@@ -20,16 +20,19 @@ class SubscriptionsPrice {
   int? id;
   String? description;
   String? subscriptionName;
+  String? descriptionAr;
+  String? subscriptionNameAr;
   String? price;
   int? sessionCount;
 
-  SubscriptionsPrice({
-    this.id,
-    this.description,
-    this.price,
-    this.sessionCount,
-    this.subscriptionName,
-  });
+  SubscriptionsPrice(
+      {this.id,
+      this.description,
+      this.price,
+      this.sessionCount,
+      this.subscriptionName,
+      this.descriptionAr,
+      this.subscriptionNameAr});
 
   SubscriptionsPrice.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? -1;
@@ -37,6 +40,8 @@ class SubscriptionsPrice {
     sessionCount = json['sessionCount'] ?? -1;
     subscriptionName = json["subscriptionName"] ?? "";
     description = json['description'] ?? "";
+    descriptionAr = json['descriptionAr'] ?? "";
+    subscriptionNameAr = json['subscriptionNameAr'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +52,8 @@ class SubscriptionsPrice {
     data['sessionCount'] = sessionCount;
     data["subscriptionName"] = subscriptionName;
     data['description'] = description;
+    data['descriptionAr'] = descriptionAr;
+    data['subscriptionNameAr'] = subscriptionNameAr;
 
     return data;
   }

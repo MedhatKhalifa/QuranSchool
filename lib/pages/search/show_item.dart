@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
+import 'package:get/get.dart';
 
 import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/size_config.dart';
+import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/teacher/model/teacher_model.dart';
 
 //  String playerFirstName;
@@ -47,12 +49,14 @@ Widget showitem(Teacher shownItem) {
             shownItem.user!.fullName,
             style: TextStyle(color: Color(0xFF707070)),
           ),
-          shownItem.about != ""
-              ? Text(
-                  shownItem.about!,
-                  style: TextStyle(color: Color(0xFF707070), fontSize: sp(7)),
-                )
-              : Text('')
+          Text(
+            Get.locale?.languageCode == 'ar'
+                ? shownItem.aboutAr!
+                : shownItem.about!,
+            style: TextStyle(color: Color(0xFF707070), fontSize: sp(7)),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          )
         ],
       ),
       trailing: Row(

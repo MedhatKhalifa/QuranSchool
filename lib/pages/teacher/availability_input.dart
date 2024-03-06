@@ -5,11 +5,14 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/teacher/model/availability_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+// teacher add avaialble time
 class AvailabilityInputPage extends StatefulWidget {
   @override
   State<AvailabilityInputPage> createState() => _AvailabilityInputPageState();
@@ -257,10 +260,112 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
     );
   }
 
+  ///// Tutorial
+  ///
+  ///
+  late TutorialCoachMark tutorialCoachMark;
+  final reviewbutton = GlobalKey();
+  final selectbutton = GlobalKey();
+  TutorialCoachMark? tutorial;
+  bool showtTuorial = true;
+  void initTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+      colorShadow: mybrowonColor,
+      alignSkip: Alignment.topRight,
+
+      textSkip: "skip_dont_show".tr,
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      focusAnimationDuration: Duration(milliseconds: 30),
+      // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+      // onFinish: () {
+      //   print("finish");
+      // },
+      // onClickTarget: (target) {
+      //   print('onClickTarget: $target');
+      // },
+      // onClickTargetWithTapPosition: (target, tapDetails) {
+      //   print("target: $target");
+      //   print(
+      //       "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      // },
+      // onClickOverlay: (target) {
+      //   print('onClickOverlay: $target');
+      // },
+      onSkip: () {
+        currentUserController.showTutorial.value.searchteacher = false;
+        storeTutorialData(
+            currentUserController.showTutorial.value, 'showTutorial');
+        return true;
+      },
+    )..show(context: context);
+  }
+
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+        enableOverlayTab: true,
+        identify: "reviewbutton", // Optional identifier
+        keyTarget: reviewbutton, // GlobalKey of the ListTile
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "check_teacher_avail".tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        enableOverlayTab: true,
+        identify: "selectbutton", // Optional identifier
+        keyTarget: selectbutton, // GlobalKey of the ListTile
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "next_choose_teacher".tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+      ),
+    );
+
+    return targets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simplAppbar(true, "Availability"),
+      appBar: simplAppbar(true, "myAvailability".tr),
       body: Obx(
         () => subscribitionController.isLoadingAvail.isTrue
             ? Center(
@@ -289,7 +394,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                   monthViewSettings: const MonthViewSettings(
                     dayFormat: 'EEE', // Display only day name (Sun, Mon, ...)
                   ),
-                  onLongPress: (day) {
+                  onTap: (day) {
                     // Filter freeSlots to get times when the day matches
 
                     if (day.targetElement == CalendarElement.appointment) {
@@ -314,7 +419,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
             child: Container(
               width: w(80),
               child: ElevatedButton(
-                child: Text('add_new'.tr, style: TextStyle(fontSize: sp(17))),
+                child: Text('add_new'.tr, style: TextStyle(fontSize: sp(12))),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Color(0xFFFD8C00))),
