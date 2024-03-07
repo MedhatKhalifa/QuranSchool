@@ -115,10 +115,19 @@ class _SessionPriceListState extends State<SessionPriceList> {
                                 child: ListTile(
                                   trailing: Text(
                                       paymentOption.price.toString() +
-                                          " EGP".tr),
-                                  title: Text(Get.locale?.languageCode == 'ar'
-                                      ? paymentOption.subscriptionNameAr!
-                                      : paymentOption.subscriptionName!),
+                                          " EGP".tr,
+                                      style: TextStyle(
+                                          fontSize: sp(11),
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black)),
+                                  title: Text(
+                                      Get.locale?.languageCode == 'ar'
+                                          ? paymentOption.subscriptionNameAr!
+                                          : paymentOption.subscriptionName!,
+                                      style: TextStyle(
+                                          fontSize: sp(11),
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black)),
                                   subtitle: Text(
                                       Get.locale?.languageCode == 'ar'
                                           ? paymentOption.descriptionAr!

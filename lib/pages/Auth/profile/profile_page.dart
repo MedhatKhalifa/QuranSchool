@@ -15,6 +15,7 @@ import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart'
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/notification/notificationShow.dart';
+import 'package:quranschool/pages/search/price_list_show.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/sessions/st.dart';
@@ -146,6 +147,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
           // My Meetings
           ///
           ///
+          ///
+          Obx(() => Visibility(
+                visible: currentUserController.currentUser.value.userType !=
+                    "teacher",
+                child: ListTile(
+                    leading: Icon(Icons.attach_money),
+                    title: Text('package_price'.tr),
+                    onTap: () async {
+                      subscribitionController.getSubscribitonList();
+                      Get.to(() => PriceShow());
+                    }),
+              )),
           Obx(() => Visibility(
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(

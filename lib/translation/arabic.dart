@@ -1181,7 +1181,7 @@ const Map<String, String> ar = {
   'reEnter_New_password': 'إعادة إدخال كلمة المرور الجديدة',
   'Session_Review': 'مراجعة الجلسة',
   'subscription_package': 'حزمة الاشتراك',
-  'package_price': 'أسعار الحزمة',
+  'package_price': 'أسعار الباقات',
   'qna': 'الأسئلة والأجوبة',
   'Loading': 'تحميل',
   'next_s': 'الجلسة القادمة',
@@ -1229,6 +1229,6 @@ const Map<String, String> ar = {
   'sessions': 'جلسات',
   'No_reserved_session': 'لا توجد جلسات محجوزة متاحة.',
   'myAvailability': 'مواعيدى المتاحة',
-  'user_exist_warning':
-      'الاسم المستخدم الذي أدخلته مستخدم بالفعل. الرجاء اختيار اسم مستخدم مختلف',
+  'select_teacher_process': 'من فضلك أختار المعلم لكى نستكمل التسجيل',
+  'go_to_search_page': 'الذهاب الى صفحة البحث',
 };
