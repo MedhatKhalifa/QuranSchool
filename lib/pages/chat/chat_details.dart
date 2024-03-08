@@ -7,6 +7,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:intl/intl.dart';
@@ -40,7 +41,7 @@ class _ChatDetailState extends State<ChatDetail> {
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
 
-  var chatDocId;
+  var chatDocId = 'soKQFOTEAd8W52nlBJap';
   var _textController = new TextEditingController();
   _ChatDetailState(this.friendUid, this.friendName, this.currentuserName,
       this.currentuserid);
@@ -58,44 +59,50 @@ class _ChatDetailState extends State<ChatDetail> {
   }
 
   void checkUser() async {
-    await chats
-        .where('users', isEqualTo: {friendUid: null, currentuserid: null})
-        .limit(1)
-        .get()
-        .then(
-          (QuerySnapshot querySnapshot) async {
+    try {
+      await chats
+          .where('users', isEqualTo: {friendUid: null, currentuserid: null})
+          .limit(1)
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
             if (querySnapshot.docs.isNotEmpty) {
               setState(() {
                 chatDocId = querySnapshot.docs.single.id;
               });
-
               print(chatDocId);
             } else {
-              await chats.add({
-                'users': {currentuserid: null, friendUid: null},
-                'names': {
-                  currentuserid: currentuserName,
-                  friendUid: friendName
-                },
-                'txMsg': {
-                  currentuserid: FieldValue.serverTimestamp(),
-                  friendUid: FieldValue.serverTimestamp()
-                },
-                'rxMsg': {
-                  currentuserid: FieldValue.serverTimestamp(),
-                  friendUid: FieldValue.serverTimestamp()
-                },
-              }).then((value) {
-                return {
-                  setState(() {
-                    chatDocId = value.id;
-                  })
-                };
-              });
+              // Document not found, add a new one
+              await createNewChatDocument();
             }
-          },
-        )
-        .catchError((error) {});
+          })
+          .catchError((error) {
+            print("Error getting documents: $error");
+          });
+    } catch (error) {
+      print("General error: $error");
+    }
+  }
+
+  Future<void> createNewChatDocument() async {
+    try {
+      final newDocumentRef = await chats.add({
+        'users': {currentuserid: null, friendUid: null},
+        'names': {currentuserid: currentuserName, friendUid: friendName},
+        'txMsg': {
+          currentuserid: FieldValue.serverTimestamp(),
+          friendUid: FieldValue.serverTimestamp()
+        },
+        'rxMsg': {
+          currentuserid: FieldValue.serverTimestamp(),
+          friendUid: FieldValue.serverTimestamp()
+        },
+      });
+      setState(() {
+        chatDocId = newDocumentRef.id;
+      });
+    } catch (error) {
+      print("Error adding document: $error");
+    }
   }
 
   void sendMessage(String msg) {
@@ -173,6 +180,7 @@ class _ChatDetailState extends State<ChatDetail> {
       onWillPop: () async {
         // Execute your function here before popping the screen
         // For example, you can call the checkUnreadMessages function
+        currentUserController.currentUser.value = await loadUserData('user');
         chatController.getchatList();
         // Return true to allow the screen to be popped
         return true;

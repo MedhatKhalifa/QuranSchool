@@ -45,7 +45,7 @@ class ForgerPassController extends GetxController {
         options: Options(
           followRedirects: false,
           validateStatus: (status) {
-            return status! < 500;
+            return status! < 700;
           },
           headers: {
             'Authorization':

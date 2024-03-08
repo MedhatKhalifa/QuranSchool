@@ -197,7 +197,7 @@ class SubscribitionController extends GetxController {
   Future createSession() async {
     isLoading.value = true;
     var dio = Dio();
-
+    int counter = 0;
     for (Meeting selectedMeeting in selectedMeetings) {
       try {
         var response = await dio.post(
@@ -227,26 +227,29 @@ class SubscribitionController extends GetxController {
           _failmessage(response);
         }
       } finally {
-        var _message = "Thank you for registering with us"
-                "An administrator will reach out to you shortly" +
-            "\n" +
-            "\n The selected teacher's " +
-            selectedTeacher.value.user!.fullName +
-            " userName " +
-            selectedTeacher.value.user!.username +
-            "\n The chosen package consists of " +
-            selectedPayement.value.sessionCount!.toString() +
-            "\n sessions at a cost of " +
-            selectedPayement.value.price! +
-            "EGP";
+        if (counter == 0) {
+          var _message = "Thank you for registering with us"
+                  "An administrator will reach out to you shortly" +
+              "\n" +
+              "\n The selected teacher's " +
+              selectedTeacher.value.user!.fullName +
+              " userName " +
+              selectedTeacher.value.user!.username +
+              "\n The chosen package consists of " +
+              selectedPayement.value.sessionCount!.toString() +
+              "\n sessions at a cost of " +
+              selectedPayement.value.price! +
+              "EGP";
 
-        _launchWhatsApp(_message);
+          await _launchWhatsApp(_message);
 
-        sendNotification(
-            selectedMeeting.teacher,
-            "new ${selectedPayement.value.sessionCount!.toString()} are in progress ",
-            "new reservation");
-        Get.to(ConfirmationPage());
+          sendNotification(
+              selectedMeeting.teacher,
+              "new ${selectedPayement.value.sessionCount!.toString()} are in progress ",
+              "new reservation");
+          counter++;
+          Get.to(ConfirmationPage());
+        }
       }
     }
 
@@ -269,7 +272,7 @@ class SubscribitionController extends GetxController {
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
-      Get.snackbar('error', 'Could not launch WhatsApp'.tr,
+      Get.snackbar('error'.tr, 'Could not launch WhatsApp'.tr,
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
     }
   }
