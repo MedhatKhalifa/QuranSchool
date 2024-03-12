@@ -157,6 +157,19 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                     '${subscribitionController.selectedFromTime.value.hour}:${subscribitionController.selectedFromTime.value.minute.toString().padLeft(2, '0')}';
                 String formattedToTime =
                     '${subscribitionController.selectedToTime.value.hour}:${subscribitionController.selectedToTime.value.minute.toString().padLeft(2, '0')}';
+                final now = DateTime.now();
+                final fromDateTime = DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    subscribitionController.selectedFromTime.value.hour,
+                    subscribitionController.selectedFromTime.value.minute);
+                final toDateTime = DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    subscribitionController.selectedToTime.value.hour,
+                    subscribitionController.selectedToTime.value.minute);
 
                 // Do something with selected values
                 print('Selected Day: $selectedDay');
@@ -164,7 +177,7 @@ class _AvailabilityInputPageState extends State<AvailabilityInputPage> {
                     'Selected From Time: ${selectedFromTime.format(context)}');
                 print('Selected To Time: ${selectedToTime.format(context)}');
                 // Check if formattedToTime is after formattedFromTime
-                if (formattedToTime.compareTo(formattedFromTime) > 0) {
+                if (toDateTime.isAfter(fromDateTime)) {
                   // Check if new adding conflict with the current avai
                   if (hasConflict(
                       subscribitionController.availabilities,

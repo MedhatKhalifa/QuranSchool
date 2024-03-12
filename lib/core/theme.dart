@@ -72,14 +72,11 @@ class LocalThemes {
       bodyColor: Colors.grey,
       displayColor: Colors.grey,
     ),
-    backgroundColor: backgroundColor,
     primaryColor: clickIconColor,
     fontFamily: 'MyFont',
     appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(color: Colors.white),
         titleTextStyle: TextStyle(color: Colors.white)),
-    colorScheme:
-        const ColorScheme.light(primary: Color.fromARGB(255, 230, 159, 52)),
     iconTheme: const IconThemeData(color: Color.fromARGB(255, 230, 159, 52)),
     primaryIconTheme:
         const IconThemeData(color: Color.fromARGB(255, 230, 159, 52)),
@@ -123,5 +120,8 @@ class LocalThemes {
         color: Colors.white,
       ),
     )),
+    colorScheme:
+        const ColorScheme.light(primary: Color.fromARGB(255, 230, 159, 52))
+            .copyWith(background: backgroundColor),
   );
 }

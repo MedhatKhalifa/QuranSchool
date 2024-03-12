@@ -156,7 +156,8 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
               initTutorial();
               showtTuorial = false;
             }
-            return subscribitionController.isLoadingAvail.isTrue
+            return (subscribitionController.isLoadingAvail.isTrue ||
+                    subscribitionController.isLoadingmeetings.isTrue)
                 ? Center(
                     child: LoadingBouncingGrid.circle(
                       borderColor: mybrowonColor,
@@ -301,7 +302,8 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
           },
         ),
         bottomNavigationBar: Obx(
-          () => subscribitionController.isLoadingAvail.isTrue
+          () => (subscribitionController.isLoadingAvail.isTrue ||
+                  subscribitionController.isLoadingmeetings.isTrue)
               ? Text('')
               : Padding(
                   padding: const EdgeInsets.all(20),
