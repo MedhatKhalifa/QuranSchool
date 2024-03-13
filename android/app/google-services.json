@@ -22,7 +22,15 @@
           }
         },
         {
-          "client_id": "1040492895925-j66ean6b5adkqogemvk4nfennbdgim5e.apps.googleusercontent.com",
+          "client_id": "1040492895925-ane59tfk78f68pp5jh7opdnm8q00lksu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.madraset.quran",
+            "certificate_hash": "73b86f3651af78f55ad0a7b86ad3d0e36a177537"
+          }
+        },
+        {
+          "client_id": "1040492895925-h0r4c05hrf4ucidp3d2mdditiao122fi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,8 +43,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1040492895925-j66ean6b5adkqogemvk4nfennbdgim5e.apps.googleusercontent.com",
+              "client_id": "1040492895925-h0r4c05hrf4ucidp3d2mdditiao122fi.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1040492895925-9ejbaorkppr6l5ub4qsgd34n05omk3lb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madraset.quran"
+              }
             }
           ]
         }
