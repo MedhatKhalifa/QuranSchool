@@ -270,10 +270,16 @@ class SubscribitionController extends GetxController {
         'https://wa.me/$phoneNumber/?text=${Uri.encodeFull(message)}'); // Arguments are correctly included here
 
     if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      Get.snackbar('error'.tr, 'Could not launch WhatsApp'.tr,
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+      if (!await launchUrl(url)) {
+        Get.snackbar('error'.tr, 'Could not launch WhatsApp'.tr,
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+        throw 'Could not launch $url';
+      }
+      //   await launchUrl(url);
+      // } else {
+      //   Get.snackbar('error'.tr, 'Could not launch WhatsApp'.tr,
+      //       snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+      // }
     }
   }
 
