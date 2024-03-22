@@ -240,7 +240,7 @@ class _SearchPage2State extends State<SearchPage2> {
 
   String searchQuery = "Search query";
 
-  ////////////////////
+  //////////////////
 
   @override
   Widget build(BuildContext context) {

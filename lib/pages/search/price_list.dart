@@ -21,6 +21,8 @@ class _SessionPriceListState extends State<SessionPriceList> {
   final SubscribitionController subscribitionController =
       Get.put(SubscribitionController());
 
+  ///
+  ///
   var selectedPayement;
 
   @override
