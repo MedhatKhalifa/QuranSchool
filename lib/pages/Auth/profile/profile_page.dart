@@ -93,17 +93,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   title: Text(currentUserController.currentUser.value.username),
                   onTap: () async {
                     // Get.to(ProfileRegisterPage());
-
+                    currentUserController.currentUser.value =
+                        await loadUserData('user');
                     var _user = currentUserController.currentUser.value;
                     currentUserController.tempUser.value = _user;
                     currentUserController.tempUser.value.updateOld = true;
                     currentUserController.tempUser.value.enabledit = true;
                     //  currentUserController.currentUser.value.updateOld = true;
-                    currentUserController.tempUser.value =
-                        currentUserController.currentUser.value;
-                    currentUserController.tempUser =
-                        currentUserController.currentUser;
-                    print(currentUserController.tempUser);
+                    // currentUserController.tempUser.value = _user;
+                    // currentUserController
+                    //     .tempUser(currentUserController.currentUser.value);
+                    //currentUserController.currentUser;
+                    print(currentUserController.tempUser.value.fullName);
+                    print(currentUserController.currentUser.value.fullName);
                     Get.to(ProfileRegisterPage());
 
                     // mySnackbar('Failed'.tr, 'please_Loging_First'.tr, 'Error');

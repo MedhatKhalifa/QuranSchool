@@ -242,9 +242,22 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                         ),
                       ),
                       initialCountryCode: 'EG',
+                      // onChanged: (phone) {
+                      //   currentUserController.tempUser.value.phoneNumber =
+                      //       phone.completeNumber.toString();
+                      // },
                       onChanged: (phone) {
+                        String enteredNumber = phone.completeNumber;
+
+                        // Check if initialCountryCode is EG and entered number starts with 0
+                        if (phone.countryCode == 'EG' &&
+                            enteredNumber.startsWith('0')) {
+                          // Remove the leading zero if it's the first digit
+                          enteredNumber = enteredNumber.substring(1);
+                        }
+
                         currentUserController.tempUser.value.phoneNumber =
-                            phone.completeNumber.toString();
+                            enteredNumber;
                       },
                     ),
 

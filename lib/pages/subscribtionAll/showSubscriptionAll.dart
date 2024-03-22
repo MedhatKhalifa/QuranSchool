@@ -13,6 +13,7 @@ import 'package:quranschool/pages/chat/models/userChat_model.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/home_page/profile_page_bottom.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 class ShowSubscriptionAll extends StatefulWidget {
@@ -78,8 +79,16 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
     return WillPopScope(
       onWillPop: () async {
         // Override the back button behavior to navigate to a specific page, e.g., '/home'
-        myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.to(HomePage());
+        if (currentUserController.currentUser.value.id == -1) {
+          myBottomBarCtrl.selectedIndBottomBar.value = 3;
+        } else if (currentUserController.currentUser.value.userType ==
+            "student") {
+          myBottomBarCtrl.selectedIndBottomBar.value = 5;
+        } else if (currentUserController.currentUser.value.userType ==
+            "teacher") {
+          myBottomBarCtrl.selectedIndBottomBar.value = 4;
+        }
+        Get.to(ProfilePageBottom());
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
@@ -239,14 +248,20 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                                                 .subscriptionDate),
                                     style: myTextStyle(index),
                                   ),
-                                  Text(
-                                      'package_price'.tr +
-                                          ' : ' +
-                                          chatController.filteredFriends[index]
-                                              .actualPrice +
-                                          ' ' +
-                                          'EGP'.tr,
-                                      style: myTextStyle(index)),
+                                  Visibility(
+                                    visible: currentUserController
+                                            .currentUser.value.userType !=
+                                        "teacher",
+                                    child: Text(
+                                        'package_price'.tr +
+                                            ' : ' +
+                                            chatController
+                                                .filteredFriends[index]
+                                                .actualPrice +
+                                            ' ' +
+                                            'EGP'.tr,
+                                        style: myTextStyle(index)),
+                                  ),
                                   Text(
                                       'No_of_sessions'.tr +
                                           ' : ' +

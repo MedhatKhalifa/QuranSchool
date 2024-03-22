@@ -1218,6 +1218,7 @@ const Map<String, String> en = {
   "sessions": "Sessions",
   "No_reserved_session": "there are no reserved sessions available",
   "myAvailability": "My Availability time",
-  "select_teacher_process": "Please select a teacher to proceed.",
-  "go_to_search_page": "Go to Search Page",
+  "wrong_username_password":
+      "The username or password you entered is incorrect. Please check your credentials and try again.",
+  "Egt_zero": "Egyptian phone numbers cannot start with 0.",
 };

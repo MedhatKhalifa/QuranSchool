@@ -113,7 +113,7 @@ class LoginController extends GetxController {
 
         // cartController.getcartList();
       } else {
-        mySnackbar('Failed'.tr, 'error_data'.tr, false);
+        mySnackbar('Failed'.tr, 'wrong_username_password'.tr, false);
       }
     } finally {
       isLoading.value = false;

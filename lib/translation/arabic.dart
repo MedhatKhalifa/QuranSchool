@@ -1035,7 +1035,7 @@ const Map<String, String> ar = {
   'No_account_register': 'لا يوجد حساب، يرجى التسجيل',
   'forget_password': 'نسيت كلمة المرور',
   'Agree': 'موافق',
-  'terms': '',
+  'terms': 'الشروط والأحكام',
   'Congratulation': 'تهانينا',
   'Failed': 'فشل',
   'Login_fail': 'فشل تسجيل الدخول',
@@ -1181,7 +1181,7 @@ const Map<String, String> ar = {
   'reEnter_New_password': 'إعادة إدخال كلمة المرور الجديدة',
   'Session_Review': 'مراجعة الجلسة',
   'subscription_package': 'حزمة الاشتراك',
-  'package_price': 'أسعار الباقات',
+  'package_price': 'أسعار الحزمة',
   'qna': 'الأسئلة والأجوبة',
   'Loading': 'تحميل',
   'next_s': 'الجلسة القادمة',
@@ -1229,6 +1229,7 @@ const Map<String, String> ar = {
   'sessions': 'جلسات',
   'No_reserved_session': 'لا توجد جلسات محجوزة متاحة.',
   'myAvailability': 'مواعيدى المتاحة',
-  'select_teacher_process': 'من فضلك أختار المعلم لكى نستكمل التسجيل',
-  'go_to_search_page': 'الذهاب الى صفحة البحث',
+  'wrong_username_password':
+      'اسم المستخدم أو كلمة المرور التي أدخلتها غير صحيحة. الرجاء التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى',
+  'Egt_zero': 'أرقام الهواتف المصرية لا يحب أن تبدأ بالصفر',
 };

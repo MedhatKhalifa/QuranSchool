@@ -146,7 +146,7 @@ class _SearchPage2State extends State<SearchPage2> {
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(),
       colorShadow: mybrowonColor,
-      textSkip: "Don't show Again",
+      textSkip: "skip_dont_show".tr,
       paddingFocus: 10,
       opacityShadow: 0.8,
       //focusAnimationDuration: Duration(milliseconds: 30),

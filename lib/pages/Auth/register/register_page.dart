@@ -159,9 +159,29 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   initialCountryCode: 'EG',
                   onChanged: (phone) {
-                    currentUserController.tempUser.value.phoneNumber =
-                        phone.completeNumber.toString();
+                    String enteredNumber = phone.completeNumber;
+
+                    // Check if initialCountryCode is EG and entered number starts with 0
+                    if (phone.countryISOCode == 'EG' &&
+                        phone.number.startsWith('0')) {
+                      // Remove the leading zero if it's the first digit
+                      phone.number = phone.number.substring(1);
+                      // Show a warning snackbar
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Egt_zero'.tr),
+                          backgroundColor: Colors.red, // Or any preferred color
+                        ),
+                      );
+                    } else {
+                      currentUserController.tempUser.value.phoneNumber =
+                          enteredNumber;
+                    }
                   },
+                  // onChanged: (phone) {
+                  //   currentUserController.tempUser.value.phoneNumber =
+                  //       phone.completeNumber.toString();
+                  // },
                 ),
 
                 SizedBox(height: sp(10)),

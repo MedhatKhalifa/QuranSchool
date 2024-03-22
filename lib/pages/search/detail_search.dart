@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
@@ -7,6 +8,7 @@ import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/Auth/login/login_page.dart';
+import 'package:quranschool/pages/search/filter_containers.dart';
 import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
 import 'package:quranschool/pages/search/price_list.dart';
@@ -33,12 +35,45 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
   TutorialCoachMark? tutorial;
   bool showtTuorial = true;
 
+  List<bool> containerClicked = List.generate(6, (index) => false);
+
+  List<String> containerText = [
+    'man',
+    'woman',
+    'children',
+    'Camera',
+    'memorization',
+    'tagweed',
+    // 'maxrate',
+  ];
+
+  Map<String, bool> containerState = {};
+  List<IconData> myicons = [
+    FlutterIslamicIcons.muslim2,
+    FlutterIslamicIcons.muslimah2,
+    FontAwesomeIcons.children,
+    FontAwesomeIcons.video,
+    FontAwesomeIcons.headSideVirus,
+    FlutterIslamicIcons.quran2,
+  ];
+
+  List<String> containerVariables = List.generate(6, (index) => '');
+
   @override
   void initState() {
     // TODO: implement initState
     //initTutorial();
 
     super.initState();
+    containerClicked[0] = subscribitionController.selectedTeacher.value.man!;
+    containerClicked[1] = subscribitionController.selectedTeacher.value.woman!;
+    containerClicked[2] =
+        subscribitionController.selectedTeacher.value.children!;
+    containerClicked[3] = subscribitionController.selectedTeacher.value.camera!;
+    containerClicked[4] =
+        subscribitionController.selectedTeacher.value.memorization!;
+    containerClicked[5] =
+        subscribitionController.selectedTeacher.value.tagweed!;
   }
 
   List<TargetFocus> _createTargets() {
@@ -215,8 +250,11 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ReadMoreText(
-                                    subscribitionController
-                                        .selectedTeacher.value.about!,
+                                    Get.locale?.languageCode == 'ar'
+                                        ? subscribitionController
+                                            .selectedTeacher.value.aboutAr!
+                                        : subscribitionController
+                                            .selectedTeacher.value.about!,
                                     trimLines: 2,
                                     colorClickableText: Colors.black,
                                     trimMode: TrimMode.Line,
@@ -269,29 +307,48 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                                     style: TextStyle(color: Colors.grey)),
                               ),
                               Divider(color: Colors.grey[50], thickness: sp(1)),
-                              ExpansionTile(
-                                textColor: Colors.grey,
-                                initiallyExpanded: true,
-                                title: Center(
-                                  child: Text(
-                                      Get.locale?.languageCode == 'ar'
-                                          ? 'ملخص السيرة'
-                                          : 'Summary',
-                                      style: TextStyle(color: Colors.black)),
-                                ),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        Get.locale?.languageCode == 'ar'
-                                            ? subscribitionController
-                                                .selectedTeacher.value.aboutAr!
-                                            : subscribitionController
-                                                .selectedTeacher.value.about!,
-                                        style: TextStyle(color: Colors.black)),
+                              // ExpansionTile(
+                              //   textColor: Colors.grey,
+                              //   initiallyExpanded: true,
+                              //   title: Center(
+                              //     child: Text(
+                              //         Get.locale?.languageCode == 'ar'
+                              //             ? 'ملخص السيرة'
+                              //             : 'Summary',
+                              //         style: TextStyle(color: Colors.black)),
+                              //   ),
+                              //   children: [
+                              //     Padding(
+                              //       padding: const EdgeInsets.all(8.0),
+                              //       child: Text(
+                              //           Get.locale?.languageCode == 'ar'
+                              //               ? subscribitionController
+                              //                   .selectedTeacher.value.aboutAr!
+                              //               : subscribitionController
+                              //                   .selectedTeacher.value.about!,
+                              //           style: TextStyle(color: Colors.black)),
+                              //     ),
+                              //     SizedBox(height: h(5)),
+                              //   ],
+                              // ),
+
+                              SizedBox(
+                                height: h(40),
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
                                   ),
-                                  SizedBox(height: h(5)),
-                                ],
+                                  itemCount: 6,
+                                  itemBuilder: (context, index) {
+                                    return ContainerCard(
+                                      text: containerText[index].tr,
+                                      isClicked: containerClicked[index],
+                                      variable: containerVariables[index],
+                                      myicons: myicons[index],
+                                    );
+                                  },
+                                ),
                               )
                             ],
                           ),

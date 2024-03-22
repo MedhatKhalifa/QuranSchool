@@ -3,7 +3,8 @@ const String db_url1 = "https://quraanshcool.pythonanywhere.com/api/";
 const String db_url = "https://quraanshcool.pythonanywhere.com/";
 const String appId = "65a5460ed6af49978a85479fdd87fa13";
 
-const String facebookUrl = 'https://www.facebook.com/yourpage';
+const String facebookUrl =
+    'https://www.facebook.com/profile.php?id=61557269342782';
 
 const String usernameCheckUrl = "$db_url1/numbercheck/";
 
@@ -35,7 +36,7 @@ const String notificationUrl = "${db_url1}notifications/send-notification/";
 
 const String creatSessionUrl = "${db_url1}session/sessions/";
 const String qustionnUrl = "${db_url1}qna/questions/";
-const String phoneNumber = '+201022645564';
+const String phoneNumber = '+201028084826';
 
 ///////////////////////////////////////////////////////////////////////
 

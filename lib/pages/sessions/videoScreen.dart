@@ -310,145 +310,156 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
 ///////////////////////////////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Video Call'),
-      // ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                areButtonsVisible = !areButtonsVisible;
-              });
-            },
-            child: Stack(
-              children: [
-                // Remote Video Full Screen
-                Container(
-                  color: Colors.black,
-                  height: constraints.maxHeight,
-                  width: constraints.maxWidth,
-                  child: Center(child: _remoteVideo()),
-                ),
-                // Local Video Preview (Initially Hidden)
-                if (isLocalVideoVisible)
-                  Positioned(
-                    bottom: 20.0,
-                    right: 20.0,
-                    width: constraints.maxWidth * 0.25,
-                    height: constraints.maxHeight * 0.2,
-                    child: Container(
-                      color: Colors.black,
-                      child: Center(
-                        child: _localPreview(),
+    return WillPopScope(
+      onWillPop: () async {
+        // Override the back button behavior to navigate to a specific page, e.g., '/home'
+        _cleanupAgoraResources();
+        mySesionController.getFirstSessionAfterNow();
+
+        mySesionController.feedbackEdit.value = true;
+        Get.to(RateSession());
+        return false; // Do not allow the default back button behavior
+      },
+      child: Scaffold(
+        // appBar: AppBar(
+        //   title: Text('Video Call'),
+        // ),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  areButtonsVisible = !areButtonsVisible;
+                });
+              },
+              child: Stack(
+                children: [
+                  // Remote Video Full Screen
+                  Container(
+                    color: Colors.black,
+                    height: constraints.maxHeight,
+                    width: constraints.maxWidth,
+                    child: Center(child: _remoteVideo()),
+                  ),
+                  // Local Video Preview (Initially Hidden)
+                  if (isLocalVideoVisible)
+                    Positioned(
+                      bottom: 20.0,
+                      right: 20.0,
+                      width: constraints.maxWidth * 0.25,
+                      height: constraints.maxHeight * 0.2,
+                      child: Container(
+                        color: Colors.black,
+                        child: Center(
+                          child: _localPreview(),
+                        ),
                       ),
                     ),
-                  ),
-                // Buttons (Disappear by Default)
-                if (areButtonsVisible || !_isJoined)
-                  Positioned(
-                    bottom: 20.0,
-                    left: 20.0,
-                    child: Column(
-                      children: [
-                        if (_isJoined)
-                          IconButton(
-                            icon: Icon(isMuted ? Icons.mic_off : Icons.mic),
-                            onPressed: () {
-                              setState(() {
-                                isMuted = !isMuted;
-                                // Implement your mute/unmute logic here
-                              });
-                              muteswitch();
-                            },
-                          ),
-                        if (_isJoined)
-                          IconButton(
-                            icon: Icon(isCameraOn
-                                ? Icons.videocam
-                                : Icons.videocam_off),
-                            onPressed: () {
-                              setState(() {
-                                isCameraOn = !isCameraOn;
-                                // Implement your camera on/off logic here
-                              });
-                              cameraswitch();
-                            },
-                          ),
-                        if (_isJoined)
-                          IconButton(
-                            icon: Icon(_isScreenShared
-                                ? Icons.screen_share
-                                : Icons.stop_screen_share),
-                            onPressed: () {
-                              shareScreen();
-                            },
-                          ),
-                        if (_isJoined)
+                  // Buttons (Disappear by Default)
+                  if (areButtonsVisible || !_isJoined)
+                    Positioned(
+                      bottom: 20.0,
+                      left: 20.0,
+                      child: Column(
+                        children: [
+                          if (_isJoined)
+                            IconButton(
+                              icon: Icon(isMuted ? Icons.mic_off : Icons.mic),
+                              onPressed: () {
+                                setState(() {
+                                  isMuted = !isMuted;
+                                  // Implement your mute/unmute logic here
+                                });
+                                muteswitch();
+                              },
+                            ),
+                          if (_isJoined)
+                            IconButton(
+                              icon: Icon(isCameraOn
+                                  ? Icons.videocam
+                                  : Icons.videocam_off),
+                              onPressed: () {
+                                setState(() {
+                                  isCameraOn = !isCameraOn;
+                                  // Implement your camera on/off logic here
+                                });
+                                cameraswitch();
+                              },
+                            ),
+                          if (_isJoined)
+                            IconButton(
+                              icon: Icon(_isScreenShared
+                                  ? Icons.screen_share
+                                  : Icons.stop_screen_share),
+                              onPressed: () {
+                                shareScreen();
+                              },
+                            ),
+                          if (_isJoined)
+                            IconButton(
+                              icon: Icon(
+                                isVirtualBackGroundEnabled
+                                    ? Icons.blur_on
+                                    : Icons.blur_off,
+                              ),
+                              onPressed: () {
+                                setVirtualBackground();
+                              },
+                            ),
+                          if (_isJoined)
+                            IconButton(
+                              icon: Icon(isLocalVideoVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  isLocalVideoVisible = !isLocalVideoVisible;
+                                });
+                              },
+                            ),
                           IconButton(
                             icon: Icon(
-                              isVirtualBackGroundEnabled
-                                  ? Icons.blur_on
-                                  : Icons.blur_off,
-                            ),
-                            onPressed: () {
-                              setVirtualBackground();
-                            },
-                          ),
-                        if (_isJoined)
-                          IconButton(
-                            icon: Icon(isLocalVideoVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off),
+                                _isJoined
+                                    ? Icons.stop_circle
+                                    : Icons.play_circle_fill,
+                                color: _isJoined ? Colors.red : Colors.green,
+                                size: sp(30)),
                             onPressed: () {
                               setState(() {
-                                isLocalVideoVisible = !isLocalVideoVisible;
+                                _isJoined = !_isJoined;
+                                // Implement your join/leave call logic here
                               });
+                              _isJoined ? join() : leave();
                             },
                           ),
-                        IconButton(
-                          icon: Icon(
-                              _isJoined
-                                  ? Icons.stop_circle
-                                  : Icons.play_circle_fill,
-                              color: _isJoined ? Colors.red : Colors.green,
-                              size: sp(30)),
-                          onPressed: () {
-                            setState(() {
-                              _isJoined = !_isJoined;
-                              // Implement your join/leave call logic here
-                            });
-                            _isJoined ? join() : leave();
-                          },
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+
+                  // X Icon at the top-right corner
+                  Positioned(
+                    top: 20.0,
+                    right: 20.0,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ), // Change to the desired icon
+                      onPressed: () {
+                        // Implement the action you want when the X icon is pressed
+                        _cleanupAgoraResources();
+                        mySesionController.getFirstSessionAfterNow();
+
+                        mySesionController.feedbackEdit.value = true;
+                        Get.to(RateSession());
+                      },
                     ),
                   ),
-
-                // X Icon at the top-right corner
-                Positioned(
-                  top: 20.0,
-                  right: 20.0,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ), // Change to the desired icon
-                    onPressed: () {
-                      // Implement the action you want when the X icon is pressed
-                      _cleanupAgoraResources();
-                      mySesionController.getFirstSessionAfterNow();
-
-                      mySesionController.feedbackEdit.value = true;
-                      Get.to(RateSession());
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
