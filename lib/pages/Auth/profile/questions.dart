@@ -44,11 +44,11 @@ class _QuestionShowState extends State<QuestionShow> {
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
-        appBar: simplAppbar(true, "qna".tr),
+        appBar: simplAppbar(true, "Popular_Questions".tr),
         body: Column(
           children: [
             SizedBox(height: h(2)),
-            Text('Popular_Questions'.tr),
+            Text('qna'.tr),
             SizedBox(height: h(2)),
             // Add a TextField for search
             // Padding(

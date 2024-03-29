@@ -86,10 +86,10 @@ class _PdfView2State extends State<PdfView2> {
                     value: 'page1',
                     child: Text('open_use_falsh'.tr),
                   ),
-                  PopupMenuItem<String>(
-                    value: 'page2',
-                    child: Text('open_use_ayaat'.tr),
-                  ),
+                  // PopupMenuItem<String>(
+                  //   value: 'page2',
+                  //   child: Text('open_use_ayaat'.tr),
+                  // ),
                 ],
               )
             ]),

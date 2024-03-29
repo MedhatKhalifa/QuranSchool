@@ -242,6 +242,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                         ),
                       ),
                       initialCountryCode: 'EG',
+
                       // onChanged: (phone) {
                       //   currentUserController.tempUser.value.phoneNumber =
                       //       phone.completeNumber.toString();

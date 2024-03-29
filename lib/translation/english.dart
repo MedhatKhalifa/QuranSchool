@@ -1221,4 +1221,6 @@ const Map<String, String> en = {
   "wrong_username_password":
       "The username or password you entered is incorrect. Please check your credentials and try again.",
   "Egt_zero": "Egyptian phone numbers cannot start with 0.",
+  "is_enter_phone": "Is the entered phone number:",
+  "correct": " correct?",
 };

@@ -67,6 +67,7 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
   String? stateValue;
   String? cityValue;
   DateTime? _selected;
+  String _errorPhoneMsg = '';
   var _listofcity = [];
   TextEditingController dateinput = TextEditingController();
   bool? acceptedTerms = false;
@@ -510,6 +511,89 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
 
                   SizedBox(height: sp(10)),
 
+                  ///=======================================================================
+                  ///==================== Telephone ========================================
+                  ///=======================================================================
+
+                  Visibility(
+                    visible: currentUserController.tempUser.value.enabledit,
+                    child: IntlPhoneField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        labelText: 'Phone_Number'.tr,
+                        border: OutlineInputBorder(
+                          // borderSide: BorderSide(),
+                          borderRadius: BorderRadius.circular(10.0),
+                          //borderSide: BorderSide(),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                      initialValue:
+                          currentUserController.tempUser.value.phoneNumber != ""
+                              ? currentUserController.tempUser.value.phoneNumber
+                              : null,
+
+                      validator: (phone) {
+                        // Check if initialCountryCode is EG and entered number starts with 0
+                        if (phone!.countryISOCode == 'EG' &&
+                            phone.number.startsWith('0')) {
+                          setState(() {
+                            _errorPhoneMsg = 'Egt_zero'.tr;
+                          });
+                          if (phone.number.length == 1) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Egt_zero'.tr),
+                              ),
+                            );
+                          }
+                          return 'Egt_zero';
+                        } else {
+                          setState(() {
+                            _errorPhoneMsg = '';
+                          });
+                          return null;
+                        }
+                      },
+                      initialCountryCode: 'EG',
+                      // inputFormatters: [
+                      //   FilteringTextInputFormatter.digitsOnly,
+                      //   NoLeadingZeroFormatter(),
+                      // ],
+                      onChanged: (phone) {
+                        String enteredNumber = phone.completeNumber;
+                        currentUserController.tempUser.value.phoneNumber =
+                            enteredNumber;
+                        // Check if initialCountryCode is EG and entered number starts with 0
+                        // if (phone.countryISOCode == 'EG' &&
+                        //     phone.number.startsWith('0')) {
+                        //   // Remove the leading zero if it's the first digit
+                        //   phone.number = phone.number.substring(1);
+                        //   // Show a warning snackbar
+                        //   // ScaffoldMessenger.of(context).showSnackBar(
+                        //   //   SnackBar(
+                        //   //     content: Text('Egt_zero'.tr),
+                        //   //     backgroundColor: Colors.red, // Or any preferred color
+                        //   //   ),
+                        //   // );
+                        // } else {
+                        //   currentUserController.tempUser.value.phoneNumber =
+                        //       enteredNumber;
+                        // }
+                      },
+                      // onChanged: (phone) {
+                      //   currentUserController.tempUser.value.phoneNumber =
+                      //       phone.completeNumber.toString();
+                      // },
+                    ),
+                  ),
+                  Text(
+                    _errorPhoneMsg,
+                    style: TextStyle(color: Colors.red),
+                  ),
+
+                  SizedBox(height: sp(10)),
+
                   //=======================================================================
                   //=============Birth Date ===========================================
                   //=======================================================================
@@ -769,6 +853,25 @@ class _ProfileRegisterPageState extends State<ProfileRegisterPage> {
                                       // =======================
 
                                       final form = _formKey.currentState;
+
+                                      if (currentUserController.tempUser.value
+                                                  .phoneNumber.length <
+                                              10 ||
+                                          _errorPhoneMsg == 'Egt_zero'.tr ||
+                                          (currentUserController
+                                                  .tempUser.value.phoneNumber
+                                                  .startsWith('+20') &&
+                                              currentUserController
+                                                      .tempUser
+                                                      .value
+                                                      .phoneNumber
+                                                      .length <
+                                                  13)) {
+                                        setState(() {
+                                          _errorPhoneMsg = 'phone_not'.tr;
+                                        });
+                                        return;
+                                      }
                                       if (currentUserController
                                               .tempUser.value.id !=
                                           -1) {

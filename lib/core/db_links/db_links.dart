@@ -3,6 +3,10 @@ const String db_url1 = "https://quraanshcool.pythonanywhere.com/api/";
 const String db_url = "https://quraanshcool.pythonanywhere.com/";
 const String appId = "65a5460ed6af49978a85479fdd87fa13";
 
+const String appStoreLink = 'your_app_store_link';
+const String playStoreLink =
+    'https://play.google.com/store/apps/details?id=com.madraset.quran&pli=1';
+
 const String facebookUrl =
     'https://www.facebook.com/profile.php?id=61557269342782';
 

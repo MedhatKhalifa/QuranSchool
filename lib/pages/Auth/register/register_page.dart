@@ -20,6 +20,26 @@ import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/translation/translate_ctrl.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
+final CurrentUserController currentUserController =
+    Get.put(CurrentUserController());
+
+class NoLeadingZeroFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+    if (newValue.text.length == 1 &&
+        newValue.text == '0' &&
+        currentUserController.tempUser.value.phoneNumber.startsWith('+20')) {
+      Get.snackbar("Error".tr, 'Egt_zero'.tr);
+      return oldValue; // Prevent entering zero as the first digit
+    }
+    return newValue;
+  }
+}
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -28,8 +48,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final Translatectrl translatectrl = Get.put(Translatectrl());
   final PhoneController phoneController = Get.put(PhoneController());
-  final CurrentUserController currentUserController =
-      Get.put(CurrentUserController());
+
   final _formKey = GlobalKey<FormState>();
   final _formKeyotp = GlobalKey<FormState>();
   bool _isobscureText1 = true, _isobscureText2 = true;
@@ -48,6 +67,8 @@ class _RegisterPageState extends State<RegisterPage> {
       mytoken = mytoken;
     });
   }
+
+  String _errorPhoneMsg = "";
 
   @override
   void initState() {
@@ -148,6 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ///=======================================================================
 
                 IntlPhoneField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     labelText: 'Phone_Number'.tr,
                     border: OutlineInputBorder(
@@ -157,31 +179,63 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     fillColor: Colors.white,
                   ),
+
+                  validator: (phone) {
+                    // Check if initialCountryCode is EG and entered number starts with 0
+                    if (phone!.countryISOCode == 'EG' &&
+                        phone.number.startsWith('0')) {
+                      setState(() {
+                        _errorPhoneMsg = 'Egt_zero'.tr;
+                      });
+                      if (phone.number.length == 1) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Egt_zero'.tr),
+                          ),
+                        );
+                      }
+                      return 'Egt_zero';
+                    } else {
+                      setState(() {
+                        _errorPhoneMsg = '';
+                      });
+                      return null;
+                    }
+                  },
                   initialCountryCode: 'EG',
+                  // inputFormatters: [
+                  //   FilteringTextInputFormatter.digitsOnly,
+                  //   NoLeadingZeroFormatter(),
+                  // ],
                   onChanged: (phone) {
                     String enteredNumber = phone.completeNumber;
-
+                    currentUserController.tempUser.value.phoneNumber =
+                        enteredNumber;
                     // Check if initialCountryCode is EG and entered number starts with 0
-                    if (phone.countryISOCode == 'EG' &&
-                        phone.number.startsWith('0')) {
-                      // Remove the leading zero if it's the first digit
-                      phone.number = phone.number.substring(1);
-                      // Show a warning snackbar
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Egt_zero'.tr),
-                          backgroundColor: Colors.red, // Or any preferred color
-                        ),
-                      );
-                    } else {
-                      currentUserController.tempUser.value.phoneNumber =
-                          enteredNumber;
-                    }
+                    // if (phone.countryISOCode == 'EG' &&
+                    //     phone.number.startsWith('0')) {
+                    //   // Remove the leading zero if it's the first digit
+                    //   phone.number = phone.number.substring(1);
+                    //   // Show a warning snackbar
+                    //   // ScaffoldMessenger.of(context).showSnackBar(
+                    //   //   SnackBar(
+                    //   //     content: Text('Egt_zero'.tr),
+                    //   //     backgroundColor: Colors.red, // Or any preferred color
+                    //   //   ),
+                    //   // );
+                    // } else {
+                    //   currentUserController.tempUser.value.phoneNumber =
+                    //       enteredNumber;
+                    // }
                   },
                   // onChanged: (phone) {
                   //   currentUserController.tempUser.value.phoneNumber =
                   //       phone.completeNumber.toString();
                   // },
+                ),
+                Text(
+                  _errorPhoneMsg,
+                  style: TextStyle(color: Colors.red),
                 ),
 
                 SizedBox(height: sp(10)),
@@ -319,12 +373,63 @@ class _RegisterPageState extends State<RegisterPage> {
                                   if (form!.validate()) {
                                     form.save();
 
+                                    // Show a dialog to confirm the phone number
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Confirm Phone Number'),
+                                          content: RichText(
+                                            text: TextSpan(
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                              children: [
+                                                TextSpan(
+                                                  text: 'is_enter_phone'.tr,
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      '  ${currentUserController.tempUser.value.phoneNumber}  ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: 'correct'.tr,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                              },
+                                              child: Text('No'.tr),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                currentUserController
+                                                    .chdeckUsername(
+                                                        currentUserController
+                                                            .tempUser
+                                                            .value
+                                                            .phoneNumber,
+                                                        currentUserController
+                                                            .tempUser
+                                                            .value
+                                                            .username);
+                                                // Proceed with registration
+                                              },
+                                              child: Text('Yes'.tr),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+
 //  active the below \\\\\\\ <------------------------------------
-                                    currentUserController.chdeckUsername(
-                                        currentUserController
-                                            .tempUser.value.phoneNumber,
-                                        currentUserController
-                                            .tempUser.value.username);
 
                                     // var resp = await phoneController.verifyPhone(
                                     //    currentUserController.tempUser.value.phoneNumber);

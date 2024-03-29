@@ -145,6 +145,7 @@ class CurrentUserController extends GetxController {
         User _regiuser = User.fromJson(response.data);
 
         currentUser.value = _regiuser;
+        currentUser.value.phoneNumber = tempUser.value.phoneNumber;
 
         storeUserData(
             currentUser.value, 'user'); // save UserID, User name , Phone Num
@@ -261,11 +262,13 @@ class CurrentUserController extends GetxController {
         if (response.data.isEmpty) {
           userExist.value = false;
 
-          var resp = await phoneController.verifyPhone(_number);
+// the below three lines for phone verify
+          // var resp = await phoneController.verifyPhone(_number);
+          // await SmsAutoFill().listenForCode;
+          // Get.to(const OtpDialogue());
 
-          await SmsAutoFill().listenForCode;
-
-          Get.to(const OtpDialogue());
+          // register user
+          await registeruser();
         } else {
           mySnackbar("Failed".tr, "user_exist_warning".tr, "Error");
         }
@@ -380,18 +383,27 @@ class CurrentUserController extends GetxController {
         _url = _url + "/" + currentUser.value.id.toString();
       }
 
-      File file = File(userProfile.imageFile!.path);
+      // File file = File(userProfile.imageFile!.path);
+
+      // var request = http.MultipartRequest('PUT',
+      //     Uri.parse(profileUrl + "/" + currentUser.value.id.toString() + '/'));
+      // request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
       var request = http.MultipartRequest('PUT',
           Uri.parse(profileUrl + "/" + currentUser.value.id.toString() + '/'));
-      request.files.add(await http.MultipartFile.fromPath('image', file.path));
+
+      if (userProfile.imageFile != null) {
+        File file = File(userProfile.imageFile!.path);
+        request.files
+            .add(await http.MultipartFile.fromPath('image', file.path));
+      }
 
       var additionalData = {
         'username': currentUser.value.username, //tempUser.value.username,
 
         // 'email': userProfile.email,
 
-        // 'phoneNumber': userProfile.phoneNumber,
+        'phoneNumber': userProfile.phoneNumber,
 
         'fullName': userProfile.fullName,
 
