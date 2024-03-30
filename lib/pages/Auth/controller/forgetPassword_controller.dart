@@ -39,6 +39,7 @@ class ForgerPassController extends GetxController {
       var response = await dio.post(
         changepassword_Url,
         data: {
+          'user': currentUserController.currentUser.value.username,
           'oldPassword': oldPassword.value,
           'newPassword': newPassword.value
         },
@@ -47,10 +48,10 @@ class ForgerPassController extends GetxController {
           validateStatus: (status) {
             return status! < 700;
           },
-          headers: {
-            'Authorization':
-                'Token ${currentUserController.currentUser.value.token}'
-          },
+          // headers: {
+          //   'Authorization':
+          //       'Token ${currentUserController.currentUser.value.token}'
+          // },
         ),
       );
 
