@@ -8,6 +8,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
+import 'package:quranschool/pages/home_page/profile_page_bottom.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 
 class QuestionShow extends StatefulWidget {
@@ -39,17 +40,23 @@ class _QuestionShowState extends State<QuestionShow> {
     return WillPopScope(
       onWillPop: () async {
         // Override the back button behavior to navigate to a specific page, e.g., '/home'
-        myBottomBarCtrl.selectedIndBottomBar.value = 0;
-        Get.to(HomePage());
+        if (currentUserController.currentUser.value.id == -1) {
+          myBottomBarCtrl.selectedIndBottomBar.value = 3;
+        } else if (currentUserController.currentUser.value.userType ==
+            "student") {
+          myBottomBarCtrl.selectedIndBottomBar.value = 5;
+        } else if (currentUserController.currentUser.value.userType ==
+            "teacher") {
+          myBottomBarCtrl.selectedIndBottomBar.value = 4;
+        }
+        Get.to(ProfilePageBottom());
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
         appBar: simplAppbar(true, "Popular_Questions".tr),
         body: Column(
           children: [
-            SizedBox(height: h(2)),
-            Text('qna'.tr),
-            SizedBox(height: h(2)),
+            SizedBox(height: h(3)),
             // Add a TextField for search
             // Padding(
             //   padding: const EdgeInsets.all(8.0),

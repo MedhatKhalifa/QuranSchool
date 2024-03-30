@@ -126,7 +126,7 @@ class _SearchPage2State extends State<SearchPage2> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Search for the teacher you want to subscribe to".tr,
+                    "search_teacher".tr,
                     style: const TextStyle(
                       color: Colors.white,
                     ),
