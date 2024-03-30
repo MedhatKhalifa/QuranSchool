@@ -35,6 +35,7 @@ import 'package:quranschool/translation/translation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/size_config.dart';
 import '../../../core/theme.dart';
@@ -338,43 +339,43 @@ class _UserProfilePageState extends State<UserProfilePage> {
               onTap: () async {
                 Get.to(TrnaslationPage());
               }),
-          // ListTile(
-          //     leading: Icon(Icons.share),
-          //     title: Text('share_app'.tr),
-          //     onTap: () async {
-          //       // Get the app store link based on the platform
-          //       //final packageInfo = await PackageInfo.fromPlatform();
+          ListTile(
+              leading: Icon(Icons.share),
+              title: Text('share_app'.tr),
+              onTap: () async {
+                // Get the app store link based on the platform
+                //final packageInfo = await PackageInfo.fromPlatform();
 
-          //       final String message = 'Check out this awesome app!';
+                final String message = '! Madraset Alquran مدرسة القران!';
 
-          //       String sharingLink = '';
-          //       try {
-          //         if (Platform.isAndroid) {
-          //           sharingLink = playStoreLink;
-          //         } else if (Platform.isIOS) {
-          //           sharingLink = appStoreLink;
-          //         } else {
-          //           // Handle other platforms (optional)
-          //           sharingLink = 'App not available on your platform yet.';
-          //         }
-          //       } on PlatformException catch (e) {
-          //         print('Error determining platform: $e');
-          //         // Handle platform check exception (optional)
-          //       }
+                String sharingLink = '';
+                try {
+                  if (Platform.isAndroid) {
+                    sharingLink = playStoreLink;
+                  } else if (Platform.isIOS) {
+                    sharingLink = appStoreLink;
+                  } else {
+                    // Handle other platforms (optional)
+                    sharingLink = 'App not available on your platform yet.';
+                  }
+                } on PlatformException catch (e) {
+                  print('Error determining platform: $e');
+                  // Handle platform check exception (optional)
+                }
 
-          //       Share.share(
-          //         '$message\n$sharingLink',
-          //         subject: 'Share the App!',
-          //       );
+                Share.share(
+                  '$message\n$sharingLink',
+                  subject: 'Share the App!',
+                );
 
-          //       // if (result.status == ShareResultStatus.success) {
-          //       //   print('Shared successfully');
-          //       // } else if (result.status == ShareResultStatus.cancelled) {
-          //       //   print('Share was cancelled by the user.');
-          //       // } else {
-          //       //   print('An error occurred: ${result.error}');
-          //       // }
-          //     }),
+                // if (result.status == ShareResultStatus.success) {
+                //   print('Shared successfully');
+                // } else if (result.status == ShareResultStatus.cancelled) {
+                //   print('Share was cancelled by the user.');
+                // } else {
+                //   print('An error occurred: ${result.error}');
+                // }
+              }),
 
           ///
           ///
