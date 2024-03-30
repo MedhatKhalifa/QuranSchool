@@ -169,7 +169,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 visible: currentUserController.currentUser.value.id != -1,
                 child: ListTile(
                     leading: Icon(Icons.calendar_month),
-                    title: Text('appointments'.tr),
+                    title: Text('my_session'.tr),
                     onTap: () async {
                       subscribitionController.getSessionsbyteaherID(
                           currentUserController.currentUser.value.id,

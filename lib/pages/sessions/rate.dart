@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
@@ -21,6 +22,7 @@ class _RateSessionState extends State<RateSession> {
   final MySesionController mySesionController = Get.put(MySesionController());
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
+  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 
   @override
   void initState() {
@@ -162,6 +164,7 @@ class _RateSessionState extends State<RateSession> {
             true,
             rating,
             comment);
+    myBottomBarCtrl.selectedIndBottomBar.value = 0;
     Get.to(HomePage());
 
     // You can add further logic here, like displaying a thank you message or navigating to another screen.

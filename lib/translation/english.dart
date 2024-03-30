@@ -1223,4 +1223,5 @@ const Map<String, String> en = {
   "Egt_zero": "Egyptian phone numbers cannot start with 0.",
   "is_enter_phone": "Is the entered phone number:",
   "correct": " correct?",
+  "my_session": "My Sessions",
 };

@@ -251,21 +251,24 @@ class _SessionsShowState extends State<SessionsShow> {
                                           "teacher") {
                                         for (Meeting appointment
                                             in details.appointments) {
-                                          if (calculateDifferenceInMinutes(
-                                                  appointment) >
-                                              60) {
-                                            _showChangeSessionTimeDialog(
-                                                context, appointment);
-                                          } else {
-                                            Get.snackbar(
-                                              "Warning".tr,
-                                              "cannot_change_withinhour".tr,
-                                              backgroundColor: Colors.red,
-                                              colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              duration: Duration(seconds: 5),
-                                            );
+                                          if (appointment.eventName
+                                              .contains(', Paid')) {
+                                            if (calculateDifferenceInMinutes(
+                                                    appointment) >
+                                                60) {
+                                              _showChangeSessionTimeDialog(
+                                                  context, appointment);
+                                            } else {
+                                              Get.snackbar(
+                                                "Warning".tr,
+                                                "cannot_change_withinhour".tr,
+                                                backgroundColor: Colors.red,
+                                                colorText: Colors.white,
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                                duration: Duration(seconds: 5),
+                                              );
+                                            }
                                           }
                                         }
                                       }
