@@ -3,6 +3,7 @@ import 'dart:convert';
 // import 'package:get/get.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/pages/Auth/Model/showTutorial.dart';
+import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quranschool/pages/Auth/Model/users.dart';
 import 'dart:async';
@@ -12,7 +13,7 @@ import 'package:flutter/material.dart';
 // import 'package:quranschool/pages/My_favorite/controller/favorite_controller.dart';
 // import 'package:quranschool/pages/home/controller/home_controller.dart';
 // import 'package:quranschool/pages/unlock_profiles/controller/unlockcontroller.dart';
-
+final MySesionController mySesionController = Get.put(MySesionController());
 Future<void> storeUserData(User _regiuser, labelStored) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -33,6 +34,7 @@ loadUserData(labelStored) async {
   }
   var json = jsonDecode(userPref);
   var _user = User.fromJson(json);
+
   // favController.getdata();
   // unlockController.getlist();
 

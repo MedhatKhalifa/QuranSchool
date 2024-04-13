@@ -112,7 +112,7 @@ class ForgerPassController extends GetxController {
     var dio = Dio();
     try {
       var response = await dio.get(
-        userCheckUrl + username.value + "&phoneNumber=" + phoneNumber.value,
+        userCheckUrl + username.value,
         options: Options(
           followRedirects: false,
           validateStatus: (status) {
@@ -124,12 +124,13 @@ class ForgerPassController extends GetxController {
 
       if (response.statusCode == 200) {
         //final responseData = json.decode(response.data);
-        if (!response.data.isEmpty) {
+        if (!response.data.isEmpty &&
+            response.data[0]['phoneNumber'] == phoneNumber.value) {
           var resp = await phoneController.verifyPhone(phoneNumber.value);
           await SmsAutoFill().listenForCode;
           Get.to(OtpForgetPassPage());
         } else {
-          mySnackbar("Failed".tr, "error_num".tr, false);
+          mySnackbar("Failed".tr, "pass_change_fail".tr, false);
         }
       }
     } finally {

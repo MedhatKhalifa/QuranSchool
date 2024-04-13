@@ -8,8 +8,10 @@ import 'package:dio/dio.dart';
 import 'package:quranschool/core/db_links/db_links.dart';
 
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 
 import 'package:quranschool/pages/search/model/searchwords_model.dart';
+import 'package:quranschool/pages/search/search_page.dart';
 import 'package:quranschool/pages/search/show_result.dart';
 import 'package:quranschool/pages/sessions/sessionsShow.dart';
 import 'package:quranschool/pages/sessions/videoScreen.dart';
@@ -48,9 +50,41 @@ class MySesionController extends GetxController {
   var agoraEngine = createAgoraRtcEngine().obs;
   final CurrentUserController currentUserController =
       Get.put(CurrentUserController());
+  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 
   final SubscribitionController subscribitionController =
       Get.put(SubscribitionController());
+
+  void showLastSessionWarningSnackbar(String message) {
+    Get.snackbar(
+      '',
+      message, // Assuming '0 sessions' is a placeholder
+      duration:
+          Duration(days: 365), // Make it last long until manually dismissed
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.redAccent,
+      colorText: Colors.white,
+      borderRadius: 10,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      borderWidth: 2,
+      borderColor: Colors.redAccent.withOpacity(0.8),
+      animationDuration: Duration(milliseconds: 500),
+
+      mainButton: TextButton(
+        onPressed: () {
+          Get.back();
+          myBottomBarCtrl.selectedIndBottomBar.value = 2;
+          Get.to(SearchPage2());
+          // Dismiss the snackbar
+        },
+        child: Text(
+          'pls_renew_sub'.tr,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
 
   @override
   void onInit() {
@@ -62,7 +96,7 @@ class MySesionController extends GetxController {
   Future getMySesions() async {
     sessions.clear();
     meetings.clear();
-    String? _url;
+    String _url = '';
     if (currentUserController.currentUser.value.userType == "teacher") {
       _url = sessionTeacherUrl +
           currentUserController.currentUser.value.id.toString();
@@ -277,10 +311,16 @@ class MySesionController extends GetxController {
         getRemainingsessions(nextSession.value.studentSubscription);
       } else {
         diffMinutes.value = -1000002; // no Feature Sessions
+        if (currentUserController.currentUser.value.userType == 'student') {
+          showLastSessionWarningSnackbar('sessions_end'.tr);
+        }
         isNextSessionloading.value = false;
       }
     } else {
       diffMinutes.value = -1000001; // No old nor future sesssion
+      if (currentUserController.currentUser.value.userType == 'student') {
+        showLastSessionWarningSnackbar('No_reserved_session'.tr);
+      }
       isNextSessionloading.value = false;
     }
   }
@@ -308,6 +348,19 @@ class MySesionController extends GetxController {
       //playerId
       print(response.data['remainingSessions']);
       remainingSessions = response.data['remainingSessions'];
+      if (currentUserController.currentUser.value.userType == 'student' &&
+          remainingSessions < 3) {
+        Get.snackbar(
+            duration: Duration(seconds: 4),
+            'Warning'.tr,
+            'remainingSessions'.tr +
+                ' ' +
+                remainingSessions.toString() +
+                ' ' +
+                'sesions'.tr,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white);
+      }
 
       isNextSessionloading.value = false;
     } else {

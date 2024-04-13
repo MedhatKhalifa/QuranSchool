@@ -136,6 +136,10 @@ class _SplashScreenState extends State<SplashScreen> {
             currentUserController.currentUser.value =
                 await loadUserData('user');
 
+            if (currentUserController.currentUser.value.userType == 'student') {
+              mySesionController.getFirstSessionAfterNow();
+            }
+
             currentUserController.showTutorial.value =
                 await loadTutorialData('showTutorial');
             //cartController.getcartList();

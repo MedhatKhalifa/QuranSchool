@@ -1220,8 +1220,11 @@ const Map<String, String> en = {
   "myAvailability": "My Availability time",
   "wrong_username_password":
       "The username or password you entered is incorrect. Please check your credentials and try again.",
-  "Egt_zero": "Egyptian phone numbers cannot start with 0.",
   "is_enter_phone": "Is the entered phone number:",
   "correct": " correct?",
+  "sessions_end": "All Sessions of your current package have expired",
+  "Egt_zero": "Egyptian phone numbers cannot start with 0.",
+
   "my_session": "My Sessions",
+  "share_app": "Share Application",
 };

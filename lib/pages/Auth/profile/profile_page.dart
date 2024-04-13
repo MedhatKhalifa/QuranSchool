@@ -376,6 +376,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 //   print('An error occurred: ${result.error}');
                 // }
               }),
+          ListTile(
+              leading: Icon(
+                Icons.info,
+                color: clickIconColor,
+              ),
+              title: Text('aboutus'.tr),
+              onTap: () {
+                Get.to(AboutUsPage());
+              }),
 
           ///
           ///

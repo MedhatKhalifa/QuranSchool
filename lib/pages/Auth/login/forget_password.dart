@@ -311,10 +311,16 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       /// check Phonenumber and send OTP===================
                                       // =======================
                                       phoneController.usernum.value =
-                                          _user.phoneNumber;
+                                          _user.username;
                                       // forgerPassController.resetPassword.value =
                                       //     _password;
                                       forgerPassController.chdeck_number();
+
+                                      // var resp = await phoneController
+                                      //     .verifyPhone(forgerPassController
+                                      //         .phoneNumber.value);
+                                      // await SmsAutoFill().listenForCode;
+                                      // Get.to(OtpForgetPassPage());
                                     }
                                   },
                                 ),
