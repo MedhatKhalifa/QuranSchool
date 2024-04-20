@@ -1227,4 +1227,5 @@ const Map<String, String> en = {
 
   "my_session": "My Sessions",
   "share_app": "Share Application",
+  "select_teacher_process": "Please Select the teacher First",
 };

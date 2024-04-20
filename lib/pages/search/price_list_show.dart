@@ -124,8 +124,7 @@ class _PriceShowState extends State<PriceShow> {
                                           return AlertDialog(
                                             title: Text(
                                                 'select_teacher_process'.tr),
-                                            content: Text(
-                                                'select_teacher_process'.tr),
+                                            content: Text(''),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () {
@@ -136,14 +135,14 @@ class _PriceShowState extends State<PriceShow> {
                                                             SearchPage2()),
                                                   );
                                                 },
-                                                child: Text(
-                                                    'go_to_search_page'.tr),
+                                                child:
+                                                    Text('search_teacher'.tr),
                                               ),
                                               TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text('Cancel'),
+                                                child: Text('Cancel'.tr),
                                               ),
                                             ],
                                           );

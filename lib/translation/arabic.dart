@@ -1237,4 +1237,5 @@ const Map<String, String> ar = {
   'Egt_zero': 'أرقام الهواتف المصرية لا يحب أن تبدأ بالصفر',
   'my_session': 'محاضراتى',
   'share_app': 'شارك مع أَصدقائك',
+  'select_teacher_process': 'من فضلك أختر المعلم أولا',
 };

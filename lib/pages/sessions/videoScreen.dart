@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/size_config.dart';
@@ -11,6 +12,7 @@ import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/sessions/rate.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // const appId = "65a5460ed6af49978a85479fdd87fa13";
 // const token =
@@ -43,6 +45,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
 // - define varirbles to control video icon buttons
 ///////////////////////////////////////////////////////////////////////////////////////
   bool _isScreenShared = false;
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
   int uid = 0; // uid of the local user
 
@@ -261,6 +264,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       // Start screen sharing
 
       agoraEngine.startScreenCapture(const ScreenCaptureParameters2(
+
           //  captureAudio: true,
           audioParams: ScreenAudioParameters(
               sampleRate: 16000, channels: 2, captureSignalVolume: 100),
@@ -302,6 +306,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     agoraEngine.release();
   }
 
+  bool _quranview = false;
   ///////
   ///
   final MySesionController mySesionController = Get.put(MySesionController());
@@ -339,7 +344,21 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                     color: Colors.black,
                     height: constraints.maxHeight,
                     width: constraints.maxWidth,
-                    child: Center(child: _remoteVideo()),
+                    child: Center(
+                        child: _quranview
+                            ? Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: SfPdfViewer.asset(
+                                  'assets/quran.pdf',
+                                  key: _pdfViewerKey,
+                                  // canShowPaginationDialog: false,
+                                  // pageSpacing: 0,
+                                  ///  pageLayoutMode: PdfPageLayoutMode.single,
+                                  maxZoomLevel: 1,
+                                  //   enableDocumentLinkAnnotation: false
+                                ),
+                              )
+                            : _remoteVideo()), //
                   ),
                   // Local Video Preview (Initially Hidden)
                   if (isLocalVideoVisible)
@@ -362,6 +381,18 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                       left: 20.0,
                       child: Column(
                         children: [
+                          if (_isJoined || _quranview)
+                            IconButton(
+                              icon: Icon(_quranview
+                                  ? FlutterIslamicIcons.quran
+                                  : FlutterIslamicIcons.quran2),
+                              onPressed: () {
+                                setState(() {
+                                  _quranview = !_quranview;
+                                  // Implement your mute/unmute logic here
+                                });
+                              },
+                            ),
                           if (_isJoined)
                             IconButton(
                               icon: Icon(isMuted ? Icons.mic_off : Icons.mic),
@@ -373,7 +404,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                 muteswitch();
                               },
                             ),
-                          if (_isJoined)
+                          if (_isJoined && !_quranview)
                             IconButton(
                               icon: Icon(isCameraOn
                                   ? Icons.videocam
@@ -386,7 +417,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                 cameraswitch();
                               },
                             ),
-                          if (_isJoined)
+                          if (_isJoined && !_quranview)
                             IconButton(
                               icon: Icon(_isScreenShared
                                   ? Icons.screen_share
@@ -395,7 +426,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                 shareScreen();
                               },
                             ),
-                          if (_isJoined)
+                          if (_isJoined && !_quranview)
                             IconButton(
                               icon: Icon(
                                 isVirtualBackGroundEnabled
@@ -406,7 +437,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                 setVirtualBackground();
                               },
                             ),
-                          if (_isJoined)
+                          if (_isJoined && !_quranview)
                             IconButton(
                               icon: Icon(isLocalVideoVisible
                                   ? Icons.visibility
