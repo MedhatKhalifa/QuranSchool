@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
         return await _auth.signInWithCredential(credential);
       }
     } catch (error) {
+      Get.snackbar('1', "$error");
       print("Error signing in with Google: $error");
     }
   }
@@ -309,10 +310,13 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () async {
                             UserCredential? userCredential =
                                 await signInWithGoogle();
+                            Get.snackbar('1', 'Gmail account retrive done');
                             if (userCredential != null &&
                                 userCredential.user!.email != null) {
                               await loginController
                                   .chdeckGmailUsername(userCredential);
+                            } else {
+                              Get.snackbar('1', 'Gmail account retrive Error');
                             }
                           }),
                     ],

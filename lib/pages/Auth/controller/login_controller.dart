@@ -350,7 +350,7 @@ class LoginController extends GetxController {
 
       if (response.statusCode == 200) {
         //final responseData = json.decode(response.data);
-        Get.snackbar('2', 'check email in DB done');
+        //Get.snackbar('2', 'check email in DB done');
 
         // var _x = response.data[0];
 
@@ -358,7 +358,7 @@ class LoginController extends GetxController {
           //userExist.value = false;
 
           // New User Should go to UserProfile
-          Get.snackbar('3', 'Gmail new user steps starting');
+          // Get.snackbar('3', 'Gmail new user steps starting');
 
           currentUserController.tempUser.value.fullName =
               userCredential.user!.displayName ?? "";
@@ -396,7 +396,7 @@ class LoginController extends GetxController {
           // Navigate to the next screen or perform necessary actions.
         } else {
           // old USer read data
-          Get.snackbar('4', 'old Gmail User');
+          // Get.snackbar('4', 'old Gmail User');
 
           User _regiuser = User.fromJson(response.data[0]);
 
@@ -418,7 +418,7 @@ class LoginController extends GetxController {
           Get.to(HomePage());
         }
       } else {
-        Get.snackbar('3', 'cannot check gmail in DB');
+        //Get.snackbar('3', 'cannot check gmail in DB');
 
         mySnackbar("Failed".tr, "error_data".tr, "Error");
       }
