@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "1040492895925-1rofqomfsqt0d3e7mme7rorco99ji3q8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.madraset.quran",
-            "certificate_hash": "841472815b966b370dc1e0ad25ac3e9dd5dc6b9e"
-          }
-        },
-        {
           "client_id": "1040492895925-ane59tfk78f68pp5jh7opdnm8q00lksu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
