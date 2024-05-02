@@ -140,7 +140,9 @@ class SearchController1 extends GetxController {
     var dio = Dio();
     var response = await dio.get(
       searchTeacherUrl + queryparmater.value,
+      //  r'http://18.156.95.47/api/userprofile/check-teacher?man=true&woman=true&camera=true&memorization=true&tagweed=true&children=true',
       //  r'https://quraanshcool.pythonanywhere.com/api/userprofile/check-teacher?man=true&woman=true&camera=true&memorization=true&tagweed=true&children=true',
+
       options: Options(
         // followRedirects: false,
         validateStatus: (status) {

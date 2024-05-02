@@ -148,7 +148,9 @@ class _PeopleListState extends State<PeopleList> {
                                       },
                                       child: CircleAvatar(
                                         backgroundImage: NetworkImage(
-                                          'https://quraanshcool.pythonanywhere.com/media/${chatController.filteredFriends[index].friendImage}',
+                                          // 'https://quraanshcool.pythonanywhere.com/media/${chatController.filteredFriends[index].friendImage}',
+                                          'http://18.156.95.47/media/${chatController.filteredFriends[index].friendImage}',
+                                        
                                         ),
                                       ),
                                     )
