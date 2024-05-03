@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1040492895925",
+    "project_id": "madrasetalquran-8d1a9",
+    "storage_bucket": "madrasetalquran-8d1a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040492895925:android:99ab4a1b4af79fcbdf28fc",
+        "android_client_info": {
+          "package_name": "com.madraset.quran"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040492895925-ane59tfk78f68pp5jh7opdnm8q00lksu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.madraset.quran",
+            "certificate_hash": "73b86f3651af78f55ad0a7b86ad3d0e36a177537"
+          }
+        },
+        {
+          "client_id": "1040492895925-h0r4c05hrf4ucidp3d2mdditiao122fi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH7KC64s4u8_hUnekWulVnHcv38Ij9k-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040492895925-h0r4c05hrf4ucidp3d2mdditiao122fi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1040492895925-9ejbaorkppr6l5ub4qsgd34n05omk3lb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madraset.quran"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
