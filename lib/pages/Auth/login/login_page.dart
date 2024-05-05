@@ -45,10 +45,12 @@ class _LoginPageState extends State<LoginPage> {
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
+
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
+        Get.snackbar('1', "credential done");
         return await _auth.signInWithCredential(credential);
       }
     } catch (error) {
@@ -310,9 +312,11 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () async {
                             UserCredential? userCredential =
                                 await signInWithGoogle();
-                            Get.snackbar('1', 'Gmail account retrive done');
+
                             if (userCredential != null &&
                                 userCredential.user!.email != null) {
+                              Get.snackbar('1',
+                                  'Gmail account retrive done ${userCredential.user!.email}');
                               await loginController
                                   .chdeckGmailUsername(userCredential);
                             } else {
