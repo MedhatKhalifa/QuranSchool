@@ -3,6 +3,7 @@
 //     final NotificationModel = NotificationModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ffi';
 
 List<NotificationModel> notificationModelfromListofMap(
     List<Map<String, dynamic>> jsonList) {
@@ -19,43 +20,49 @@ String NotificationModelToJson(NotificationModel data) =>
 
 class NotificationModel {
   NotificationModel({
+    this.id = -1,
+    this.title = "",
     this.text = "",
-    this.messageId = "",
-    this.date = "",
-    this.status = "",
+    this.createdAt = "",
+    this.user = -1,
   });
 
+  int id;
+  String title;
   String text;
-  String date;
-  String messageId;
+  String createdAt;
+  int user;
 
   dynamic status;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       NotificationModel(
+        id: json['id'] ?? -1,
+        title: json["title"] ?? "",
         text: json["text"] ?? "",
-        date: json["date"] ?? "",
-        messageId: json["messageId"] ?? "",
-        status: json["status"] ?? "",
+        createdAt: json["createdAt"] ?? "",
+        user: json["user"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "text": text,
-        "messageId": messageId,
-        "status": status,
-        "date": date,
+        "title": title,
+        "createdAt": createdAt,
+        "user": user,
       };
 
-  NotificationModel copyWith({
-    String messageId = "",
-    String text = "",
-    String status = "",
-    String date = "",
-  }) =>
+  NotificationModel copyWith(
+          {int id = -1,
+          String title = "",
+          String text = "",
+          String createdAt = "",
+          int user = -1}) =>
       NotificationModel(
-        messageId: messageId,
+        id: id,
+        title: title,
         text: text,
-        status: status,
-        date: date,
+        createdAt: createdAt,
+        user: user,
       );
 }

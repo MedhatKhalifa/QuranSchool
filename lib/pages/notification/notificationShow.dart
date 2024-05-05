@@ -230,7 +230,49 @@ class _NotificationShowState extends State<NotificationShow> {
                             itemCount:
                                 notificationController.allNotifications.length,
                             itemBuilder: (context, index) {
-                              return Text('');
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Card(
+                                  shadowColor: Colors.green,
+                                  color: index == 0
+                                      ? const Color.fromARGB(255, 210, 238, 225)
+                                      : Colors.white,
+                                  child: Center(
+                                      child: ListTile(
+                                    title: Text(notificationController
+                                        .allNotifications[index].title),
+                                    trailing: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(DateFormat(
+                                                  'yyyy-MM-dd',
+                                                  Localizations.localeOf(
+                                                          context)
+                                                      .languageCode)
+                                              .format(DateTime.parse(
+                                                  notificationController
+                                                      .allNotifications[index]
+                                                      .createdAt))
+                                              .toString()),
+                                          Text(DateFormat(
+                                                  'HH:mm',
+                                                  Localizations.localeOf(
+                                                          context)
+                                                      .languageCode)
+                                              .format(DateTime.parse(
+                                                  notificationController
+                                                      .allNotifications[index]
+                                                      .createdAt))
+                                              .toString()),
+                                        ],
+                                      ),
+                                    ),
+                                    subtitle: Text(notificationController
+                                        .allNotifications[index].text),
+                                  )),
+                                ),
+                              );
                             },
                           ),
               ),

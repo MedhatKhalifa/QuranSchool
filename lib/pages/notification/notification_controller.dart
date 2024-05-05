@@ -37,20 +37,18 @@ class NotificationController extends GetxController {
 
   void sortallsubbdate() {
     print(allNotifications);
-    allNotifications.sort((a, b) => b.date.compareTo(a.date));
+    allNotifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     print(allNotifications);
   }
 
-  Future getallSubList() async {
+  Future readNotifications() async {
     isLoading.value = true;
     allNotifications.clear();
     filteredFriends.clear();
 
     var dio = Dio();
     var response = await dio.get(
-      studsubUrl +
-          currentUserController.currentUser.value.userType +
-          "=" +
+      notificationreadUrl +
           currentUserController.currentUser.value.id.toString(),
       options: Options(
         // followRedirects: false,

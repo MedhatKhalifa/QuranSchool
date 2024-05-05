@@ -19,6 +19,7 @@ import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart'
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/notification/notificationShow.dart';
+import 'package:quranschool/pages/notification/notification_controller.dart';
 import 'package:quranschool/pages/search/price_list_show.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
@@ -61,6 +62,8 @@ final SubscribitionController subscribitionController =
 final MySesionController mySesionController = Get.put(MySesionController());
 final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
 final ChatController chatController = Get.put(ChatController());
+final NotificationController notificationController =
+    Get.put(NotificationController());
 String _size = "";
 final _formKey = GlobalKey<FormState>();
 
@@ -143,6 +146,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     leading: Icon(Icons.notifications),
                     title: Text('notification'.tr),
                     onTap: () async {
+                      notificationController.readNotifications();
                       Get.to(NotificationShow());
                     }),
               )),

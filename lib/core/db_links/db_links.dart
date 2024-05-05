@@ -45,6 +45,8 @@ const String creatSessionUrl = "${db_url1}session/sessions/";
 const String qustionnUrl = "${db_url1}qna/questions/";
 const String phoneNumber = '+201028084826';
 
+const String notificationreadUrl = "${db_url1}notifications/check?user=";
+
 ///////////////////////////////////////////////////////////////////////
 
 const String accountdetails_url = "${db_url1}accountdetails/";
