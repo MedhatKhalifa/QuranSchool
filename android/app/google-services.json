@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "1040492895925-2di1hh737oj2lekt79ricucvfb9ta8cn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.madraset.quran",
+            "certificate_hash": "74a48552276314494b3523fcf38cd74a1d9fd5ce"
+          }
+        },
+        {
           "client_id": "1040492895925-ane59tfk78f68pp5jh7opdnm8q00lksu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.madraset.quran",
             "certificate_hash": "73b86f3651af78f55ad0a7b86ad3d0e36a177537"
+          }
+        },
+        {
+          "client_id": "1040492895925-ki9ilqi8cdpbb0jl0l4uqgt59jdv12vn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.madraset.quran",
+            "certificate_hash": "50154da7cfa80fa00a5087b161199aac26269dca"
           }
         },
         {
