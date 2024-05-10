@@ -283,7 +283,13 @@ class _SessionsShowState extends State<SessionsShow> {
                                       child: Column(
                                         children: [
                                           Text(
-                                            meeting.eventName,
+                                            languageCode == 'ar'
+                                                ? meeting.eventName
+                                                    .replaceFirst(
+                                                        'Paid', 'مدفوع')
+                                                    .replaceFirst(
+                                                        'Pending', 'تحت الطلب')
+                                                : meeting.eventName,
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -313,7 +319,12 @@ class _SessionsShowState extends State<SessionsShow> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          meeting.eventName,
+                                          languageCode == 'ar'
+                                              ? meeting.eventName
+                                                  .replaceFirst('Paid', 'مدفوع')
+                                                  .replaceFirst(
+                                                      'Pending', 'تحت الطلب')
+                                              : meeting.eventName,
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         Row(
@@ -456,7 +467,7 @@ class _SessionsShowState extends State<SessionsShow> {
                                     day.appointments![0];
                                 if (mySesionController
                                         .selectedMeeting.value.eventName !=
-                                    "No Evaluation") {
+                                    "No_Evaluation".tr) {
                                   mySesionController
                                           .selectedSession.value.studentRate =
                                       mySesionController
@@ -561,12 +572,12 @@ class _SessionsShowState extends State<SessionsShow> {
         if (sessionDateTime.isBefore(now) &&
             !sessionDateTime.isAfter(now.subtract(Duration(minutes: 30)))) {
           String _label = s.studentRate == -1
-              ? "No Evaluation"
-              : "evaluation : " + s.studentRate.toString();
+              ? "No_Evaluation".tr
+              : "evaluation".tr + s.studentRate.toString();
           if (currentUserController.currentUser.value.userType == "teacher") {
             _label = s.teacherRank == -1
-                ? "No Evaluation"
-                : "evaluation : " + s.teacherRank.toString();
+                ? "No_Evaluation".tr
+                : "evaluation".tr + s.teacherRank.toString();
           }
 
           meetings.add(Meeting(
@@ -574,7 +585,7 @@ class _SessionsShowState extends State<SessionsShow> {
               DateTime.parse(s.date! + " " + s.time!),
               DateTime.parse(s.date! + " " + s.time!)
                   .add(Duration(minutes: 30)),
-              _label == "No Evaluation" ? Colors.grey : Colors.green,
+              _label == "No_Evaluation".tr ? Colors.grey : Colors.green,
               false,
               false,
               s.teacher!,

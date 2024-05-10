@@ -1229,4 +1229,7 @@ const Map<String, String> en = {
   "share_app": "Share Application",
   "select_teacher_process": "Please Select the teacher First",
   "user_exist_warning": "this username is already exist",
+  "Pending": "Pending",
+  "No_Evaluation": "No Evaluation",
+  "evaluation": "evaluation :",
 };

@@ -241,7 +241,23 @@ class SubscribitionController extends GetxController {
               selectedPayement.value.price! +
               "EGP";
 
-          await _launchWhatsApp(_message);
+          var _messageAr = "شكرًا لتسجيلك معنا"
+                  "سيقوم أحد المسؤولين بالتواصل معك قريبًا" +
+              "\n" +
+              "\n" +
+              "اسم المستخدم للمعلم المحدد: " +
+              selectedTeacher.value.user!.fullName +
+              " " +
+              selectedTeacher.value.user!.username +
+              "\n" +
+              "يتكون الباقة المختارة من  " +
+              selectedPayement.value.sessionCount!.toString() +
+              " جلسة بتكلفة " +
+              selectedPayement.value.price! +
+              " جنيه مصري";
+
+          await _launchWhatsApp(
+              Get.locale?.languageCode == 'ar' ? _messageAr : _message);
 
           sendNotification(
               selectedMeeting.teacher,

@@ -201,7 +201,6 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                                         backgroundImage: NetworkImage(
                                           // 'https://quraanshcool.pythonanywhere.com/media/${chatController.filteredFriends[index].friendImage}',
                                           'http://18.156.95.47//media/${chatController.filteredFriends[index].friendImage}',
-                                        
                                         ),
                                       ),
                                     )
@@ -281,7 +280,7 @@ class _ShowSubscriptionAllState extends State<ShowSubscriptionAll> {
                               ),
                               trailing: Text(
                                   chatController.filteredFriends[index]
-                                      .studentSubscriptionStatus,
+                                      .studentSubscriptionStatus.tr,
                                   style: myTextStyle(index)),
                               // trailing: IconButton(
                               //   icon: Icon(
