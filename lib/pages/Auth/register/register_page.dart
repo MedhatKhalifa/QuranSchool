@@ -167,72 +167,100 @@ class _RegisterPageState extends State<RegisterPage> {
                 ///=======================================================================
                 ///==================== Telephone ========================================
                 ///=======================================================================
-
                 IntlPhoneField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  disableLengthCheck: true,
+
                   decoration: InputDecoration(
                     labelText: 'Phone_Number'.tr,
-                    border: OutlineInputBorder(
-                      // borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(10.0),
-                      //borderSide: BorderSide(),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(),
                     ),
-                    fillColor: Colors.white,
                   ),
-
-                  validator: (phone) {
-                    // Check if initialCountryCode is EG and entered number starts with 0
-                    if (phone!.countryISOCode == 'EG' &&
-                        phone.number.startsWith('0')) {
-                      setState(() {
-                        _errorPhoneMsg = 'Egt_zero'.tr;
-                      });
-                      if (phone.number.length == 1) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Egt_zero'.tr),
-                          ),
-                        );
-                      }
-                      return 'Egt_zero';
-                    } else {
-                      setState(() {
-                        _errorPhoneMsg = '';
-                      });
-                      return null;
-                    }
-                  },
                   initialCountryCode: 'EG',
-                  // inputFormatters: [
-                  //   FilteringTextInputFormatter.digitsOnly,
-                  //   NoLeadingZeroFormatter(),
-                  // ],
-                  onChanged: (phone) {
-                    String enteredNumber = phone.completeNumber;
-                    currentUserController.tempUser.value.phoneNumber =
-                        enteredNumber;
-                    // Check if initialCountryCode is EG and entered number starts with 0
-                    // if (phone.countryISOCode == 'EG' &&
-                    //     phone.number.startsWith('0')) {
-                    //   // Remove the leading zero if it's the first digit
-                    //   phone.number = phone.number.substring(1);
-                    //   // Show a warning snackbar
-                    //   // ScaffoldMessenger.of(context).showSnackBar(
-                    //   //   SnackBar(
-                    //   //     content: Text('Egt_zero'.tr),
-                    //   //     backgroundColor: Colors.red, // Or any preferred color
-                    //   //   ),
-                    //   // );
-                    // } else {
-                    //   currentUserController.tempUser.value.phoneNumber =
-                    //       enteredNumber;
-                    // }
-                  },
+
                   // onChanged: (phone) {
                   //   currentUserController.tempUser.value.phoneNumber =
                   //       phone.completeNumber.toString();
                   // },
+                  onChanged: (phone) {
+                    String enteredNumber = phone.completeNumber;
+
+                    // Check if initialCountryCode is EG and entered number starts with 0
+                    if (phone.completeNumber.startsWith('+200')) {
+                      // Remove the leading zero if it's the first digit
+                      enteredNumber =
+                          phone.completeNumber.replaceFirst('+200', '+20');
+                    }
+
+                    currentUserController.tempUser.value.phoneNumber =
+                        enteredNumber;
+                  },
                 ),
+                // IntlPhoneField(
+                //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                //   decoration: InputDecoration(
+                //     labelText: 'Phone_Number'.tr,
+                //     border: OutlineInputBorder(
+                //       // borderSide: BorderSide(),
+                //       borderRadius: BorderRadius.circular(10.0),
+                //       //borderSide: BorderSide(),
+                //     ),
+                //     fillColor: Colors.white,
+                //   ),
+
+                //   validator: (phone) {
+                //     // Check if initialCountryCode is EG and entered number starts with 0
+                //     if (phone!.countryISOCode == 'EG' &&
+                //         phone.number.startsWith('0')) {
+                //       setState(() {
+                //         _errorPhoneMsg = 'Egt_zero'.tr;
+                //       });
+                //       if (phone.number.length == 1) {
+                //         ScaffoldMessenger.of(context).showSnackBar(
+                //           SnackBar(
+                //             content: Text('Egt_zero'.tr),
+                //           ),
+                //         );
+                //       }
+                //       return 'Egt_zero';
+                //     } else {
+                //       setState(() {
+                //         _errorPhoneMsg = '';
+                //       });
+                //       return null;
+                //     }
+                //   },
+                //   initialCountryCode: 'EG',
+                //   // inputFormatters: [
+                //   //   FilteringTextInputFormatter.digitsOnly,
+                //   //   NoLeadingZeroFormatter(),
+                //   // ],
+                //   onChanged: (phone) {
+                //     String enteredNumber = phone.completeNumber;
+                //     currentUserController.tempUser.value.phoneNumber =
+                //         enteredNumber;
+                //     // Check if initialCountryCode is EG and entered number starts with 0
+                //     // if (phone.countryISOCode == 'EG' &&
+                //     //     phone.number.startsWith('0')) {
+                //     //   // Remove the leading zero if it's the first digit
+                //     //   phone.number = phone.number.substring(1);
+                //     //   // Show a warning snackbar
+                //     //   // ScaffoldMessenger.of(context).showSnackBar(
+                //     //   //   SnackBar(
+                //     //   //     content: Text('Egt_zero'.tr),
+                //     //   //     backgroundColor: Colors.red, // Or any preferred color
+                //     //   //   ),
+                //     //   // );
+                //     // } else {
+                //     //   currentUserController.tempUser.value.phoneNumber =
+                //     //       enteredNumber;
+                //     // }
+                //   },
+                //   // onChanged: (phone) {
+                //   //   currentUserController.tempUser.value.phoneNumber =
+                //   //       phone.completeNumber.toString();
+                //   // },
+                // ),
                 Text(
                   _errorPhoneMsg,
                   style: TextStyle(color: Colors.red),
