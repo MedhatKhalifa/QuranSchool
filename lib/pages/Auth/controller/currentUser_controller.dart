@@ -389,8 +389,8 @@ class CurrentUserController extends GetxController {
       //     Uri.parse(profileUrl + "/" + currentUser.value.id.toString() + '/'));
       // request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
-      var request = http.MultipartRequest('PUT',
-          Uri.parse(profileUrl + "/" + currentUser.value.id.toString() + '/'));
+      var request = http.MultipartRequest(
+          'PUT', Uri.parse(profileUrl + currentUser.value.id.toString() + '/'));
 
       if (userProfile.imageFile != null) {
         File file = File(userProfile.imageFile!.path);
