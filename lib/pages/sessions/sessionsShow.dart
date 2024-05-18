@@ -288,7 +288,7 @@ class _SessionsShowState extends State<SessionsShow> {
                                                     .replaceFirst(
                                                         'Paid', 'مدفوع')
                                                     .replaceFirst(
-                                                        'Pending', 'تحت الطلب')
+                                                        'Pending', 'معلقه')
                                                 : meeting.eventName,
                                             style:
                                                 TextStyle(color: Colors.white),
@@ -323,7 +323,7 @@ class _SessionsShowState extends State<SessionsShow> {
                                               ? meeting.eventName
                                                   .replaceFirst('Paid', 'مدفوع')
                                                   .replaceFirst(
-                                                      'Pending', 'تحت الطلب')
+                                                      'Pending', 'معلقه')
                                               : meeting.eventName,
                                           style: TextStyle(color: Colors.white),
                                         ),
@@ -363,70 +363,70 @@ class _SessionsShowState extends State<SessionsShow> {
                               //         MonthAppointmentDisplayMode.appointment,
                               //     showAgenda: true),
 
-                              onLongPress: (day) {
-                                if (currentUserController
-                                        .currentUser.value.userType ==
-                                    "teacher") {
-                                  setState(() {
-                                    if (day.targetElement ==
-                                        CalendarElement.appointment) {
-                                      Meeting appointment =
-                                          day.appointments![0];
+                              // onLongPress: (day) {
+                              //   if (currentUserController
+                              //           .currentUser.value.userType ==
+                              //       "teacher") {
+                              //     setState(() {
+                              //       if (day.targetElement ==
+                              //           CalendarElement.appointment) {
+                              //         Meeting appointment =
+                              //             day.appointments![0];
 
-                                      if (calculateDifferenceInMinutes(
-                                              appointment) >
-                                          60) {
-                                        _showChangeSessionTimeDialog(
-                                            context, appointment);
-                                        // Get.dialog(
-                                        //   AlertDialog(
-                                        //     title: Row(
-                                        //       children: [
-                                        //         Icon(Icons.hourglass_empty),
-                                        //         SizedBox(width: 10),
-                                        //         Text('Change Session Time'),
-                                        //       ],
-                                        //     ),
-                                        //     content: Text(
-                                        //         'Are you sure you want to change the session time?'),
-                                        //     actions: [
-                                        //       TextButton(
-                                        //         onPressed: () {
-                                        //           Get.back(); // Dismiss the dialog
-                                        //         },
-                                        //         child: Text('No'),
-                                        //       ),
-                                        //       TextButton(
-                                        //         onPressed: () {
-                                        //           // Handle changing the session time
-                                        //           // ...
-                                        //           _selectDate(context, appointment);
-                                        //           // Navigator.of(context).pop();
-                                        //           //  Get.to(ChangeSesionTime());
-                                        //         },
-                                        //         child: Text('Yes'),
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                        // );
-                                      } else {
-                                        Get.snackbar(
-                                          "Warning".tr,
-                                          "cannot_change_withinhour".tr,
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          duration: Duration(seconds: 5),
-                                        );
-                                      }
-                                      // if (appointment.selected) {
-                                      //   mySesionController.getToken(
-                                      //       appointment.teacher, appointment.student);
-                                      // }
-                                    }
-                                  });
-                                }
-                              },
+                              //         if (calculateDifferenceInMinutes(
+                              //                 appointment) >
+                              //             60) {
+                              //           _showChangeSessionTimeDialog(
+                              //               context, appointment);
+                              //           // Get.dialog(
+                              //           //   AlertDialog(
+                              //           //     title: Row(
+                              //           //       children: [
+                              //           //         Icon(Icons.hourglass_empty),
+                              //           //         SizedBox(width: 10),
+                              //           //         Text('Change Session Time'),
+                              //           //       ],
+                              //           //     ),
+                              //           //     content: Text(
+                              //           //         'Are you sure you want to change the session time?'),
+                              //           //     actions: [
+                              //           //       TextButton(
+                              //           //         onPressed: () {
+                              //           //           Get.back(); // Dismiss the dialog
+                              //           //         },
+                              //           //         child: Text('No'),
+                              //           //       ),
+                              //           //       TextButton(
+                              //           //         onPressed: () {
+                              //           //           // Handle changing the session time
+                              //           //           // ...
+                              //           //           _selectDate(context, appointment);
+                              //           //           // Navigator.of(context).pop();
+                              //           //           //  Get.to(ChangeSesionTime());
+                              //           //         },
+                              //           //         child: Text('Yes'),
+                              //           //       ),
+                              //           //     ],
+                              //           //   ),
+                              //           // );
+                              //         } else {
+                              //           Get.snackbar(
+                              //             "Warning".tr,
+                              //             "cannot_change_withinhour".tr,
+                              //             backgroundColor: Colors.red,
+                              //             colorText: Colors.white,
+                              //             snackPosition: SnackPosition.BOTTOM,
+                              //             duration: Duration(seconds: 5),
+                              //           );
+                              //         }
+                              //         // if (appointment.selected) {
+                              //         //   mySesionController.getToken(
+                              //         //       appointment.teacher, appointment.student);
+                              //         // }
+                              //       }
+                              //     });
+                              //   }
+                              // },
                             )),
                     ),
                     Obx(() => subscribitionController.isLoadingsession.isTrue

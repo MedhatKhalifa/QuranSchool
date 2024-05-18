@@ -1239,7 +1239,7 @@ const Map<String, String> ar = {
   'share_app': 'شارك مع أَصدقائك',
   'select_teacher_process': 'من فضلك أختر المعلم أولا',
   'user_exist_warning': 'اسم المستخدم مستخدم بالفعل',
-  'Pending': 'تحت الطلب',
+  'Pending': 'معلقه',
   'No_Evaluation': 'لا يوجد تفييم',
   'evaluation': 'التقييم :',
 };
