@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/bottom_bar_controller.dart';
 import 'package:quranschool/pages/common_widget/mybottom_bar/my_bottom_bar.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
@@ -15,19 +17,17 @@ class PdfView2 extends StatefulWidget {
 
 class _PdfView2State extends State<PdfView2> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
-
   late PdfViewerController _pdfViewerController;
+  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
+  TextEditingController _pageController = TextEditingController();
+  String result = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
     _pdfViewerController = PdfViewerController();
     super.initState();
   }
-
-  final MyBottomBarCtrl myBottomBarCtrl = Get.put(MyBottomBarCtrl());
-
-  TextEditingController _pageController = TextEditingController();
-  String result = '';
 
   void performAction() {
     setState(() {
@@ -39,10 +39,9 @@ class _PdfView2State extends State<PdfView2> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Override the back button behavior to navigate to a specific page, e.g., '/home'
         myBottomBarCtrl.selectedIndBottomBar.value = 0;
         Get.to(HomePage());
-        return false; // Do not allow the default back button behavior
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -56,17 +55,12 @@ class _PdfView2State extends State<PdfView2> {
                 ),
               ),
             ),
-            //elevation: 0, // 2
-
             centerTitle: true,
             title:
                 Text('Quran'.tr, style: const TextStyle(color: Colors.white)),
             actions: [
               IconButton(
-                icon: const Icon(
-                  Icons.bookmark,
-                  color: Colors.white,
-                ),
+                icon: const Icon(Icons.bookmark, color: Colors.white),
                 onPressed: () {
                   _pdfViewerKey.currentState?.openBookmarkView();
                 },
@@ -74,10 +68,8 @@ class _PdfView2State extends State<PdfView2> {
               PopupMenuButton<String>(
                 onSelected: (value) {
                   if (value == 'page1') {
-                    // Navigate to Page 1
                     Get.to(QuranPage());
                   } else if (value == 'page2') {
-                    // Navigate to Page 2
                     Get.to(QuranPageAyaat());
                   }
                 },
@@ -86,23 +78,35 @@ class _PdfView2State extends State<PdfView2> {
                     value: 'page1',
                     child: Text('open_use_falsh'.tr),
                   ),
-                  // PopupMenuItem<String>(
-                  //   value: 'page2',
-                  //   child: Text('open_use_ayaat'.tr),
-                  // ),
                 ],
-              )
+              ),
             ]),
-        body: Center(
-          child: SfPdfViewer.asset(
-            'assets/quran.pdf',
-            key: _pdfViewerKey,
-            // canShowPaginationDialog: false,
-            // pageSpacing: 0,
-            ///  pageLayoutMode: PdfPageLayoutMode.single,
-            //  maxZoomLevel: 1,
-            //   enableDocumentLinkAnnotation: false
-          ),
+        body: Stack(
+          children: [
+            Center(
+              child: SfPdfViewer.asset(
+                'assets/quran.pdf',
+                key: _pdfViewerKey,
+                onDocumentLoaded: (details) {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                },
+                onDocumentLoadFailed: (details) {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                },
+              ),
+            ),
+            if (_isLoading)
+              Center(
+                child: LoadingBouncingGrid.circle(
+                  borderColor: mybrowonColor,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+          ],
         ),
         bottomNavigationBar: MybottomBar(),
       ),

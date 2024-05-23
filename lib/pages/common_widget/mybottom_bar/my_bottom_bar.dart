@@ -170,6 +170,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:get/get.dart';
+import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
@@ -180,12 +181,15 @@ import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:quranschool/pages/home_page/profile_page_bottom.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
+import 'package:quranschool/pages/quran/pdfview2.dart';
 import 'package:quranschool/pages/quran/quranPageFlash.dart';
 import 'package:quranschool/pages/quran/quranPageAyaat.dart';
+import 'package:quranschool/pages/quran/quran_selection.dart';
 
 import 'package:quranschool/pages/search/search_page.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/teacher/mystudent/showmyStudent.dart';
+import 'dart:io' show Platform;
 
 class MybottomBar extends StatefulWidget {
   MybottomBar({
@@ -227,7 +231,7 @@ class _MybottomBarState extends State<MybottomBar> {
     }
     // index 1 Go to Quran Page for all users
     else if (index == 1) {
-      Get.to(const QuranPage());
+      Platform.isAndroid ? Get.to(QuranPage()) : Get.to(QuranSelection());
     }
     // index 2 Serach Page for teacher and Next Session for student as there is no search pagefor teachers
     else if (index == 2) {
@@ -315,10 +319,13 @@ class _MybottomBarState extends State<MybottomBar> {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
-              body: Center(
-                child: Text("Loading"),
-              ),
-            );
+                appBar: simplAppbar(false),
+                body: Center(
+                  child: LoadingBouncingGrid.circle(
+                    borderColor: mybrowonColor,
+                    backgroundColor: Colors.white,
+                  ),
+                ));
           }
 
           if ((snapshot.hasData && snapshot.data!.exists) ||
