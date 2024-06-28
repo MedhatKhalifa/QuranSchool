@@ -363,6 +363,44 @@ class CurrentUserController extends GetxController {
     }
   }
 
+  //// REmove Account
+  ///
+  ///
+
+  Future removeUserAccount() async {
+    try {
+      isQuesLoading(true);
+
+      var dio = Dio();
+
+      var response = await dio.get(
+        qustionnUrl,
+        options: Options(
+          followRedirects: false,
+
+          validateStatus: (status) {
+            return status! < 505;
+          },
+
+          //headers: {},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        await removeUserData('user');
+        currentUser.value = User();
+
+        myBottomBarCtrl.selectedIndBottomBar.value = 0;
+
+        Get.to(HomePage());
+      } else {
+        //mySnackbar("Failed".tr, "cannot_update_user_data".tr, false);
+      }
+    } finally {
+      isQuesLoading.value = false;
+    }
+  }
+
   Future UpdateoldProfile(User userProfile) async {
     // var f = _loadUserData('user');
 

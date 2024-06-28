@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -301,29 +303,33 @@ class _LoginPageState extends State<LoginPage> {
                   ///=======================================================================
                   SizedBox(height: sp(8)),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('or_login_with'.tr,
-                          style:
-                              TextStyle(fontSize: sp(10), color: Colors.white)),
-                      IconButton(
-                          icon: Image.asset('assets/icons/gmail.png'),
-                          onPressed: () async {
-                            UserCredential? userCredential =
-                                await signInWithGoogle();
+                  Visibility(
+                    visible: Platform.isAndroid,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('or_login_with'.tr,
+                            style: TextStyle(
+                                fontSize: sp(10), color: Colors.white)),
+                        IconButton(
+                            icon: Image.asset('assets/icons/gmail.png'),
+                            onPressed: () async {
+                              UserCredential? userCredential =
+                                  await signInWithGoogle();
 
-                            if (userCredential != null &&
-                                userCredential.user!.email != null) {
-                              Get.snackbar('1',
-                                  'Gmail account retrive done ${userCredential.user!.email}');
-                              await loginController
-                                  .chdeckGmailUsername(userCredential);
-                            } else {
-                              Get.snackbar('1', 'Gmail account retrive Error');
-                            }
-                          }),
-                    ],
+                              if (userCredential != null &&
+                                  userCredential.user!.email != null) {
+                                Get.snackbar('1',
+                                    'Gmail account retrive done ${userCredential.user!.email}');
+                                await loginController
+                                    .chdeckGmailUsername(userCredential);
+                              } else {
+                                Get.snackbar(
+                                    '1', 'Gmail account retrive Error');
+                              }
+                            }),
+                      ],
+                    ),
                   ),
                   SizedBox(height: sp(15)),
 

@@ -241,23 +241,47 @@ class SubscribitionController extends GetxController {
               selectedPayement.value.price! +
               "EGP";
 
-          var _messageAr = "شكرًا لتسجيلك معنا"
-                  "سيقوم أحد المسؤولين بالتواصل معك قريبًا" +
-              "\n" +
-              "\n" +
-              "اسم المستخدم للمعلم المحدد: " +
-              selectedTeacher.value.user!.fullName +
-              " " +
-              selectedTeacher.value.user!.username +
-              "\n" +
-              "يتكون الباقة المختارة من  " +
-              selectedPayement.value.sessionCount!.toString() +
-              " جلسة بتكلفة " +
-              selectedPayement.value.price! +
-              " جنيه مصري";
-
-          await _launchWhatsApp(
-              Get.locale?.languageCode == 'ar' ? _messageAr : _message);
+          // var _messageAr = "شكرًا لتسجيلك معنا"
+          //         "سيقوم أحد المسؤولين بالتواصل معك قريبًا" +
+          //     "\n" +
+          //     "\n" +
+          //     "اسم المستخدم للمعلم المحدد: " +
+          //     selectedTeacher.value.user!.fullName +
+          //     " " +
+          //     selectedTeacher.value.user!.username +
+          //     "\n" +
+          //     "يتكون الباقة المختارة من  " +
+          //     selectedPayement.value.sessionCount!.toString() +
+          //     " جلسة بتكلفة " +
+          //     selectedPayement.value.price! +
+          //     " جنيه مصري";
+          var _messageAr =
+              " *لتأكيد التسجيل* أرسل رسالة الواتساب هذه بتفاصيل الباقة المختارة" +
+                  "\n" +
+                  "\n" +
+                  "*المعلم/* " +
+                  selectedTeacher.value.user!.username +
+                  "\n" +
+                  "*الباقة المختارة/* " +
+                  selectedPayement.value.sessionCount!.toString() +
+                  " حلقات " +
+                  "\n" +
+                  "*التكلفة /* " +
+                  selectedPayement.value.price! +
+                  " جنيه مصري " +
+                  "\n" +
+                  "*موعد أول حلقة /* " +
+                  DateFormat('yyyy-MM-dd')
+                      .format(selectedMeeting.from)
+                      .toString() +
+                  " , " +
+                  DateFormat('HH:mm').format(selectedMeeting.from).toString() +
+                  "\n" +
+                  "*الطالب/* " +
+                  currentUserController.currentUser.value.username;
+          print(_messageAr);
+          await _launchWhatsApp(_messageAr);
+          //Get.locale?.languageCode == 'ar' ? _messageAr : _message);
 
           sendNotification(
               selectedMeeting.teacher,

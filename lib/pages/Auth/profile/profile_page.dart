@@ -67,6 +67,60 @@ final NotificationController notificationController =
 String _size = "";
 final _formKey = GlobalKey<FormState>();
 
+void _showWarningDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Row(
+          children: [
+            Icon(Icons.warning, color: Colors.red),
+            SizedBox(width: 10),
+            Text(
+              'Warning',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Are you sure you want to remove your account?',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'This action cannot be undone. All your data will be permanently deleted.',
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red, // background (button) color
+            ),
+            child: Text('Remove Account'),
+            onPressed: () {
+              // Add your account removal logic here
+              currentUserController.removeUserAccount();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
@@ -389,6 +443,22 @@ class _UserProfilePageState extends State<UserProfilePage> {
               onTap: () {
                 Get.to(AboutUsPage());
               }),
+
+          ///
+          ///
+          ///Remove Avvount
+          ///
+          // Obx(() => Visibility(
+          //       visible: currentUserController.currentUser.value.id != -1,
+          //       child: ElevatedButton(
+          //         onPressed: () => _showWarningDialog(context),
+          //         style: ElevatedButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.red, // foreground (text) color
+          //         ),
+          //         child: Text('Remove Account'),
+          //       ),
+          //     )),
 
           ///
           ///
