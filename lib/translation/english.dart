@@ -1232,4 +1232,9 @@ const Map<String, String> en = {
   "Pending": "Pending",
   "No_Evaluation": "No Evaluation",
   "evaluation": "evaluation :",
+  "remove_account_msg": "Are you sure you want to remove your account?",
+  "warning_remove":
+      "This action cannot be undone. All your data and reservations will be permanently deleted.",
+  "Remove_Account": "Remove Account",
+  "Confirm_Phone_Number": "Confirm Phone Number",
 };

@@ -80,7 +80,7 @@ void _showWarningDialog(BuildContext context) {
             Icon(Icons.warning, color: Colors.red),
             SizedBox(width: 10),
             Text(
-              'Warning',
+              'Warning'.tr,
               style: TextStyle(color: Colors.red),
             ),
           ],
@@ -89,18 +89,18 @@ void _showWarningDialog(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Are you sure you want to remove your account?',
+              'remove_account_msg'.tr,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(
-              'This action cannot be undone. All your data will be permanently deleted.',
+              'warning_remove'.tr,
             ),
           ],
         ),
         actions: [
           TextButton(
-            child: Text('Cancel'),
+            child: Text('Cancel'.tr),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -109,7 +109,7 @@ void _showWarningDialog(BuildContext context) {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red, // background (button) color
             ),
-            child: Text('Remove Account'),
+            child: Text('Remove_Account'.tr),
             onPressed: () {
               // Add your account removal logic here
               currentUserController.removeUserAccount();

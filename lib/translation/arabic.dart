@@ -1242,4 +1242,9 @@ const Map<String, String> ar = {
   'Pending': 'معلقه',
   'No_Evaluation': 'لا يوجد تفييم',
   'evaluation': 'التقييم :',
+  'remove_account_msg': 'هل أنت متأكد أنك تريد إزالة حسابك؟',
+  'warning_remove':
+      'لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بياناتك وحجوزاتك نهائيًا.',
+  'Remove_Account': 'إزالة الحساب',
+  'Confirm_Phone_Number': 'تأكيد رقم الهاتف',
 };

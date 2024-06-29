@@ -336,6 +336,8 @@ class _LoginPageState extends State<LoginPage> {
                   ///=======================================================================
                   ///==================== Go to Signup ========================================
                   ///=======================================================================
+                  ///
+                  ///login using Gmail
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     TextButton(
                         onPressed: () {

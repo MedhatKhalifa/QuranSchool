@@ -406,7 +406,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('Confirm Phone Number'),
+                                          title:
+                                              Text('Confirm_Phone_Number'.tr),
                                           content: RichText(
                                             text: TextSpan(
                                               style: TextStyle(

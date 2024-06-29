@@ -363,6 +363,8 @@ class CurrentUserController extends GetxController {
     }
   }
 
+  ///
+  ///
   //// REmove Account
   ///
   ///
