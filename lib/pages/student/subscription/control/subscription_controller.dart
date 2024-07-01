@@ -131,7 +131,10 @@ class SubscribitionController extends GetxController {
           "teacher": selectedTeacher.value.user!.id,
           "actualPrice": selectedPayement.value.price,
           "subscriptionDate": DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          "studentSubscriptionStatus": "Pending",
+          "studentSubscriptionStatus":
+              double.parse(selectedPayement.value.price!) == 0.00
+                  ? "Paid"
+                  : "Pending",
           "comment": "Teacher Name" +
               selectedTeacher.value.user!.fullName +
               "Teacher user Name is" +

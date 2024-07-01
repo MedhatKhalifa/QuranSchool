@@ -259,7 +259,7 @@ class CurrentUserController extends GetxController {
 
         // var _x = response.data[0];
 
-        if (response.data.isEmpty) {
+        if (response.data.length == 0) {
           userExist.value = false;
 
 // the below three lines for phone verify
@@ -268,7 +268,7 @@ class CurrentUserController extends GetxController {
           // Get.to(const OtpDialogue());
 
           // register user
-          await registeruser();
+          registeruser();
         } else {
           mySnackbar("Failed".tr, "user_exist_warning".tr, "Error");
         }
