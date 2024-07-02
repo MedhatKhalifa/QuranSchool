@@ -127,7 +127,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       currentUserController.tempUser.value.username = val!,
                   onChanged: (val) =>
                       currentUserController.tempUser.value.username = val,
-
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                  ],
                   //autofocus: false,
                   // Text Style
                   style: TextStyle(fontSize: sp(10), color: Colors.black),

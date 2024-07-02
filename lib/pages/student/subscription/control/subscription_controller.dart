@@ -156,6 +156,9 @@ class SubscribitionController extends GetxController {
         // _redirectUser();
         studentSubscriptionId.value = response.data['id'];
         createSession();
+        // Send Notification to teacher
+        sendNotification(
+            selectedTeacher.value.user!.id, 'طالب جديد سجل لديك', 'تسجيل جديد');
       } else {
         _failmessage(response);
       }
