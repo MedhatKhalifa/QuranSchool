@@ -54,14 +54,32 @@ class Availability {
   }
 }
 
+// bool isTimeFormatValid(String time) {
+//   final timePattern = r'^[0-2][0-9]:[0-5][0-9]$';
+//   final RegExp regExp = RegExp(timePattern);
+//   return regExp.hasMatch(time);
+// }
 bool isTimeFormatValid(String time) {
-  final timePattern = r'^[0-2][0-9]:[0-5][0-9]$';
-  final RegExp regExp = RegExp(timePattern);
-  return regExp.hasMatch(time);
+  try {
+    final parsedTime = DateFormat('HH:mm').parseStrict(time);
+    return parsedTime != null;
+  } catch (e) {
+    return false;
+  }
 }
 
 generateIntervals(var originalList) {
   List<Availability> resultList = [];
+
+  // Sorting the original list by day and fromTime
+  // originalList.sort((a, b) {
+  //   int dayComparison = a.day.compareTo(b.day);
+  //   if (dayComparison != 0) {
+  //     return dayComparison;
+  //   } else {
+  //     return DateFormat('HH:mm').parse(a.fromTime).compareTo(DateFormat('HH:mm').parse(b.fromTime));
+  //   }
+  // });
 
   for (var entry in originalList) {
     String fromTime = entry.fromTime;
