@@ -200,12 +200,12 @@ class MySesionController extends GetxController {
     isLoading.value = true;
     var dio = Dio();
     var response = await dio.put(
-      _url!,
+      _url,
       data: {
         'student': _meeting.student.toString(),
         'teacher': _meeting.teacher.toString(),
-        'sessionStatus': "Pending",
-        'studentSubscription': "1",
+        // 'sessionStatus': "Pending",
+        //'studentSubscription': "1",
         'date': DateFormat('yyyy-MM-dd').format(_meeting.from),
         'time': DateFormat('HH:m').format(_meeting.from),
         //'accountToken': userctrl.currentUser.value.accountToken,
