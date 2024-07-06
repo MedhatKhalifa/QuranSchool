@@ -128,7 +128,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   onChanged: (val) =>
                       currentUserController.tempUser.value.username = val,
                   inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-Z0-9!@#&*_.:]'))
                   ],
                   //autofocus: false,
                   // Text Style
@@ -147,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                     ),
                     border: InputBorder.none,
-                    hintText: 'user_Name'.tr,
+                    hintText: 'user_Name_En'.tr,
                     filled: false,
                     fillColor: lblue,
                     contentPadding: EdgeInsets.only(

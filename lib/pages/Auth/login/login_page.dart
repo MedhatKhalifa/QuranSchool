@@ -173,6 +173,10 @@ class _LoginPageState extends State<LoginPage> {
                     // ],
 
                     /// decoration
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z0-9!@#&*_.:]'))
+                    ],
                     decoration: InputDecoration(
                       prefixIcon: const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -181,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                       ),
                       border: InputBorder.none,
-                      hintText: 'user_Name'.tr,
+                      hintText: 'user_Name_En'.tr,
                       filled: true,
                       fillColor: Colors.white,
                       contentPadding: EdgeInsets.only(

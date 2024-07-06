@@ -1237,4 +1237,5 @@ const Map<String, String> en = {
       "This action cannot be undone. All your data and reservations will be permanently deleted.",
   "Remove_Account": "Remove Account",
   "Confirm_Phone_Number": "Confirm Phone Number",
+  "user_Name_En": "Username (English only)",
 };
