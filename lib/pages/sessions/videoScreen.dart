@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/size_config.dart';
-// import 'package:permission_handler/permission_handler.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/sessions/controller/session_control.dart';
@@ -14,14 +12,6 @@ import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/sessions/rate.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-// const appId = "65a5460ed6af49978a85479fdd87fa13";
-// const token =
-//     "00665a5460ed6af49978a85479fdd87fa13IADY9GNZ7hUeOtOY8+TP6+YJ0xJ8gHklvDDSgka+l7HahzbVTQ0AAAAAIgCBKewDlvNHZQQAAQAmsEZlAgAmsEZlAwAmsEZlBAAmsEZl";
-// const channel = "QS-SID14TID15";
-
-///////////////////////////////////////////////////////////////////////////////////////
-// - this taken Channel Name and token as input and it is coming from MySesionController.getToken
-///////////////////////////////////////////////////////////////////////////////////////
 class VideoScreenCall extends StatefulWidget {
   final channelName;
   final token;
@@ -34,16 +24,10 @@ class VideoScreenCall extends StatefulWidget {
 
 class _VideoScreenCallState extends State<VideoScreenCall> {
   _VideoScreenCallState(this.channelName, this.token);
-  // String channelName = "QS-SID14TID15";
-  // String token =
-  //     "00665a5460ed6af49978a85479fdd87fa13IADY9GNZ7hUeOtOY8+TP6+YJ0xJ8gHklvDDSgka+l7HahzbVTQ0AAAAAIgCBKewDlvNHZQQAAQAmsEZlAgAmsEZlAwAmsEZlBAAmsEZl";
 
   final channelName;
   final token;
 
-  ///////////////////////////////////////////////////////////////////////////////////////
-// - define varirbles to control video icon buttons
-///////////////////////////////////////////////////////////////////////////////////////
   bool _isScreenShared = false;
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
@@ -53,7 +37,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   bool _isJoined = false; // Indicates if the local user has joined the channel
   late RtcEngine agoraEngine; // Agora engine instance
   bool isMuted = false;
-  bool isCameraOn = true;
+  bool isCameraOn = false;
   bool areButtonsVisible = true;
   bool isLocalVideoVisible = true;
 
@@ -73,9 +57,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     setupVideoSDKEngine();
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - Virtual Back ground  https://docs.agora.io/en/video-calling/enable-features/virtual-background?platform=flutter
-///////////////////////////////////////////////////////////////////////////////////////
   int counter = 2; // to cycle through different types of backgrounds
   bool isVirtualBackGroundEnabled = false;
 
@@ -91,14 +72,10 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     virtualBackgroundSource = const VirtualBackgroundSource(
         backgroundSourceType: BackgroundSourceType.backgroundBlur,
         blurDegree: BackgroundBlurDegree.blurDegreeHigh);
-    // Set processing properties for background
-    SegmentationProperty segmentationProperty = const SegmentationProperty(
-        modelType: SegModelType
-            .segModelAi, // Use segModelGreen if you have a green background
-        greenCapacity: 0.5 // Accuracy for identifying green colors (range 0-1)
-        );
 
-    // Enable or disable virtual background
+    SegmentationProperty segmentationProperty = const SegmentationProperty(
+        modelType: SegModelType.segModelAi, greenCapacity: 0.5);
+
     agoraEngine.enableVirtualBackground(
         enabled: !isVirtualBackGroundEnabled,
         backgroundSource: virtualBackgroundSource,
@@ -108,67 +85,14 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     setState(() {
       isVirtualBackGroundEnabled = !isVirtualBackGroundEnabled;
     });
-
-    // counter++;
-    // if (counter > 3) {
-    //   counter = 0;
-    //   isVirtualBackGroundEnabled = false;
-    //   showMessage("Virtual background turned off");
-    // } else {
-    //   isVirtualBackGroundEnabled = true;
-    // }
-
-    // VirtualBackgroundSource virtualBackgroundSource;
-
-    // // Set the type of virtual background
-    // if (counter == 1) {
-    //   virtualBackgroundSource = const VirtualBackgroundSource(
-    //       backgroundSourceType: BackgroundSourceType.backgroundBlur,
-    //       blurDegree: BackgroundBlurDegree.blurDegreeHigh);
-    //   showMessage("Setting blur background");
-    // } else if (counter == 2) {
-    //   // Set a solid background color
-    //   virtualBackgroundSource = const VirtualBackgroundSource(
-    //       backgroundSourceType: BackgroundSourceType.backgroundColor,
-    //       color: 0x0000FF);
-    //   showMessage("Setting color background");
-    // } else {
-    //   // Set a background image
-    //   virtualBackgroundSource = const VirtualBackgroundSource(
-    //       backgroundSourceType: BackgroundSourceType.backgroundImg,
-    //       source: "<path to an image file>");
-    //   showMessage("Setting image background");
-    // }
-
-    // // Set processing properties for background
-    // SegmentationProperty segmentationProperty = const SegmentationProperty(
-    //     modelType: SegModelType
-    //         .segModelAi, // Use segModelGreen if you have a green background
-    //     greenCapacity: 0.5 // Accuracy for identifying green colors (range 0-1)
-    //     );
-
-    // // Enable or disable virtual background
-    // agoraEngine.enableVirtualBackground(
-    //     enabled: isVirtualBackGroundEnabled,
-    //     backgroundSource: virtualBackgroundSource,
-    //     segproperty: segmentationProperty);
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - prepare Video SDK
-///////////////////////////////////////////////////////////////////////////////////////
-
   Future<void> setupVideoSDKEngine() async {
-    // retrieve or request camera and microphone permissions
-    // await [Permission.microphone, Permission.camera].request();
-
-    //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(const RtcEngineContext(appId: appId));
 
     await agoraEngine.enableVideo();
 
-    // Register the event handler
     agoraEngine.registerEventHandler(
       RtcEngineEventHandler(
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
@@ -191,17 +115,20 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
             _remoteUid = null;
           });
         },
+        onUserMuteVideo: (RtcConnection connection, int uid, bool muted) {
+          if (muted) {
+            setState(() {
+              _remoteUid = null;
+            });
+          }
+        },
       ),
     );
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - join channel button
-///////////////////////////////////////////////////////////////////////////////////////
   void join() async {
     await agoraEngine.startPreview();
 
-    // Set channel options including the client role and channel profile
     ChannelMediaOptions options = const ChannelMediaOptions(
       clientRoleType: ClientRoleType.clientRoleBroadcaster,
       channelProfile: ChannelProfileType.channelProfileCommunication,
@@ -215,9 +142,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     );
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - leave channel button
-///////////////////////////////////////////////////////////////////////////////////////
   void leave() {
     setState(() {
       _isJoined = false;
@@ -226,9 +150,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     agoraEngine.leaveChannel();
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - camera switch
-///////////////////////////////////////////////////////////////////////////////////////
   Future<void> cameraswitch() async {
     await agoraEngine.muteLocalVideoStream(!isCameraOn);
 
@@ -243,29 +164,17 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     }
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - mute Switch
-///////////////////////////////////////////////////////////////////////////////////////
   Future<void> muteswitch() async {
     await agoraEngine.muteLocalAudioStream(isMuted);
-
-    //  isMuted ? agoraEngine.enableAudio() : agoraEngine.disableAudio();
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - share Screen
-///////////////////////////////////////////////////////////////////////////////////////
   Future<void> shareScreen() async {
     setState(() {
       _isScreenShared = !_isScreenShared;
     });
 
     if (_isScreenShared) {
-      // Start screen sharing
-
       agoraEngine.startScreenCapture(const ScreenCaptureParameters2(
-
-          //  captureAudio: true,
           audioParams: ScreenAudioParameters(
               sampleRate: 16000, channels: 2, captureSignalVolume: 100),
           captureVideo: true,
@@ -277,10 +186,9 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       await agoraEngine.stopScreenCapture();
     }
 
-    // Update channel media options to publish camera or screen capture streams
     ChannelMediaOptions options = ChannelMediaOptions(
       publishCameraTrack: !_isScreenShared,
-      publishMicrophoneTrack: true, // !_isScreenShared,
+      publishMicrophoneTrack: true,
       publishScreenTrack: _isScreenShared,
       publishScreenCaptureAudio: _isScreenShared,
       publishScreenCaptureVideo: _isScreenShared,
@@ -289,11 +197,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     agoraEngine.updateChannelMediaOptions(options);
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////////
-// - exit page
-///////////////////////////////////////////////////////////////////////////////////////
-
-// Release the resources when you leave
   @override
   void dispose() async {
     _cleanupAgoraResources();
@@ -301,34 +204,24 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   }
 
   Future<void> _cleanupAgoraResources() async {
-    // Release Agora resources and leave the channel
     await agoraEngine.leaveChannel();
     agoraEngine.release();
   }
 
   bool _quranview = false;
-  ///////
-  ///
   final MySesionController mySesionController = Get.put(MySesionController());
-///////////////////////////////////////////////////////////////////////////////////////
-// - start Widgets
-///////////////////////////////////////////////////////////////////////////////////////
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Override the back button behavior to navigate to a specific page, e.g., '/home'
         _cleanupAgoraResources();
         mySesionController.getFirstSessionAfterNow();
-
         mySesionController.feedbackEdit.value = true;
         Get.to(RateSession());
-        return false; // Do not allow the default back button behavior
+        return false;
       },
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: Text('Video Call'),
-        // ),
         body: LayoutBuilder(
           builder: (context, constraints) {
             return GestureDetector(
@@ -339,7 +232,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
               },
               child: Stack(
                 children: [
-                  // Remote Video Full Screen
                   Container(
                     color: Colors.black,
                     height: constraints.maxHeight,
@@ -351,16 +243,11 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                 child: SfPdfViewer.asset(
                                   'assets/quran.pdf',
                                   key: _pdfViewerKey,
-                                  // canShowPaginationDialog: false,
-                                  // pageSpacing: 0,
-                                  ///  pageLayoutMode: PdfPageLayoutMode.single,
                                   maxZoomLevel: 1,
-                                  //   enableDocumentLinkAnnotation: false
                                 ),
                               )
-                            : _remoteVideo()), //
+                            : _remoteVideo()),
                   ),
-                  // Local Video Preview (Initially Hidden)
                   if (isLocalVideoVisible)
                     Positioned(
                       bottom: 20.0,
@@ -374,7 +261,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                         ),
                       ),
                     ),
-                  // Buttons (Disappear by Default)
                   if (areButtonsVisible || !_isJoined)
                     Positioned(
                       bottom: 20.0,
@@ -389,7 +275,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                               onPressed: () {
                                 setState(() {
                                   _quranview = !_quranview;
-                                  // Implement your mute/unmute logic here
                                 });
                               },
                             ),
@@ -399,7 +284,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                               onPressed: () {
                                 setState(() {
                                   isMuted = !isMuted;
-                                  // Implement your mute/unmute logic here
                                 });
                                 muteswitch();
                               },
@@ -412,80 +296,41 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                               onPressed: () {
                                 setState(() {
                                   isCameraOn = !isCameraOn;
-                                  // Implement your camera on/off logic here
                                 });
                                 cameraswitch();
                               },
                             ),
-                          if (_isJoined && !_quranview)
+                          if (_isJoined)
                             IconButton(
                               icon: Icon(_isScreenShared
-                                  ? Icons.screen_share
-                                  : Icons.stop_screen_share),
-                              onPressed: () {
-                                shareScreen();
-                              },
+                                  ? Icons.stop_screen_share
+                                  : Icons.screen_share),
+                              onPressed: shareScreen,
                             ),
-                          if (_isJoined && !_quranview)
+                          if (_isJoined)
                             IconButton(
                               icon: Icon(
-                                isVirtualBackGroundEnabled
-                                    ? Icons.blur_on
-                                    : Icons.blur_off,
+                                Icons.call_end,
+                                color: Colors.red,
                               ),
                               onPressed: () {
-                                setVirtualBackground();
+                                _cleanupAgoraResources();
+                                mySesionController.getFirstSessionAfterNow();
+                                mySesionController.feedbackEdit.value = true;
+                                Get.to(RateSession());
                               },
                             ),
-                          if (_isJoined && !_quranview)
+                          if (!_isJoined)
                             IconButton(
-                              icon: Icon(isLocalVideoVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(() {
-                                  isLocalVideoVisible = !isLocalVideoVisible;
-                                });
-                              },
+                              icon: Icon(
+                                Icons.call,
+                                color: Colors.green,
+                              ),
+                              onPressed: join,
                             ),
-                          IconButton(
-                            icon: Icon(
-                                _isJoined
-                                    ? Icons.stop_circle
-                                    : Icons.play_circle_fill,
-                                color: _isJoined ? Colors.red : Colors.green,
-                                size: sp(30)),
-                            onPressed: () {
-                              setState(() {
-                                _isJoined = !_isJoined;
-                                // Implement your join/leave call logic here
-                              });
-                              _isJoined ? join() : leave();
-                            },
-                          ),
                         ],
                       ),
                     ),
-
-                  // X Icon at the top-right corner
-                  Positioned(
-                    top: 20.0,
-                    right: 20.0,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ), // Change to the desired icon
-                      onPressed: () {
-                        // Implement the action you want when the X icon is pressed
-                        _cleanupAgoraResources();
-                        mySesionController.getFirstSessionAfterNow();
-
-                        mySesionController.feedbackEdit.value = true;
-                        Get.to(RateSession());
-                      },
-                    ),
-                  ),
                 ],
               ),
             );
@@ -495,42 +340,24 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     );
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - local Preview Widget
-///////////////////////////////////////////////////////////////////////////////////////
-// Display local video preview
+  // Local user preview
   Widget _localPreview() {
-    // Display local video or screen sharing preview
-    if (_isJoined) {
-      if (!_isScreenShared) {
-        return AgoraVideoView(
-          controller: VideoViewController(
-            rtcEngine: agoraEngine,
-            canvas: const VideoCanvas(uid: 0),
-          ),
-        );
-      } else {
-        return AgoraVideoView(
-            controller: VideoViewController(
+    if (_isJoined && isCameraOn) {
+      return AgoraVideoView(
+        controller: VideoViewController(
           rtcEngine: agoraEngine,
-          canvas: const VideoCanvas(
-            uid: 0,
-            sourceType: VideoSourceType.videoSourceScreen,
-          ),
-        ));
-      }
+          canvas: const VideoCanvas(uid: 0),
+        ),
+      );
     } else {
-      return Text(
-        'join_session'.tr,
+      return const Text(
+        'Video is off',
         textAlign: TextAlign.center,
       );
     }
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - Remote Preview Widget
-///////////////////////////////////////////////////////////////////////////////////////
-// Display remote user's video
+  // Remote user video
   Widget _remoteVideo() {
     if (_remoteUid != null) {
       return AgoraVideoView(
@@ -541,10 +368,8 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
         ),
       );
     } else {
-      String msg = '';
-      if (_isJoined) msg = 'Waiting for a remote user to join';
-      return Text(
-        msg,
+      return const Text(
+        'Waiting for remote user to join...',
         textAlign: TextAlign.center,
       );
     }

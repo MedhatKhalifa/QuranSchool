@@ -266,7 +266,7 @@ class SubscribitionController extends GetxController {
                   "\n" +
                   "\n" +
                   "*المعلم/* " +
-                  selectedTeacher.value.user!.username +
+                  selectedTeacher.value.user!.fullName +
                   "\n" +
                   "*الباقة المختارة/* " +
                   selectedPayement.value.sessionCount!.toString() +
@@ -284,7 +284,9 @@ class SubscribitionController extends GetxController {
                   DateFormat('HH:mm').format(selectedMeeting.from).toString() +
                   "\n" +
                   "*الطالب/* " +
-                  currentUserController.currentUser.value.username;
+                  currentUserController.currentUser.value.username +
+                  "\n" +
+                  currentUserController.currentUser.value.fullName;
           print(_messageAr);
           await _launchWhatsApp(_messageAr);
           //Get.locale?.languageCode == 'ar' ? _messageAr : _message);
