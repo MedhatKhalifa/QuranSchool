@@ -103,12 +103,17 @@ class _RateSessionState extends State<RateSession> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        comment,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                    child: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return Text(
+                          comment,
+                          style: TextStyle(fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: (constraints.maxHeight ~/ 16)
+                              .toInt(), // Adjust the font size to fit the number of lines
+                        );
+                      },
                     ),
                   )
                 : Expanded(
