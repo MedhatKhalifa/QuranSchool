@@ -375,8 +375,8 @@ class CurrentUserController extends GetxController {
 
       var dio = Dio();
 
-      var response = await dio.get(
-        qustionnUrl,
+      var response = await dio.delete(
+        profileUrl + currentUser.value.id.toString() + "/",
         options: Options(
           followRedirects: false,
 
@@ -388,7 +388,7 @@ class CurrentUserController extends GetxController {
         ),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 204) {
         await removeUserData('user');
         currentUser.value = User();
 
@@ -396,7 +396,7 @@ class CurrentUserController extends GetxController {
 
         Get.to(HomePage());
       } else {
-        //mySnackbar("Failed".tr, "cannot_update_user_data".tr, false);
+        mySnackbar("Failed".tr, "cannot_update_user_data".tr, false);
       }
     } finally {
       isQuesLoading.value = false;
