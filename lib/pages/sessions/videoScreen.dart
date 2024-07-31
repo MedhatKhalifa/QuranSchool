@@ -6,6 +6,8 @@ import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:get/get.dart';
 import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/size_config.dart';
+import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
+import 'package:quranschool/pages/chat/chat_details.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
@@ -40,6 +42,9 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
 
   final channelName;
   final token;
+  final CurrentUserController currentUserController =
+      Get.put(CurrentUserController());
+  final MySesionController mySesionController = Get.put(MySesionController());
 
   ///////////////////////////////////////////////////////////////////////////////////////
 // - define varirbles to control video icon buttons
@@ -56,6 +61,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   bool isCameraOn = false;
   bool areButtonsVisible = true;
   bool isLocalVideoVisible = false;
+  bool _isChatOpen = true;
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>(); // Global key to access the scaffold
@@ -263,6 +269,15 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       _isScreenShared = !_isScreenShared;
     });
 
+    // Update channel media options to publish camera or screen capture streams
+    ChannelMediaOptions options = ChannelMediaOptions(
+      publishCameraTrack: isCameraOn,
+      publishMicrophoneTrack: true, // !_isScreenShared,
+      publishScreenTrack: _isScreenShared,
+      publishScreenCaptureAudio: _isScreenShared,
+      publishScreenCaptureVideo: _isScreenShared,
+    );
+
     if (_isScreenShared) {
       // Start screen sharing
 
@@ -281,13 +296,13 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     }
 
     // Update channel media options to publish camera or screen capture streams
-    ChannelMediaOptions options = ChannelMediaOptions(
-      publishCameraTrack: !_isScreenShared,
-      publishMicrophoneTrack: true, // !_isScreenShared,
-      publishScreenTrack: _isScreenShared,
-      publishScreenCaptureAudio: _isScreenShared,
-      publishScreenCaptureVideo: _isScreenShared,
-    );
+    // ChannelMediaOptions options = ChannelMediaOptions(
+    //   publishCameraTrack: !_isScreenShared,
+    //   publishMicrophoneTrack: true, // !_isScreenShared,
+    //   publishScreenTrack: _isScreenShared,
+    //   publishScreenCaptureAudio: _isScreenShared,
+    //   publishScreenCaptureVideo: _isScreenShared,
+    // );
 
     agoraEngine.updateChannelMediaOptions(options);
   }
@@ -312,7 +327,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   bool _quranview = false;
   ///////
   ///
-  final MySesionController mySesionController = Get.put(MySesionController());
+
 ///////////////////////////////////////////////////////////////////////////////////////
 // - start Widgets
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -321,11 +336,15 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     return WillPopScope(
       onWillPop: () async {
         // Override the back button behavior to navigate to a specific page, e.g., '/home'
-        _cleanupAgoraResources();
-        mySesionController.getFirstSessionAfterNow();
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => HomePage()),
+        // );
+        // _cleanupAgoraResources();
+        // mySesionController.getFirstSessionAfterNow();
 
-        mySesionController.feedbackEdit.value = true;
-        Get.to(RateSession());
+        // mySesionController.feedbackEdit.value = true;
+        // Get.to(RateSession());
         return false; // Do not allow the default back button behavior
       },
       child: Scaffold(
@@ -363,6 +382,37 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                               )
                             : _remoteVideo()), //
                   ),
+
+                  // if (_isChatOpen)
+                  //   Positioned(
+                  //     bottom: 0,
+                  //     left: 0,
+                  //     right: 0,
+                  //     child: Container(
+                  //       color: Colors.white,
+                  //       height: 400, // Adjust as needed
+                  //       child: Column(
+                  //         children: [
+                  //           AppBar(
+                  //             title: Text('Chat'),
+                  //             leading: IconButton(
+                  //               icon: Icon(Icons.close),
+                  //               onPressed: () {},
+                  //             ),
+                  //           ),
+                  //           // Replace with your ChatDetail widget
+                  //           Expanded(
+                  //             child: ChatDetail(
+                  //               friendName: 'Friend',
+                  //               friendUid: 'FriendID',
+                  //               currentuserName: 'CurrentUser',
+                  //               currentuserid: 'CurrentUserID',
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
                   // Local Video Preview (Initially Hidden)
                   if (isLocalVideoVisible)
                     Positioned(
@@ -394,6 +444,51 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                   _quranview = !_quranview;
                                   // Implement your mute/unmute logic here
                                 });
+                              },
+                            ),
+                          if (_isJoined && !_quranview)
+                            IconButton(
+                              icon: Icon(Icons.message),
+                              onPressed: () {
+                                // setState(() {
+                                //   isCameraOn = !isCameraOn;
+                                //   // Implement your camera on/off logic here
+                                // });
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      insetPadding: EdgeInsets.all(10),
+                                      child: ChatDetail(
+                                        friendName: currentUserController
+                                                    .currentUser
+                                                    .value
+                                                    .userType ==
+                                                "teacher"
+                                            ? mySesionController
+                                                .nextSession.value.studentName
+                                            : mySesionController
+                                                .nextSession.value.teacherName,
+                                        friendUid: currentUserController
+                                                    .currentUser
+                                                    .value
+                                                    .userType ==
+                                                "teacher"
+                                            ? mySesionController
+                                                .nextSession.value.student
+                                                .toString()
+                                            : mySesionController
+                                                .nextSession.value.teacher
+                                                .toString(),
+                                        currentuserName: currentUserController
+                                            .currentUser.value.username,
+                                        currentuserid: currentUserController
+                                            .currentUser.value.id
+                                            .toString(),
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                             ),
                           if (_isJoined)
