@@ -269,15 +269,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       _isScreenShared = !_isScreenShared;
     });
 
-    // Update channel media options to publish camera or screen capture streams
-    ChannelMediaOptions options = ChannelMediaOptions(
-      publishCameraTrack: isCameraOn,
-      publishMicrophoneTrack: true, // !_isScreenShared,
-      publishScreenTrack: _isScreenShared,
-      publishScreenCaptureAudio: _isScreenShared,
-      publishScreenCaptureVideo: _isScreenShared,
-    );
-
     if (_isScreenShared) {
       // Start screen sharing
 
@@ -291,18 +282,20 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
               dimensions: VideoDimensions(height: 1280, width: 720),
               frameRate: 15,
               bitrate: 600)));
+      await agoraEngine.startPreview();
     } else {
       await agoraEngine.stopScreenCapture();
+      await agoraEngine.stopPreview();
     }
 
-    // Update channel media options to publish camera or screen capture streams
-    // ChannelMediaOptions options = ChannelMediaOptions(
-    //   publishCameraTrack: !_isScreenShared,
-    //   publishMicrophoneTrack: true, // !_isScreenShared,
-    //   publishScreenTrack: _isScreenShared,
-    //   publishScreenCaptureAudio: _isScreenShared,
-    //   publishScreenCaptureVideo: _isScreenShared,
-    // );
+    //Update channel media options to publish camera or screen capture streams
+    ChannelMediaOptions options = ChannelMediaOptions(
+      publishCameraTrack: !_isScreenShared,
+      publishMicrophoneTrack: true, // !_isScreenShared,
+      publishScreenTrack: _isScreenShared,
+      publishScreenCaptureAudio: _isScreenShared,
+      publishScreenCaptureVideo: _isScreenShared,
+    );
 
     agoraEngine.updateChannelMediaOptions(options);
   }
