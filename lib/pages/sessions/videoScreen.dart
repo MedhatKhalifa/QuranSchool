@@ -63,6 +63,9 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   bool isLocalVideoVisible = false;
   bool _isChatOpen = true;
 
+  //bool _isScreenShared = false;
+  int? _screenSharingUid;
+
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>(); // Global key to access the scaffold
 
@@ -71,6 +74,8 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       content: Text(message),
     ));
   }
+
+  bool _remoteVideoMuted = false; // Add this variable
 
   @override
   void initState() {
@@ -177,6 +182,37 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     // Register the event handler
     agoraEngine.registerEventHandler(
       RtcEngineEventHandler(
+        onUserMuteVideo: (RtcConnection connection, int remoteUid, bool muted) {
+          showMessage(
+              "Remote user uid:$remoteUid has ${muted ? "muted" : "unmuted"} their video");
+          setState(() {
+            _remoteVideoMuted = muted;
+          });
+        },
+        onRemoteVideoStateChanged: (RtcConnection connection,
+            int remoteUid,
+            RemoteVideoState state,
+            RemoteVideoStateReason reason,
+            int elapsed) {
+          if (state == RemoteVideoState.remoteVideoStateStopped ||
+              state == RemoteVideoState.remoteVideoStateFrozen) {
+            showMessage(
+                "Remote user uid:$remoteUid has stopped sharing their screen");
+            setState(() {
+              if (_screenSharingUid == remoteUid) {
+                _screenSharingUid = null;
+                _isScreenShared = false;
+              }
+            });
+          } else if (state == RemoteVideoState.remoteVideoStateDecoding) {
+            showMessage(
+                "Remote user uid:$remoteUid has started sharing their screen");
+            setState(() {
+              _screenSharingUid = remoteUid;
+              _isScreenShared = true;
+            });
+          }
+        },
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage(
               "Local user uid:${connection.localUid} joined the channel");
@@ -195,6 +231,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
           showMessage("Remote user uid:$remoteUid left the channel");
           setState(() {
             _remoteUid = null;
+            //_remoteVideoMuted = true;
           });
         },
       ),
@@ -282,9 +319,9 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
               dimensions: VideoDimensions(height: 1280, width: 720),
               frameRate: 15,
               bitrate: 600)));
-      await agoraEngine.startPreview();
+      // await agoraEngine.startPreview();
     } else {
-      await agoraEngine.stopScreenCapture();
+      //await agoraEngine.stopScreenCapture();
       await agoraEngine.stopPreview();
     }
 
@@ -298,6 +335,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     );
 
     agoraEngine.updateChannelMediaOptions(options);
+    await agoraEngine.muteLocalVideoStream(!_isScreenShared);
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -622,15 +660,87 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
 // - Remote Preview Widget
 ///////////////////////////////////////////////////////////////////////////////////////
 // Display remote user's video
+  // Widget _remoteVideo() {
+  //   if (_remoteUid != null) {
+  //     return AgoraVideoView(
+  //       controller: VideoViewController.remote(
+  //         rtcEngine: agoraEngine,
+  //         canvas: VideoCanvas(uid: _remoteUid),
+  //         connection: RtcConnection(channelId: channelName),
+  //       ),
+  //     );
+  //   } else {
+  //     String msg = '';
+  //     if (_isJoined) msg = 'Waiting for a remote user to join';
+  //     return Text(
+  //       msg,
+  //       textAlign: TextAlign.center,
+  //     );
+  //   }
+  // }
+
+  Widget _showimage(islocal) {
+    String url = '';
+
+    if (currentUserController.currentUser.value.userType == 'teacher' &&
+        islocal) {
+      url =
+          'http://18.156.95.47/media/${mySesionController.nextSession.value.teacherImage}';
+    } else {
+      url =
+          'http://18.156.95.47/media/${mySesionController.nextSession.value.studentImage}';
+    }
+
+    return url != 'http://18.156.95.47/media/'
+        ? CircleAvatar(
+            backgroundImage: NetworkImage(
+              // 'https://quraanshcool.pythonanywhere.com/media/${chatController.filteredFriends[index].friendImage}',
+              url,
+            ),
+          )
+        : Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(50)),
+            child: Opacity(
+              opacity: 0.1,
+              child: Image.asset(
+                "assets/images/logo/logo.png",
+                width: sp(200),
+                height: sp(80),
+                //color: Colors.red,
+              ),
+            ),
+          );
+  }
+
   Widget _remoteVideo() {
-    if (_remoteUid != null) {
+    if (_isScreenShared && _screenSharingUid != null) {
       return AgoraVideoView(
         controller: VideoViewController.remote(
           rtcEngine: agoraEngine,
-          canvas: VideoCanvas(uid: _remoteUid),
+          canvas: VideoCanvas(uid: _screenSharingUid!),
           connection: RtcConnection(channelId: channelName),
         ),
       );
+    } else if (_remoteUid != null) {
+      if (_remoteVideoMuted) {
+        return Center(
+          child: Text(
+            'Remote user has turned off their camera',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+      } else {
+        return AgoraVideoView(
+          controller: VideoViewController.remote(
+            rtcEngine: agoraEngine,
+            canvas: VideoCanvas(uid: _remoteUid!),
+            connection: RtcConnection(channelId: channelName),
+          ),
+        );
+      }
     } else {
       String msg = '';
       if (_isJoined) msg = 'Waiting for a remote user to join';

@@ -29,6 +29,7 @@ class Session {
   String? teacherName;
   String? teacherImage;
   String? studentName;
+  String? studentImage;
   String? studentSubscriptionStatus;
 
   Session({
@@ -49,6 +50,7 @@ class Session {
     this.teacherImage,
     this.studentName,
     this.studentSubscriptionStatus,
+    this.studentImage,
   });
 
   Session.fromJson(Map<String, dynamic> json) {
@@ -62,6 +64,7 @@ class Session {
     teacherName = json['teacherName'] ?? "";
     teacherImage = json['teacherImage'] ?? "";
     studentName = json["studentName"] ?? "";
+    studentImage = json["studentImage"] ?? "";
 
     teacher = json['teacher'] ?? -1;
     studentRate = json['studentRate'] ?? -1;
@@ -85,6 +88,7 @@ class Session {
     data['student'] = this.student;
     data['teacherRank'] = this.teacherRank;
     data['studentSubscription'] = this.studentSubscription;
+    data['studentImage'] = this.studentImage;
     return data;
   }
 }
