@@ -1,3 +1,4 @@
+import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,11 +24,17 @@ class _AboutUsPageState extends State<AboutUsPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-                Get.locale?.languageCode == 'ar'
-                    ? homePageController.homePage.value.contentAr
-                    : homePageController.homePage.value.contentEn,
-                style: TextStyle(color: Colors.black)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                    Get.locale?.languageCode == 'ar'
+                        ? homePageController.homePage.value.contentAr
+                        : homePageController.homePage.value.contentEn,
+                    style: TextStyle(color: Colors.black)),
+                Text('Ver 1.0.20', style: TextStyle(fontSize: sp(8)))
+              ],
+            ),
           ),
         ),
       ),

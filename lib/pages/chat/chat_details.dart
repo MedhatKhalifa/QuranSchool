@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:get/get.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:quranschool/core/db_links/db_links.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
@@ -11,6 +12,7 @@ import 'package:quranschool/pages/Auth/controller/sharedpref_function.dart';
 import 'package:quranschool/pages/Auth/profile/profile_page.dart';
 import 'package:quranschool/pages/common_widget/simple_appbar.dart';
 import 'package:intl/intl.dart';
+import 'package:dio/dio.dart';
 
 class ChatDetail extends StatefulWidget {
   final friendUid;
@@ -125,6 +127,38 @@ class _ChatDetailState extends State<ChatDetail> {
     FirebaseFirestore.instance.collection('users').doc(friendUid).set({
       'lastMessageTimestamp': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
+
+    // Send Notification Message
+    sendNotificationmsg(friendUid, msg, "من : currentuserName");
+  }
+
+  Future sendNotificationmsg(userprofileId, body, title) async {
+    var dio = Dio();
+    var response = await dio.post(
+      notificationUrl,
+      data: {
+        'body': body,
+        'title': title,
+        'userprofileId': userprofileId,
+        'imgUrl':
+            "https://i.ytimg.com/vi/m5WUPHRgdOA/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDwz-yjKEdwxvKjwMANGk5BedCOXQ",
+        'iconUrl':
+            'https://yt3.ggpht.com/ytc/AKedOLSMvoy4DeAVkMSAuiuaBdIGKC7a5Ib75bKzKO3jHg=s900-c-k-c0x00ffffff-no-rj',
+
+        //'accountToken': userctrl.currentUser.value.accountToken,
+      },
+      options: Options(
+        // followRedirects: false,
+        validateStatus: (status) {
+          return status! < 505;
+        },
+        //headers: {},
+      ),
+    );
+    // List<Teacher> teachers = [];
+    if (response.statusCode == 200) {
+      // Send Notification to student
+    }
   }
 
   void checkUnreadMessages() async {
