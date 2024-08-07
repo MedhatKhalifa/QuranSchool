@@ -321,8 +321,8 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
               bitrate: 600)));
       // await agoraEngine.startPreview();
     } else {
-      //await agoraEngine.stopScreenCapture();
-      await agoraEngine.stopPreview();
+      await agoraEngine.stopScreenCapture();
+      //await agoraEngine.stopPreview();
     }
 
     //Update channel media options to publish camera or screen capture streams
@@ -445,19 +445,31 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                   //     ),
                   //   ),
                   // Local Video Preview (Initially Hidden)
-                  if (isLocalVideoVisible)
-                    Positioned(
-                      bottom: 20.0,
-                      right: 20.0,
-                      width: constraints.maxWidth * 0.25,
-                      height: constraints.maxHeight * 0.2,
-                      child: Container(
-                        color: Colors.black,
-                        child: Center(
-                          child: _localPreview(),
-                        ),
-                      ),
-                    ),
+                  isLocalVideoVisible && isCameraOn
+                      ? Positioned(
+                          bottom: 20.0,
+                          right: 20.0,
+                          width: constraints.maxWidth * 0.25,
+                          height: constraints.maxHeight * 0.2,
+                          child: Container(
+                            color: Colors.black,
+                            child: Center(
+                              child: _localPreview(),
+                            ),
+                          ),
+                        )
+                      : isLocalVideoVisible
+                          ? Positioned(
+                              bottom: 20.0,
+                              right: 20.0,
+                              width: constraints.maxWidth * 0.25,
+                              height: constraints.maxHeight * 0.2,
+                              child: Container(
+                                color: Colors.black,
+                                child: Center(child: _showimage(true)),
+                              ),
+                            )
+                          : Text(''),
                   // Buttons (Disappear by Default)
                   if (areButtonsVisible || !_isJoined)
                     Positioned(
@@ -587,6 +599,13 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                             onPressed: () {
                               setState(() {
                                 _isJoined = !_isJoined;
+                                //isLocalVideoVisible = !isLocalVideoVisible;
+                                if (_isJoined) {
+                                  isMuted = false;
+                                  isLocalVideoVisible = true;
+                                } else {
+                                  isLocalVideoVisible = false;
+                                }
                                 // Implement your join/leave call logic here
                               });
                               _isJoined ? join() : leave();
@@ -693,6 +712,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
 
     return url != 'http://18.156.95.47/media/'
         ? CircleAvatar(
+            radius: islocal ? sp(30) : sp(60),
             backgroundImage: NetworkImage(
               // 'https://quraanshcool.pythonanywhere.com/media/${chatController.filteredFriends[index].friendImage}',
               url,
@@ -700,17 +720,24 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
           )
         : Container(
             decoration: BoxDecoration(
-                color: Colors.grey[200],
+                // color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(50)),
             child: Opacity(
-              opacity: 0.1,
-              child: Image.asset(
-                "assets/images/logo/logo.png",
-                width: sp(200),
-                height: sp(80),
-                //color: Colors.red,
-              ),
-            ),
+                opacity: 0.9,
+                child: Icon(
+                  islocal
+                      ? FlutterIslamicIcons.muslim2
+                      : FlutterIslamicIcons.muslim,
+                  size: islocal ? sp(30) : sp(60),
+                  color: islocal ? Colors.greenAccent : Colors.green,
+                )
+                // Image.asset(
+                //   "assets/images/logo/logo.png",
+                //   width: sp(200),
+                //   height: sp(80),
+                //   //color: Colors.red,
+                // ),
+                ),
           );
   }
 
@@ -725,13 +752,14 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       );
     } else if (_remoteUid != null) {
       if (_remoteVideoMuted) {
-        return Center(
-          child: Text(
-            'Remote user has turned off their camera',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
-          ),
-        );
+        return Center(child: _showimage(false)
+
+            // Text(
+            //   'Remote user has turned off their camera',
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(color: Colors.white),
+            // ),
+            );
       } else {
         return AgoraVideoView(
           controller: VideoViewController.remote(
@@ -743,7 +771,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
       }
     } else {
       String msg = '';
-      if (_isJoined) msg = 'Waiting for a remote user to join';
+      if (_isJoined) msg = 'waiting_remote'.tr;
       return Text(
         msg,
         textAlign: TextAlign.center,

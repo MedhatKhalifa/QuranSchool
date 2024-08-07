@@ -1238,4 +1238,5 @@ const Map<String, String> en = {
   "Remove_Account": "Remove Account",
   "Confirm_Phone_Number": "Confirm Phone Number",
   "user_Name_En": "Username (English only)",
+  "waiting_remote": "Waiting for a remote user to join",
 };

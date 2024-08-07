@@ -1248,4 +1248,5 @@ const Map<String, String> ar = {
   'Remove_Account': 'إزالة الحساب',
   'Confirm_Phone_Number': 'تأكيد رقم الهاتف',
   'user_Name_En': 'اسم المستخدم ( انجليزى فقط )',
+  'waiting_remote': 'في انتظار انضمام المستخدم البعيد',
 };

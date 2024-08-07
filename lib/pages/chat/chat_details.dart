@@ -129,7 +129,7 @@ class _ChatDetailState extends State<ChatDetail> {
     }, SetOptions(merge: true));
 
     // Send Notification Message
-    sendNotificationmsg(friendUid, msg, "من : currentuserName");
+    sendNotificationmsg(friendUid, msg, currentuserName);
   }
 
   Future sendNotificationmsg(userprofileId, body, title) async {
