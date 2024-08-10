@@ -1239,4 +1239,6 @@ const Map<String, String> en = {
   "Confirm_Phone_Number": "Confirm Phone Number",
   "user_Name_En": "Username (English only)",
   "waiting_remote": "Waiting for a remote user to join",
+  "change_after_30_min":
+      "The updated date must be at least 30 minutes later than the current time.",
 };

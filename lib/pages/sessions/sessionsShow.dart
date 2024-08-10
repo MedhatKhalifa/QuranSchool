@@ -79,16 +79,19 @@ class _SessionsShowState extends State<SessionsShow> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
+      firstDate: DateTime.now().add(Duration(minutes: 20)),
       lastDate: DateTime.now().add(Duration(days: 90)),
     );
+    if (pickedDate != null) //&&
+    // pickedDate.isAfter(DateTime.now().add(Duration(minutes: 30)))) {
+    {
+      if (pickedDate != selectedDate) {
+        setState(() {
+          selectedDate = pickedDate;
+        });
 
-    if (pickedDate != null && pickedDate != selectedDate) {
-      setState(() {
-        selectedDate = pickedDate;
-      });
-
-      _selectTime(context, appointment);
+        _selectTime(context, appointment);
+      }
     }
   }
 
@@ -108,11 +111,22 @@ class _SessionsShowState extends State<SessionsShow> {
           pickedTime.minute,
         );
       });
-      appointment.from = selectedDate!;
-      // Do something with the selected date and time
-      print("Selected Date and Time: $selectedDate");
-      mySesionController.updateMySession(appointment);
-      Navigator.of(context).pop();
+      if (selectedDate!.isAfter(DateTime.now())) {
+        appointment.from = selectedDate!;
+        // Do something with the selected date and time
+        print("Selected Date and Time: $selectedDate");
+        mySesionController.updateMySession(appointment);
+        Navigator.of(context).pop();
+      } else {
+        Get.snackbar(
+          "Warning".tr,
+          "change_after_30_min".tr,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: Duration(seconds: 5),
+        );
+      }
     }
   }
 

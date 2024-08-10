@@ -1249,4 +1249,6 @@ const Map<String, String> ar = {
   'Confirm_Phone_Number': 'تأكيد رقم الهاتف',
   'user_Name_En': 'اسم المستخدم ( انجليزى فقط )',
   'waiting_remote': 'في انتظار انضمام المستخدم البعيد',
+  'change_after_30_min':
+      'يجب أن يكون التاريخ المحدد بعد الآن بـ 30 دقيقة على الأقل',
 };
