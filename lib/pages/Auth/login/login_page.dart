@@ -335,7 +335,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: sp(15)),
+                  SizedBox(height: sp(10)),
 
                   ///=======================================================================
                   ///==================== Go to Signup ========================================
@@ -353,13 +353,13 @@ class _LoginPageState extends State<LoginPage> {
                               text: "no_account".tr,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: sp(8),
+                                fontSize: sp(12),
                               ),
                               children: <TextSpan>[
                                 TextSpan(
                                   text: 'register_now'.tr,
                                   style: TextStyle(
-                                    fontSize: sp(8),
+                                    fontSize: sp(14),
                                     color: Color(0xFFFD8C00),
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -372,7 +372,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Text('No_account_register'.tr,
                     //     style: TextStyle(fontSize: sp(10)))
                   ]),
-                  SizedBox(height: sp(30)),
+                  SizedBox(height: sp(20)),
 
                   Text("sing_agree".tr,
                       style: TextStyle(

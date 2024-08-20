@@ -15,6 +15,7 @@ import 'package:quranschool/pages/sessions/controller/session_control.dart';
 import 'package:quranschool/pages/sessions/nextSession.dart';
 import 'package:quranschool/pages/sessions/rate.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 // const appId = "65a5460ed6af49978a85479fdd87fa13";
 // const token =
@@ -82,6 +83,8 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     super.initState();
     // Set up an instance of Agora engine
     setupVideoSDKEngine();
+    // Enable wakelock to keep the screen on
+    WakelockPlus.enable();
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -346,6 +349,8 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   @override
   void dispose() async {
     _cleanupAgoraResources();
+    // Disable wakelock when the page is closed
+    WakelockPlus.disable();
     super.dispose();
   }
 
