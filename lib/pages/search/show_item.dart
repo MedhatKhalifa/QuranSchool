@@ -28,12 +28,21 @@ Widget showitem(Teacher shownItem) {
       leading: shownItem.user!.image != ""
           ? Padding(
               padding: EdgeInsets.all(sp(0)),
-              child: CachedNetworkImage(
-                fit: BoxFit.contain,
-                imageUrl: shownItem.user!.image,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+              child: Container(
+                width: w(18), // Set relative width
+                height: w(22), // Set relative height
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    fit: BoxFit
+                        .cover, // Ensures the image fits inside the circle
+                    imageUrl: shownItem.user!.image,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                ),
               ),
             )
           : Icon(

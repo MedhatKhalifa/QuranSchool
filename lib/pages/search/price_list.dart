@@ -4,6 +4,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:quranschool/core/size_config.dart';
 import 'package:quranschool/core/theme.dart';
 import 'package:quranschool/pages/Auth/profile/profile_page.dart';
+import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:quranschool/pages/search/search_page.dart';
 import 'package:quranschool/pages/search/stepper_pages.dart';
 import 'package:quranschool/pages/student/subscription/control/subscription_controller.dart';
@@ -68,6 +69,18 @@ class _SessionPriceListState extends State<SessionPriceList> {
                             //  style: TextStyle(color: Colors.grey)
                           ),
                         ),
+                        Center(
+                            child: IconButton(
+                                onPressed: () {
+                                  myBottomBarCtrl.selectedIndBottomBar.value =
+                                      0;
+
+                                  Get.to(HomePage());
+                                },
+                                icon: Icon(
+                                  Icons.home,
+                                  color: Colors.white,
+                                ))),
                         SizedBox(height: h(2)),
                         Image.asset(
                           "assets/images/logo/logo.png",

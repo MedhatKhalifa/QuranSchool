@@ -291,22 +291,24 @@ class _ChatDetailState extends State<ChatDetail> {
                                         MediaQuery.of(context).size.width * 0.7,
                                   ),
                                   child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(data['msg'],
-                                              style: TextStyle(
-                                                  fontSize: sp(10),
-                                                  color: isSender(data['uid']
-                                                          .toString())
-                                                      ? Colors.white
-                                                      : Colors.black),
-                                              maxLines: 100,
-                                              overflow: TextOverflow.ellipsis)
-                                        ],
+                                      Text(
+                                        data['msg'],
+                                        style: TextStyle(
+                                          fontSize: sp(10),
+                                          color:
+                                              isSender(data['uid'].toString())
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                        ),
+                                        softWrap: true,
+                                        overflow: TextOverflow.visible,
                                       ),
+                                      SizedBox(
+                                          height:
+                                              5), // Add some spacing between message and timestamp
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
@@ -319,14 +321,15 @@ class _ChatDetailState extends State<ChatDetail> {
                                                     .format(data['createdOn']
                                                         .toDate()),
                                             style: TextStyle(
-                                                fontSize: 10,
-                                                color: isSender(
-                                                        data['uid'].toString())
-                                                    ? Colors.white
-                                                    : Colors.black),
+                                              fontSize: 10,
+                                              color: isSender(
+                                                      data['uid'].toString())
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
                                           )
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -340,26 +343,15 @@ class _ChatDetailState extends State<ChatDetail> {
                       color: Colors.grey,
                     ),
                     Container(
-                      // height: 50,
                       margin: const EdgeInsets.all(8.0),
                       decoration: const BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: Color.fromARGB(255, 134, 134, 136),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
+                        shape: BoxShape.rectangle,
+                        color: Color.fromARGB(255, 134, 134, 136),
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          // Container(
-                          //   margin: const EdgeInsets.only(
-                          //       left: 8.0, right: 8.0, bottom: 12.0),
-                          //   child: Transform.rotate(
-                          //       angle: 45,
-                          //       child: const Icon(
-                          //         Icons.attach_file_sharp,
-                          //         color: Colors.white,
-                          //       )),
-                          // ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),

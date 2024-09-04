@@ -354,6 +354,24 @@ class _DetailSearchTeacherState extends State<DetailSearchTeacher> {
                           ),
                         ),
                       ),
+
+                      Positioned(
+                          top: 40, // Adjust the position as needed
+                          left: 10, // Adjust the position as needed
+                          child: GestureDetector(
+                            onTap: () => Get.back(),
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.black54,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ))
                     ],
                   );
           },
