@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We need access to your Media library to update photo profile.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -45,11 +47,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to the camera to allow you to take photos for your profile.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires read and write access to the photo library.</string>
+	<string>We need access to your camera to take photos and videos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone for audio recording.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>We need access to your photo library to select and upload photos.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
