@@ -299,49 +299,6 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
     //  isMuted ? agoraEngine.enableAudio() : agoraEngine.disableAudio();
   }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// - Improved shareScreen method to handle switching between screen share and video
-///////////////////////////////////////////////////////////////////////////////////////
-  Future<void> shareScreen() async {
-    setState(() {
-      _isScreenShared = !_isScreenShared;
-    });
-
-    if (_isScreenShared) {
-      // Start screen sharing
-      await agoraEngine.startScreenCapture(const ScreenCaptureParameters2(
-          audioParams: ScreenAudioParameters(
-              sampleRate: 16000, channels: 2, captureSignalVolume: 100),
-          captureVideo: true,
-          videoParams: ScreenVideoParameters(
-              dimensions: VideoDimensions(height: 1280, width: 720),
-              frameRate: 15,
-              bitrate: 600)));
-
-      // Update media options: Disable camera video, enable screen share
-      ChannelMediaOptions options = ChannelMediaOptions(
-        publishCameraTrack: false,
-        publishScreenTrack: true,
-        publishScreenCaptureAudio: true,
-        publishScreenCaptureVideo: true,
-      );
-      await agoraEngine.updateChannelMediaOptions(options);
-    } else {
-      // Stop screen sharing
-      await agoraEngine.stopScreenCapture();
-
-      // Update media options: Re-enable camera video, stop screen share
-      ChannelMediaOptions options = ChannelMediaOptions(
-        publishCameraTrack: true,
-        publishScreenTrack: false,
-      );
-      await agoraEngine.updateChannelMediaOptions(options);
-    }
-
-    // Ensure that local video is properly muted/unmuted based on screen sharing
-    await agoraEngine.muteLocalVideoStream(!_isScreenShared);
-  }
-
   ///////////////////////////////////////////////////////////////////////////////////////
 // - exit page
 ///////////////////////////////////////////////////////////////////////////////////////
