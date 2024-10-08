@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:quranschool/pages/Auth/controller/register_controller.dart';
 
 import 'package:quranschool/pages/Auth/profile/profile_register.dart';
@@ -19,6 +23,8 @@ import 'package:quranschool/pages/common_widget/error_snackbar.dart';
 import '../../common_widget/mybottom_bar/bottom_bar_controller.dart';
 
 import 'sharedpref_function.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:flutter/services.dart' show rootBundle;
 
 class LoginController extends GetxController {
   var phone = "".obs;
@@ -481,5 +487,139 @@ class LoginController extends GetxController {
 
   //   return playeridlist;
 
+  // }
+
+  // Future<void> sendNotification() async {
+  //   final headers = {
+  //     'Authorization':
+  //         'Bearer AAAA8kI1nrU:APA91bEamIlXgtjEx-bFbPnDQQnJxPwPx4JBtyaeKTOmImdCUqZrDWEeH_zMp95RilftOF_JSBlWgEaeQ5NCHuXilKfZY6uIFpwpXhLF0uGUNKkhIxx429fM6ZFZg8TKyAewl6z5B5dY',
+  //     'Content-Type': 'application/json',
+  //   };
+  //   String token =
+  //       'ctEY2d47SNKRYwkmXAKyXH:APA91bE2ft_QhhQbLej56KGgIadwz01Ps8EEHBGt_OSsBR1vZQm-o5RQCYvAQgs6UiAWK9H3gYEEr6S5f_Yz3oZDlZldzfxNvWnWL3KmADFQPjRaK1mXQuRx7sp4y-3X1nIK0VEVw8de';
+  //   final body = {
+  //     'to': token,
+  //     'notification': {
+  //       'title': 'Notification Title',
+  //       'body': 'Notification Body',
+  //       'sound': 'default', // Optional: Set a custom sound
+  //     },
+  //     'data': {
+  //       'key1': 'value1', // Optional: Add custom data
+  //       'key2': 'value2',
+  //     },
+  //   };
+
+  //   final response = await http.post(
+  //     Uri.parse(
+  //         'https://fcm.googleapis.com/v1/projects/madrasetalquran-8d1a9/messages:send'),
+  //     headers: headers,
+  //     body: jsonEncode(body),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     print('Notification sent successfully!');
+  //   } else {
+  //     print('Failed to send notification:    ${response.statusCode}');
+  //   }
+  // }
+
+  // Future<void> sendNotification2() async {
+  //   String token =
+  //       'ctEY2d47SNKRYwkmXAKyXH:APA91bE2ft_QhhQbLej56KGgIadwz01Ps8EEHBGt_OSsBR1vZQm-o5RQCYvAQgs6UiAWK9H3gYEEr6S5f_Yz3oZDlZldzfxNvWnWL3KmADFQPjRaK1mXQuRx7sp4y-3X1nIK0VEVw8de';
+
+  //   // Your actual FCM server key
+  //   final serverKey =
+  //       'AAAA8kI1nrU:APA91bEamIlXgtjEx-bFbPnDQQnJxPwPx4JBtyaeKTOmImdCUqZrDWEeH_zMp95RilftOF_JSBlWgEaeQ5NCHuXilKfZY6uIFpwpXhLF0uGUNKkhIxx429fM6ZFZg8TKyAewl6z5B5dY';
+
+  //   final headers = {
+  //     'Authorization': 'key=$serverKey', // Corrected header
+  //     'Content-Type': 'application/json',
+  //   };
+
+  //   final body = {
+  //     'to': token,
+  //     'notification': {
+  //       'title': 'Notification Title',
+  //       'body': 'Notification Body',
+  //       'sound': 'default',
+  //     },
+  //     'data': {
+  //       'key1': 'value1',
+  //       'key2': 'value2',
+  //     },
+  //   };
+
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('https://fcm.googleapis.com/fcm/send'), // Legacy FCM endpoint
+  //       headers: headers,
+  //       body: jsonEncode(body),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       print('Notification sent successfully!');
+  //     } else {
+  //       print('Failed to send notification: ${response.statusCode}');
+  //       print('Response body: ${response.body}'); // Logging the error message
+  //     }
+  //   } catch (error) {
+  //     print('Error sending notification: $error');
+  //   }
+  // }
+
+  // Future<void> sendNotification3() async {
+  //   // Replace with your service account JSON file path
+  //   // Load the service account file as a string from the assets
+  //   final jsonString = await rootBundle.loadString('assets/account.json');
+
+  //   // Parse the JSON string
+  //   final serviceAccountCredentials =
+  //       ServiceAccountCredentials.fromJson(json.decode(jsonString));
+
+  //   // Define the scopes required for FCM
+  //   const _scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+
+  //   // Obtain an AuthClient using your service account
+  //   final authClient =
+  //       await clientViaServiceAccount(serviceAccountCredentials, _scopes);
+
+  //   // Your actual FCM v1 project ID
+  //   final projectId = 'madrasetalquran-8d1a9';
+
+  //   final body = {
+  //     'message': {
+  //       'token':
+  //           'ctEY2d47SNKRYwkmXAKyXH:APA91bE2ft_QhhQbLej56KGgIadwz01Ps8EEHBGt_OSsBR1vZQm-o5RQCYvAQgs6UiAWK9H3gYEEr6S5f_Yz3oZDlZldzfxNvWnWL3KmADFQPjRaK1mXQuRx7sp4y-3X1nIK0VEVw8de',
+  //       'notification': {
+  //         'title': 'Notification Title',
+  //         'body': 'Notification Body',
+  //       },
+  //       'data': {
+  //         'key1': 'value1',
+  //         'key2': 'value2',
+  //       },
+  //     },
+  //   };
+
+  //   try {
+  //     final response = await authClient.post(
+  //       Uri.parse(
+  //           'https://fcm.googleapis.com/v1/projects/$projectId/messages:send'),
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: jsonEncode(body),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       print('Notification sent successfully!');
+  //     } else {
+  //       print('Failed to send notification: ${response.statusCode}');
+  //       print('Response body: ${response.body}');
+  //     }
+  //   } catch (error) {
+  //     print('Error sending notification: $error');
+  //   } finally {
+  //     authClient.close(); // Close the client after the request
+  //   }
   // }
 }

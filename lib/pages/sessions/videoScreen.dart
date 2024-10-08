@@ -199,8 +199,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
             int elapsed) {
           if (state == RemoteVideoState.remoteVideoStateStopped ||
               state == RemoteVideoState.remoteVideoStateFrozen) {
-            showMessage(
-                "Remote user uid:$remoteUid has stopped sharing their screen");
+            // Remote user has stopped sharing screen
             setState(() {
               if (_screenSharingUid == remoteUid) {
                 _screenSharingUid = null;
@@ -208,8 +207,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
               }
             });
           } else if (state == RemoteVideoState.remoteVideoStateDecoding) {
-            showMessage(
-                "Remote user uid:$remoteUid has started sharing their screen");
+            // Remote user has started sharing screen
             setState(() {
               _screenSharingUid = remoteUid;
               _isScreenShared = true;
@@ -302,7 +300,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-// - share Screen
+// - Improved shareScreen method to handle switching between screen share and video
 ///////////////////////////////////////////////////////////////////////////////////////
   Future<void> shareScreen() async {
     setState(() {
@@ -311,10 +309,7 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
 
     if (_isScreenShared) {
       // Start screen sharing
-
-      agoraEngine.startScreenCapture(const ScreenCaptureParameters2(
-
-          //  captureAudio: true,
+      await agoraEngine.startScreenCapture(const ScreenCaptureParameters2(
           audioParams: ScreenAudioParameters(
               sampleRate: 16000, channels: 2, captureSignalVolume: 100),
           captureVideo: true,
@@ -322,22 +317,28 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
               dimensions: VideoDimensions(height: 1280, width: 720),
               frameRate: 15,
               bitrate: 600)));
-      // await agoraEngine.startPreview();
+
+      // Update media options: Disable camera video, enable screen share
+      ChannelMediaOptions options = ChannelMediaOptions(
+        publishCameraTrack: false,
+        publishScreenTrack: true,
+        publishScreenCaptureAudio: true,
+        publishScreenCaptureVideo: true,
+      );
+      await agoraEngine.updateChannelMediaOptions(options);
     } else {
+      // Stop screen sharing
       await agoraEngine.stopScreenCapture();
-      //await agoraEngine.stopPreview();
+
+      // Update media options: Re-enable camera video, stop screen share
+      ChannelMediaOptions options = ChannelMediaOptions(
+        publishCameraTrack: true,
+        publishScreenTrack: false,
+      );
+      await agoraEngine.updateChannelMediaOptions(options);
     }
 
-    //Update channel media options to publish camera or screen capture streams
-    ChannelMediaOptions options = ChannelMediaOptions(
-      publishCameraTrack: !_isScreenShared,
-      publishMicrophoneTrack: true, // !_isScreenShared,
-      publishScreenTrack: _isScreenShared,
-      publishScreenCaptureAudio: _isScreenShared,
-      publishScreenCaptureVideo: _isScreenShared,
-    );
-
-    agoraEngine.updateChannelMediaOptions(options);
+    // Ensure that local video is properly muted/unmuted based on screen sharing
     await agoraEngine.muteLocalVideoStream(!_isScreenShared);
   }
 

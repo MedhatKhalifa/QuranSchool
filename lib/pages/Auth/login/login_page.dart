@@ -382,6 +382,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   TextButton(
                       onPressed: () {
+                        //loginController.sendNotification3();
                         Get.to(() => TermsCondition());
                       },
                       child: Text('terms'.tr,
