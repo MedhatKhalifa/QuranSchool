@@ -77,6 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
     setState(() {
       currentUserController.currentUser.value.accountToken = mytoken!;
       mytoken = mytoken;
+      print(mytoken);
     });
 
     // Assuming you have a variable named 'currentUserController' and it has a user
