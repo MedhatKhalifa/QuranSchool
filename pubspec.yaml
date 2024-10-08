@@ -141,7 +141,6 @@ flutter:
     - assets/fonts/
     - assets/
     - assets/quran.pdf
-    - assets/account.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
