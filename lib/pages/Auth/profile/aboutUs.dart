@@ -32,7 +32,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                         ? homePageController.homePage.value.contentAr
                         : homePageController.homePage.value.contentEn,
                     style: TextStyle(color: Colors.black)),
-                Text('Ver 1.0.21', style: TextStyle(fontSize: sp(8)))
+                Text('Ver 1.2.0', style: TextStyle(fontSize: sp(8)))
               ],
             ),
           ),
