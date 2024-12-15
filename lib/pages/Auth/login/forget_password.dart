@@ -314,7 +314,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                           _user.username;
                                       // forgerPassController.resetPassword.value =
                                       //     _password;
-                                      forgerPassController.chdeck_number();
+
+                                      forgerPassController.whatsapmessage();
+
+                                      // forgerPassController.chdeck_number();
 
                                       // var resp = await phoneController
                                       //     .verifyPhone(forgerPassController

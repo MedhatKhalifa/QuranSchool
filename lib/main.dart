@@ -37,7 +37,7 @@ Future<void> main() async {
   // firebase chat message
   await FirebaseMessaging.instance.getInitialMessage();
   // online checking // located in core folder
-  DependencyInjection.init();
+  //DependencyInjection.init();
   runApp(MyApp());
 }
 

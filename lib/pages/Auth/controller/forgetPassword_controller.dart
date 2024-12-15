@@ -9,6 +9,7 @@ import 'package:quranschool/pages/Auth/controller/currentUser_controller.dart';
 import 'package:quranschool/pages/Auth/login/login_page.dart';
 import 'package:quranschool/pages/home_page/view/home_page.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../common_widget/error_snackbar.dart';
 import '../login/otp_forgetpassword.dart';
@@ -136,5 +137,40 @@ class ForgerPassController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  _whatsapmessage() async {
+    String _phone = '+201028084826';
+    String _username = username.value;
+    String _phonenm = phoneNumber.value;
+
+    //   Assalamu Alaikum wa Rahmatullahi wa Barakatuh,
+    // I pray this message finds you in good health and Iman. 😊
+    // Could you kindly assist in resetting the password for the following user?
+    // Username: $_username
+    // Phone Number: $_phonenm
+
+    String message = '''
+    السلام عليكم ورحمة الله وبركاته،
+  أسأل الله أن تكون بخير وفي صحة وعافية. 😊
+  هل يمكنك مساعدتي في إعادة تعيين كلمة المرور للمستخدم التالي؟
+  اسم المستخدم: $_username
+  رقم الهاتف: $_phonenm
+  جزاك الله خيرًا!
+  ''';
+    final url = Uri.parse(
+        'https://wa.me/$_phone/?text=${Uri.encodeFull(message)}'); // Arguments are correctly included here
+
+    if (!await launchUrl(
+        Uri.parse('https://wa.me/$_phone/?text=${Uri.encodeFull(message)}'))) {
+      Get.snackbar('error'.tr, 'Could not launch WhatsApp'.tr,
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+      throw 'Could not launch $url';
+    }
+    //   await launchUrl(url);
+    // } else {
+    //   Get.snackbar('error'.tr, 'Could not launch WhatsApp'.tr,
+    //       snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white);
+    // }
   }
 }

@@ -568,7 +568,11 @@ class _VideoScreenCallState extends State<VideoScreenCall> {
                                 cameraswitch();
                               },
                             ),
-                          if (_isJoined && !_quranview)
+                          if (_isJoined &&
+                              !_quranview &&
+                              currentUserController
+                                      .currentUser.value.userType ==
+                                  "teacher")
                             IconButton(
                               icon: Icon(_isScreenShared
                                   ? Icons.screen_share
